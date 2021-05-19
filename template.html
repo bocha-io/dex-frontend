@@ -33,6 +33,23 @@
       color: black;
     }
 
+    .price-card {
+      border: 2px solid #8e24aa;
+      /* #fb8c00 */
+      border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+      margin-top: 10px;
+      height: 55px;
+      padding: 0.75rem 1.25rem;
+      
+
+    }
+
+    .price-card p {
+      font-size: x-large;
+      color: #f1f1f1;
+      text-align: center;
+    }
+
     li a {
       color: black !important;
     }
@@ -69,26 +86,16 @@
         </a>
       </div>
       <div class="sidebar-wrapper">
-        <ul align="center" class="nav">
-          <li class="nav-item active dropdown">
-            <button style="margin: auto;" class="btn nav-link btn-primary dropdown-toggle" type="button"
-              data-toggle="dropdown"><i style="padding-top: 16px; margin-right: 40px;" class="material-icons">toll</i> PAIRS
-            </button>
-            <ul class="dropdown-menu">
-              <input class="form-control" id="myInput" type="text" placeholder="Search..">
-              <li><a href="#">WETH/WBTC</a></li>
-              <li><a href="#">MILF/WETH</a></li>
-              <li><a href="#">UNI/WETH</a></li>
-              
-            </ul>
-          </li>
-          <!-- your sidebar here -->
 
-        </ul>
-        <div class="dropdown">
+        <h3 style="font-size: x-large; color: #8e24aa;"><b>Select Pair</b></h3>
+        <input name="pair" list="pairs" style="width: 100%; height: 50px;" placeholder="Search.." onchange="getData(this)">
+        <datalist id="pairs"  >
+        </datalist>
+        
 
-        </div>
       </div>
+
+     
     </div>
     <div class="main-panel">
       <!-- Navbar -->
@@ -129,7 +136,7 @@
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header card-header-success">
-                      <h4 class="card-title ">SWAP MILF/WETH</h4>
+                      <h4 id="title-1" class="card-title ">SWAP MILF/WETH</h4>
                       <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
                     </div>
                     <div class="card-body">
@@ -137,13 +144,13 @@
                         <table class="table">
                           <thead class=" text-primary">
                             <th>
-                              Price (WETH)
+                              Price <span id="span-1" style="font-size: small;">(MILF/WETH)</span>
                             </th>
                             <th>
-                              Amount (MILF)
+                              Amount <span id="amount-1">(MILF)</span>
                             </th>
                             <th>
-                              Total
+                              Total paid
                             </th>
                           </thead>
                           <tbody id="buyTable">
@@ -157,7 +164,7 @@
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header card-header-danger">
-                      <h4 class="card-title ">SWAP WETH/MILF</h4>
+                      <h4 id="title-2" class="card-title ">SWAP WETH/MILF</h4>
                       <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
                     </div>
                     <div class="card-body">
@@ -165,28 +172,16 @@
                         <table class="table">
                           <thead class=" text-primary">
                             <th>
-                              Price (MILF)
+                              Price <span id="span-2" style="font-size: small;">(WETH/MILF)</span>
                             </th>
                             <th>
-                              Amount (WETH)
+                              Amount <span id="amount-2">(WETH)</span>
                             </th>
                             <th>
-                              Total
+                              Total paid
                             </th>
                           </thead>
                           <tbody id="sellTable">
-                            <!-- <tr>
-                              <td style="color: red;">
-                                1000
-                              </td>
-                              <td>
-                                0.001
-                              </td>
-                              <td>
-                                1
-                              </td>
-                            
-                            </tr> -->
                           </tbody>
                         </table>
                       </div>
@@ -196,6 +191,21 @@
               </div>
             </div>
             <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="price-card ">
+                    <p>1 <span id="price-1"> WETH</span> = 0.000001 <span id="price-2"> MILF</span></p>
+                  
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="price-card">
+                    <p>1 <span id="price-2-2"> WETH</span> = 10000 <span id="price-1-2"> MILF</span></p>
+                    
+                  
+                  </div>
+                </div>
+              </div>
               <div class="col-md-12">
                 <div id="container" style="height: 800px;"></div>
                 <script>
@@ -279,10 +289,10 @@
                           Pairs
                         </th>
                         <th style="text-align: end;">
-                          Token payment
+                          Token bought
                         </th>
                         <th style="text-align: end;">
-                          Token bought
+                          Token payd
                         </th>
                         <th style="text-align: end;">
                           Hash
