@@ -165,10 +165,10 @@
                         <table class="table">
                           <thead class=" text-primary">
                             <th>
-                              Price (asset name)
+                              Price (MILF)
                             </th>
                             <th>
-                              Amount (asset name exch)
+                              Amount (WETH)
                             </th>
                             <th>
                               Total
@@ -197,7 +197,7 @@
             </div>
             <div class="col-md-8">
               <div class="col-md-12">
-                <div id="container"></div>
+                <div id="container" style="height: 800px;"></div>
                 <script>
                   anychart.onDocumentReady(function () {
 
@@ -244,8 +244,8 @@
                         chart.scroller().column(openValue);
 
                         // modify the color of candlesticks making them black and white
-                        series.fallingFill("greenyellow");
-                        series.fallingStroke("greenyellow");
+                        series.fallingFill("#4EDA35");
+                        series.fallingStroke("#4EDA35");
                         series.risingFill("red");
                         series.risingStroke("red");
 
@@ -276,16 +276,16 @@
                     <table class="table">
                       <thead class=" text-primary">
                         <th>
+                          Pairs
+                        </th>
+                        <th style="text-align: end;">
+                          Token payment
+                        </th>
+                        <th style="text-align: end;">
+                          Token bought
+                        </th>
+                        <th style="text-align: end;">
                           Hash
-                        </th>
-                        <th>
-                          Token in
-                        </th>
-                        <th>
-                          Token out
-                        </th>
-                        <th>
-                          State
                         </th>
 
                       </thead>
