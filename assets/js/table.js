@@ -71,13 +71,13 @@ $.get( "http://79.157.14.252:7000/txns/MILF-WETH", function( data ) {
     $tdprice.style.color = "greenyellow" 
     $tr.appendChild($tdprice);
 
-    let $tdtokenbo = document.createElement("td");
-    $tdtokenbo.textContent = parseFloat(buy.tokens_bought_from_the_exchange_normalized).toFixed(8); 
-    $tr.appendChild($tdtokenbo);
-
     let $tdtotal = document.createElement("td");
     $tdtotal.textContent = parseFloat(buy.tokens_payed_for_the_exchange_normalized).toFixed(8); 
     $tr.appendChild($tdtotal);
+
+    let $tdtokenbo = document.createElement("td");
+    $tdtokenbo.textContent = parseFloat(buy.tokens_bought_from_the_exchange_normalized).toFixed(8); 
+    $tr.appendChild($tdtokenbo);
     // <tr
     $buyTable.appendChild($tr);
 
