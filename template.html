@@ -18,11 +18,20 @@
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
 
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-stock.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
 
-  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js" type="text/javascript"></script>
+  <!-- <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js" type="text/javascript"></script>
   <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-stock.min.js" type="text/javascript"></script>
   <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-data-adapter.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
   <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script> -->
 
   <style>
     #myInput {
@@ -41,8 +50,45 @@
       margin-top: 10px;
       height: 55px;
       padding: 0.75rem 1.25rem;
-      
 
+
+    }
+
+    .anychart-tooltip {
+      width: 300px;
+      background: white;
+      color: black;
+      box-shadow: 5px 5px 18px #333;
+    }
+
+    .anychart-tooltip h3 {
+      text-align: center;
+    }
+
+    .anychart-tooltip img {
+      max-height: 50px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .anychart-tooltip table {
+      width: 100%;
+    }
+
+    .anychart-tooltip table tr td:last-child {
+      text-align: right;
+    }
+
+    .anychart-tooltip .k-square {
+      color: #67b6f4;
+    }
+
+    .anychart-tooltip .d-square {
+      color: #428cd6;
+    }
+
+    .anychart-tooltip .j-square {
+      color: #ed6c20;
     }
 
     .price-card p {
@@ -87,16 +133,17 @@
         </a>
       </div>
       <div class="sidebar-wrapper">
-        
+
         <h3 style="text-align: center; font-size: large; color: #b635da;"><b>SELECT PAIR</b></h3>
-        <input name="pair" list="pairs" style="width: 100%; height: 50px; background-color: #3C4858; border: none;" placeholder="Search Pair.." onchange="getData(this)">
-        <datalist id="pairs"  >
+        <input name="pair" list="pairs" style="width: 100%; height: 50px; background-color: #3C4858; border: none;"
+          placeholder="Search Pair.." onchange="getData(this)">
+        <datalist id="pairs">
         </datalist>
-        
+
 
       </div>
 
-     
+
     </div>
     <div class="main-panel">
       <!-- Navbar -->
@@ -202,19 +249,151 @@
                 <div class="col-md-6">
                   <div class="price-card ">
                     <p>1 <span id="price-1"> WETH</span> = 0.000001 <span id="price-2"> USDT</span></p>
-                  
+
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="price-card">
                     <p>1 <span id="price-2-2"> WETH</span> = 10000 <span id="price-1-2"> USDT</span></p>
-                    
-                  
+
+
                   </div>
                 </div>
               </div>
               <div class="col-md-12">
                 <div id="container" style="height: 800px;"></div>
+                <script>
+    //               anychart.onDocumentReady(function () {
+    //   // The data used in this sample can be obtained from the CDN
+    //   // https://cdn.anychart.com/csv-data/aapl-daily.csv
+
+    //   var data = [
+    //   [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
+    //   [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
+    //   [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
+    //   [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
+    //   [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
+    //   [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
+    //   [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
+    //   [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
+    //   [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
+    //   [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
+    //   [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
+    //   [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
+    // ];
+
+    //       var dataTable = anychart.data.table();
+    //       dataTable.addData(data);
+
+    //       // map data for the candlestick series
+    //       var ohlcMapping = dataTable.mapAs({
+    //         open: 1,
+    //         high: 2,
+    //         low: 3,
+    //         close: 4
+    //       });
+
+    //       // map data for scroller and volume series
+    //       var valueMapping = dataTable.mapAs({
+    //         value: 5
+    //       });
+
+    //       // create stock chart
+    //       var chart = anychart.stock();
+
+    //       var plot = chart.plot(0);
+
+    //       // create and setup candlestick series on the first plot
+    //       var ohlcSeries = plot.candlestick(ohlcMapping);
+    //       ohlcSeries.name('AAPL');
+    //       ohlcSeries.legendItem().iconType('risingfalling');
+
+    //       // create volume series on the first plot
+    //       var volumeSeries = plot.column(valueMapping);
+    //       volumeSeries.name('Volume');
+
+    //       // set max height of volume series and attach it to the bottom of plot
+    //       volumeSeries.maxHeight('30%').bottom(0);
+
+    //       // create indicator plot
+    //       var indicatorPlot = chart.plot(1);
+
+    //       // set indicator plot height
+    //       indicatorPlot.height('25%');
+
+    //       // create KDJ indicator
+    //       indicatorPlot.kdj(ohlcMapping);
+
+    //       // get tooltip
+    //       var tooltip = chart.tooltip();
+
+    //       // setup formatters for the title and content of the tooltip using HTML
+    //       tooltip.useHtml(true);
+    //       tooltip.titleFormat(function () {
+    //         return (
+    //           '<h3>' +
+    //           anychart.format.dateTime(this.x, 'dd MMMM yyyy') +
+    //           '</h3>'
+    //         );
+    //       });
+    //       tooltip.unionFormat(function () {
+    //         return (
+    //           '<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"/>' +
+    //           '<table>' +
+    //           '<tr><td>Open</td><td>$' +
+    //           anychart.format.number(this.points[0].open, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td>High</td><td>$' +
+    //           anychart.format.number(this.points[0].high, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td>Low</td><td>$' +
+    //           anychart.format.number(this.points[0].low, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td>Close</td><td>$' +
+    //           anychart.format.number(this.points[0].close, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td>Volume</td><td>$' +
+    //           anychart.format.number(this.points[1].value, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td><span class="k-square">◼</span>%K(14, 5)</td><td>$' +
+    //           anychart.format.number(this.points[2].value, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td><span class="d-square">◼</span>%D(5)</td><td>$' +
+    //           anychart.format.number(this.points[3].value, 2) +
+    //           '</td></tr>' +
+    //           '<tr><td><span class="j-square">◼</span>%J</td><td>$' +
+    //           anychart.format.number(this.points[4].value, 2) +
+    //           '</td></tr>' +
+    //           '</table>'
+    //         );
+    //       });
+
+    //       // create scroller series with mapped data
+    //       chart.scroller().line(ohlcMapping);
+    //       // set container id for the chart
+    //       chart.container('container');
+    //       // initiate chart drawing
+    //       chart.draw();
+
+    //       // set values for selected range
+    //       chart.selectRange('qtd', 1, 'last-date');
+
+    //       // create range picker
+    //       var rangePicker = anychart.ui.rangePicker();
+    //       // init range picker
+    //       rangePicker.render(chart);
+
+    //       // create range selector
+    //       var rangeSelector = anychart.ui.rangeSelector();
+    //       // init range selector
+    //       rangeSelector.render(chart);
+
+    //       //background
+    //       chart.background().fill("transparent");
+    //     //}
+    //   ;
+    // });
+                </script>
 
               </div>
             </div>

@@ -173,116 +173,171 @@ function setpairs(token1, token2) {
 
 
 
-function getStats(token1, token2) {
-    $.get("http://79.157.14.252:7000/txns/" + token1 + '-' + token2, function (data1) {
-        //grafdata = [data1.stats]
-        $.get("http://79.157.14.252:7000/historic/" + token1 + '-' + token2, function (data2) {
-            console.log(data2.stats)
-            console.log(grafdata)
+// function getStats(token1, token2) {
+//     $.get("http://79.157.14.252:7000/txns/" + token1 + '-' + token2, function (data1) {
+//         //grafdata = [data1.stats]
+//         $.get("http://79.157.14.252:7000/historic/" + token1 + '-' + token2, function (data2) {
+//             console.log(data2.stats)
+//             console.log(grafdata)
 
-            // var data = [
-            //     [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
-            //     [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
-            //     [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
-            //     [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
-            //     [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
-            //     [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
-            //     [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
-            //     [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
-            //     [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
-            //     [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
-            //     [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
-            //     [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
-            //   ];
+//             // var data = [
+//             //     [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
+//             //     [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
+//             //     [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
+//             //     [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
+//             //     [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
+//             //     [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
+//             //     [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
+//             //     [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
+//             //     [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
+//             //     [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
+//             //     [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
+//             //     [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
+//             //   ];
               
               
 
-            //   chart = anychart.data.set(data);
+//             //   chart = anychart.data.set(data);
               
-            //   // create a japanese candlestick series and set the data
-            //   var series = chart.candlestick(data);
+//             //   // create a japanese candlestick series and set the data
+//             //   var series = chart.candlestick(data);
               
-            //   // set the container id
-            //   chart.container("container");
+//             //   // set the container id
+//             //   chart.container("container");
               
-            //   // initiate drawing the chart
-            //   chart.draw();
+//             //   // initiate drawing the chart
+//             //   chart.draw();
             
-            grafdata[0].date = new Date(grafdata[0].date).toLocaleTimeString()
+//             grafdata[0].date = new Date(grafdata[0].date).toLocaleTimeString()
 
-            // var dataTable = anychart.data.table(0, 'MM, dd, yyyy');
-            // dataTable.addData(grafdata);
+//             // var dataTable = anychart.data.table(0, 'MMM d, yyyy');
+//             // dataTable.addData(grafdata);
 
-            // // map data
-            // var mapping = dataTable.mapAs({
-            //     'open': 2,
-            //     'high': 3,
-            //     'low': 4,
-            //     'close': 1
-            // });
+//             // // map data
+//             // var mapping = dataTable.mapAs({
+//             //     'open': 2,
+//             //     'high': 3,
+//             //     'low': 4,
+//             //     'close': 1
+//             // });
 
-            // // set the chart type
-            // var chart = anychart.stock();
+//             // // set the chart type
+//             // var chart = anychart.stock();
 
-            // // set the series
-            // var series = chart.plot(0).candlestick(mapping);
-            // series.name("Trade Data");
+//             // // set the series
+//             // var series = chart.plot(0).candlestick(mapping);
+//             // series.name("Trade Data");
 
-            // // set the chart title
-            // chart.title("Historical Trade Data");
+//             // // set the chart title
+//             // chart.title("Historical Trade Data");
 
-            // // create a plot
-            // var plot = chart.plot(0);
-            // // create an EMA indicator with period 20
-            // var ema20 = plot.ema(mapping, 20).series();
-            // // set the EMA color
-            // ema20.stroke('orange');
+//             // // create a plot
+//             // var plot = chart.plot(0);
+//             // // create an EMA indicator with period 20
+//             // var ema20 = plot.ema(mapping, 20).series();
+//             // // set the EMA color
+//             // ema20.stroke('orange');
 
-            // // disable the scroller axis
-            // chart.scroller().xAxis(false);
-            // // map "open" values for the scroller
-            // openValue = dataTable.mapAs();
-            // openValue.addField('value', 2);
-            // // create a scroller series with the mapped data
-            // chart.scroller().column(openValue);
+//             // // disable the scroller axis
+//             // chart.scroller().xAxis(false);
+//             // // map "open" values for the scroller
+//             // openValue = dataTable.mapAs();
+//             // openValue.addField('value', 2);
+//             // // create a scroller series with the mapped data
+//             // chart.scroller().column(openValue);
 
-            // // modify the color of candlesticks making them black and white
-            // series.fallingFill("#4EDA35");
-            // series.fallingStroke("#4EDA35");
-            // series.risingFill("red");
-            // series.risingStroke("red");
+//             // // modify the color of candlesticks making them black and white
+//             // series.fallingFill("#4EDA35");
+//             // series.fallingStroke("#4EDA35");
+//             // series.risingFill("red");
+//             // series.risingStroke("red");
 
-            // // set the container id
-            // chart.container('container');
+//             // // set the container id
+//             // chart.container('container');
 
-            // //background
-            // chart.background().fill("transparent");
+//             // //background
+//             // chart.background().fill("transparent");
 
-            // // draw the chart
-            // chart.draw();
+//             // // draw the chart
+//             // chart.draw();
 
 
-        })
-    })
-}
+//         })
+//     })
+// }
 
 anychart.onDocumentReady(function () {
 
+        // load data
+        var data = [
+              [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
+              [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
+              [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
+              [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
+              [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
+              [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
+              [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
+              [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
+              [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
+              [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
+              [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
+              [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
+            ];
+        
+            var dataTable = anychart.data.table();
+            dataTable.addData(data);
 
+            // map data
+            var mapping = dataTable.mapAs({
+                'open': 2,
+                'high': 3,
+                'low': 4,
+                'close': 1
+            });
 
-    anychart.data.loadJsonFile("http://79.157.14.252:7000/historic/WETH-USDT", function (data) {
+            // set the chart type
+            var chart = anychart.stock();
 
-        // // load data
-        // anychart.data.loadCsvFile(
-        //   "https://static.anychart.com/git-storage/word-press/data/candlestick-chart-tutorial/EUR_USDHistoricalData2year.csv",
-        //   function (data) {
+            // set the series
+            var series = chart.plot(0).candlestick(mapping);
+            series.name("Trade Data");
 
-        // create a data table
+            // set the chart title
+            chart.title("Historical Trade Data");
 
+            // create a plot
+            var plot = chart.plot(0);
+            // create an EMA indicator with period 20
+            var ema20 = plot.ema(mapping, 20).series();
+            // set the EMA color
+            ema20.stroke('orange');
+
+            // disable the scroller axis
+            chart.scroller().xAxis(false);
+            // map "open" values for the scroller
+            openValue = dataTable.mapAs();
+            openValue.addField('value', 2);
+            // create a scroller series with the mapped data
+            chart.scroller().column(openValue);
+
+            // modify the color of candlesticks making them black and white
+            series.fallingFill("#4EDA35");
+            series.fallingStroke("#4EDA35");
+            series.risingFill("red");
+            series.risingStroke("red");
+
+            // set the container id
+            chart.container('container');
+
+            //background
+            chart.background().fill("transparent");
+
+            // draw the chart
+            chart.draw();
     });
 
 
-});
+
 
 
 setpairs("WETH", "USDT")
