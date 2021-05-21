@@ -1,4 +1,6 @@
-$.get("http://190.123.23.7:7000/pairs", function (data) {
+var apiEndPoint = "http://190.123.23.7:7000/"
+
+$.get(apiEndPoint + "pairs", function (data) {
     var str = ''; // variable to store the options
 
     // var pair = new Array("WETH/MILF","February","March","April","May","June","July","August",
@@ -19,7 +21,7 @@ function getData(obj) {
 }
 
 
-$.get("http://190.123.23.7:7000/last_txns", function (data) {
+$.get(apiEndPoint + "last_txns", function (data) {
 
     const txs = data.values;
 
@@ -66,7 +68,7 @@ function setpairs(token1, token2) {
     $("#buyTable").empty()
     $("#sellTable").empty()
     $("#historicTable").empty()
-    $.get("http://190.123.23.7:7000/historic/" + token1 + '-' + token2, function (data) {
+    $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
         const historic = data.values.reverse();
 
@@ -75,35 +77,37 @@ function setpairs(token1, token2) {
             //<tr>
 
             if (historic[i].status != 0) {
-                const $tr = document.createElement("tr");
+                if(historic[i].price != 0) { 
+                    const $tr = document.createElement("tr");
 
-                // let $tdtotal = document.createElement("td");
-                // $tdtotal.textContent = parseFloat(historic[i].tokens_bought_from_the_exchange_normalized).toFixed(8);
-                // $tr.appendChild($tdtotal);
+                    // let $tdtotal = document.createElement("td");
+                    // $tdtotal.textContent = parseFloat(historic[i].tokens_bought_from_the_exchange_normalized).toFixed(8);
+                    // $tr.appendChild($tdtotal);
 
-                let $tdprice = document.createElement("td");
-                var price = parseFloat(historic[i].price).toFixed(10);
-                $tdprice.textContent = price;
-                if (i < historic.length - 1) {
-                    if (price > historic[i + 1].price) {
-                        $tdprice.style.color = "#77dd77"
-                    } else {
-                        $tdprice.style.color = "#c23b22"
+                    let $tdprice = document.createElement("td");
+                    var price = parseFloat(historic[i].price).toFixed(10);
+                    $tdprice.textContent = price;
+                    if (i < historic.length - 1) {
+                        if (price > historic[i + 1].price) {
+                            $tdprice.style.color = "#77dd77"
+                        } else {
+                            $tdprice.style.color = "#c23b22"
+                        }
                     }
-                }
-                $tr.appendChild($tdprice);
+                    $tr.appendChild($tdprice);
 
-                let $tddate = document.createElement("td");
-                $tddate.textContent = new Date(parseFloat(historic[i].date)).toLocaleTimeString()
-                $tr.appendChild($tddate);
-                // <tr
-                $historicTable.appendChild($tr);
+                    let $tddate = document.createElement("td");
+                    $tddate.textContent = new Date(parseFloat(historic[i].date)).toLocaleTimeString()
+                    $tr.appendChild($tddate);
+                    // <tr
+                    $historicTable.appendChild($tr);
+                }
             }
         };
     })
 
 
-    $.get("http://190.123.23.7:7000/txns/" + token1 + '-' + token2, function (data) {
+    $.get(apiEndPoint + "txns/" + token1 + '-' + token2, function (data) {
 
         document.getElementById("title-1").innerHTML = "SWAP " + token1 + "/" + token2
         document.getElementById("span-1").innerHTML = "(" + token2 + "/" + token1 + ")"
@@ -144,7 +148,7 @@ function setpairs(token1, token2) {
 
     });
 
-    $.get("http://190.123.23.7:7000/txns/" + token2 + '-' + token1, function (data) {
+    $.get(apiEndPoint + "txns/" + token2 + '-' + token1, function (data) {
 
         const sell = data.values.reverse();
 
@@ -176,7 +180,7 @@ function setpairs(token1, token2) {
 
     });
 
-    $.get("http://190.123.23.7:7000/price/" + token1 + '/' + token2, function (data) {
+    $.get( apiEndPoint + "price/" + token1 + '/' + token2, function (data) {
 
         document.getElementById("priceToken1").innerHTML = data.price;
         document.getElementById("priceToken2").innerHTML = data.price2;
@@ -186,7 +190,7 @@ function setpairs(token1, token2) {
 
     anychart.onDocumentReady(function () {
 
-        $.get("http://190.123.23.7:7000/historic/" + token1 + '-' + token2, function (data) {
+        $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
             const historic = data.values.reverse();
             var data = [];
