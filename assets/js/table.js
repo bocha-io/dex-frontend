@@ -97,8 +97,9 @@ function setpairs(token1, token2) {
                     $tr.appendChild($tdprice);
 
                     let $tddate = document.createElement("td");
-                    $tddate.textContent = new Date(parseFloat(historic[i].date)).toLocaleTimeString()
+                    $tddate.textContent = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
                     $tr.appendChild($tddate);
+                    $tddate.style.textAlign = "right"
                     // <tr
                     $historicTable.appendChild($tr);
                 }
@@ -142,6 +143,7 @@ function setpairs(token1, token2) {
                 let $tdtokenbo = document.createElement("td");
                 $tdtokenbo.textContent = parseFloat(buy.tokens_payed_for_the_exchange_normalized).toFixed(8);
                 $tr.appendChild($tdtokenbo);
+                $tdtokenbo.style.textAlign = "right"
                 // <tr
                 $buyTable.appendChild($tr);
             }
@@ -173,6 +175,7 @@ function setpairs(token1, token2) {
                 let $tdtotal = document.createElement("td");
                 $tdtotal.textContent = parseFloat(sell.tokens_payed_for_the_exchange_normalized).toFixed(8);
                 $tr.appendChild($tdtotal);
+                $tdtotal.style.textAlign = "right"
 
                 // <tr
                 $sellTable.appendChild($tr);
@@ -309,4 +312,4 @@ function setpairs(token1, token2) {
 
 }
 
-setpairs("WETH", "USDT")
+setpairs("SHIB", "WETH")
