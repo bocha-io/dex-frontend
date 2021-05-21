@@ -1,0 +1,180 @@
+body {
+    overflow: hidden;
+    background-color: rgb(10, 10, 10) !important;
+}
+
+
+.price-card p {
+    font-size: x-large;
+    color: #f1f1f1;
+    text-align: center;
+}
+
+li a {
+    color: black !important;
+}
+
+html,
+body,
+#container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+table,
+th,
+td,
+tr {
+    font-size: 10px !important;
+    padding: 0% !important;
+}
+
+th span {
+    font-weight: 700 !important;
+}
+
+.dark-edition .text-primary {
+    color: white !important;
+    font-weight: 900 !important;
+
+}
+
+/* buscar a1a1a1 para cambiar el color de las tablas internas*/
+
+p {
+    color: white !important;
+}
+
+.hv {
+    height: 100vh;
+}
+
+.search {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(24, 27, 39);
+    border: none;
+}
+
+.tittle-pairs {
+    text-align: center;
+    font-size: large;
+    color: #f7f7f7;
+}
+
+.boredrs-cars {
+    border-left: 1px solid rgb(129, 129, 129, 0.5);
+}
+
+.sidebar-background::after {
+    background-color: rgba(8, 8, 8, 0.98) !important;
+}
+
+.special-scrolbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-none {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.no-margin-tb {
+    margin-top: 0% !important;
+    margin-bottom: 0% !important
+}
+
+.head-orderbook {
+
+    padding: 10px;
+    color: rgb(241, 241, 241);
+    background-color: rgb(24, 27, 39);
+    height: 35px !important;
+
+}
+
+.card-title {
+    color: rgb(255, 255, 255) !important;
+    font-size: 12px;
+    font-weight: 700 !important;
+}
+
+.card {
+    border-radius: 0% !important;
+    border-left: 1px solid rgb(129, 129, 129, 0.4);
+    border-right: 1px solid rgb(129, 129, 129, 0.4);
+    background-color: rgb(10, 10, 10) !important;
+    font-weight: 700 !important;
+}
+
+.no-margin {
+    margin: 0% !important;
+    padding: 0px !important;
+}
+
+.card-h {
+    height: 270px;
+}
+
+.card-h2 {
+    height: 540px;
+}
+
+#myInput {
+    padding: 20px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 0;
+    background: #f1f1f1;
+    color: black;
+}
+
+.price-card {
+    border: 2px solid #8e24aa;
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    margin-top: 10px;
+    height: 55px;
+    padding: 0.75rem 1.25rem;
+}
+
+.anychart-tooltip {
+    width: 300px;
+    background: white;
+    color: black;
+    box-shadow: 5px 5px 18px #333;
+}
+
+.anychart-tooltip h3 {
+    text-align: center;
+}
+
+.anychart-tooltip img {
+    max-height: 50px;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.anychart-tooltip table {
+    width: 100%;
+}
+
+.anychart-tooltip table tr td:last-child {
+    text-align: right;
+}
+
+.anychart-tooltip .k-square {
+    color: #67b6f4;
+}
+
+.anychart-tooltip .d-square {
+    color: #428cd6;
+}
+
+.anychart-tooltip .j-square {
+    color: #ed6c20;
+}

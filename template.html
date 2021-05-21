@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="assets/css/personal.css" rel="stylesheet" />
 
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
@@ -26,173 +27,43 @@
   <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
   <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
 
-  <!-- <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js" type="text/javascript"></script>
-  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-stock.min.js" type="text/javascript"></script>
-  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-data-adapter.min.js"></script>
-  <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
-  <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian.min.js"></script>
-  <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script> -->
-
-  <style>
-    #myInput {
-      padding: 20px;
-      margin-top: -6px;
-      border: 0;
-      border-radius: 0;
-      background: #f1f1f1;
-      color: black;
-    }
-
-    .price-card {
-      border: 2px solid #8e24aa;
-      /* #fb8c00 */
-      border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
-      margin-top: 10px;
-      height: 55px;
-      padding: 0.75rem 1.25rem;
-
-
-    }
-
-    .anychart-tooltip {
-      width: 300px;
-      background: white;
-      color: black;
-      box-shadow: 5px 5px 18px #333;
-    }
-
-    .anychart-tooltip h3 {
-      text-align: center;
-    }
-
-    .anychart-tooltip img {
-      max-height: 50px;
-      display: block;
-      margin: 0 auto 10px;
-    }
-
-    .anychart-tooltip table {
-      width: 100%;
-    }
-
-    .anychart-tooltip table tr td:last-child {
-      text-align: right;
-    }
-
-    .anychart-tooltip .k-square {
-      color: #67b6f4;
-    }
-
-    .anychart-tooltip .d-square {
-      color: #428cd6;
-    }
-
-    .anychart-tooltip .j-square {
-      color: #ed6c20;
-    }
-
-    .price-card p {
-      font-size: x-large;
-      color: #f1f1f1;
-      text-align: center;
-    }
-
-    li a {
-      color: black !important;
-    }
-
-    html,
-    body,
-    #container {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    table,
-    th,
-    td,
-    tr {
-      font-size: 12px;
-    }
-  </style>
 </head>
 
 <body class="dark-edition">
-  <div class="wrapper ">
+  <div class="wrapper">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+      <!-- data-color="purple | azure | green | orange | danger" -->
 
-      Tip 2: you can also add an image using data-image tag
-  -->
-      <div class="logo">
-        <a class="simple-text logo-normal">
-          cryptostats
-        </a>
-      </div>
       <div class="sidebar-wrapper">
 
-        <h3 style="text-align: center; font-size: large; color: #b635da;"><b>SELECT PAIR</b></h3>
-        <input name="pair" list="pairs" style="width: 100%; height: 50px; background-color: #3C4858; border: none;"
+        <h3 class="tittle-pairs"><b id="title-pairs"></b></h3>
+        <input name="pair" list="pairs" class="search"
           placeholder="Search Pair.." onchange="getData(this)">
         <datalist id="pairs">
         </datalist>
 
-
       </div>
-
 
     </div>
     <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-        <div class="container-fluid">
-          <!-- <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
-          </div> -->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                  <!-- <i class="material-icons">notifications</i>
-                  <p class="d-lg-none d-md-block">
-                    Notifications
-                  </p> -->
-                </a>
-              </li>
-              <!-- your navbar here -->
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
-      <div class="content">
+      <div class="content mt-0 p-0">
         <div class="container-fluid">
           <!-- your content here -->
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3 no-margin">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="card">
-                    <div class="card-header card-header-success">
-                      <h4 id="title-1" class="card-title ">SWAP USDT/WETH</h4>
-                      <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                  <div class="card card-h mt-0 mb-0">
+                    <div class="head-orderbook">
+                      <h4 id="title-1" class="card-title"><b>SWAP USDT/WETH</b></h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body special-scrolbar" style="overflow:scroll">
                       <div class="table-responsive">
                         <table class="table">
+
                           <thead class=" text-primary">
                             <th>
-                              Price <span id="span-1" style="font-size: small;">(WETH/USDT)</span>
+                              Price <span id="span-1">(WETH/USDT)</span>
                             </th>
                             <th>
                               Amount <span id="amount-1">(USDT)</span>
@@ -200,30 +71,29 @@
                             <th>
                               Total paid
                             </th>
-                            <th>
-                              Date
-                            </th>
                           </thead>
-                          <tbody id="buyTable">
 
+                          <tbody id="buyTable">
                           </tbody>
+
                         </table>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="card">
-                    <div class="card-header card-header-danger">
+
+                <div class="col-md-12 mt-0">
+                  <div class="card card-h mt-0 mb-0">
+                    <div class="head-orderbook">
                       <h4 id="title-2" class="card-title ">SWAP WETH/USDT</h4>
-                      <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+
                     </div>
-                    <div class="card-body">
+                    <div class="card-body special-scrolbar" style="overflow:scroll">
                       <div class="table-responsive">
                         <table class="table">
                           <thead class=" text-primary">
                             <th>
-                              Price <span id="span-2" style="font-size: small;">(USDT/USDT)</span>
+                              Price <span id="span-2">(USDT/USDT)</span>
                             </th>
                             <th>
                               Amount <span id="amount-2">(WETH)</span>
@@ -231,12 +101,11 @@
                             <th>
                               Total paid
                             </th>
-                            <th>
-                              Date
-                            </th>
                           </thead>
+
                           <tbody id="sellTable">
                           </tbody>
+
                         </table>
                       </div>
                     </div>
@@ -244,167 +113,68 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6 no-margin">
               <div class="row">
-                <div class="col-md-6">
-                  <div class="price-card ">
-                    <p>1 <span id="price-1"> WETH</span> = 0.000001 <span id="price-2"> USDT</span></p>
 
+                <div class="col-md-6 mr-0 pr-0">
+                  <div class="head-orderbook">
+                    <p align="center" class="card-title">1 <span id="price-1"> WETH</span> = <span
+                        id="priceToken1">00000 </span> <span id="price-2">
+                        USDT</span></p>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="price-card">
-                    <p>1 <span id="price-2-2"> WETH</span> = 10000 <span id="price-1-2"> USDT</span></p>
 
-
+                <div class="col-md-6 mr-0 pl-0">
+                  <div class="head-orderbook">
+                    <p align="center" class="card-title">1 <span id="price-2-2"> WETH</span> = <span
+                        id="priceToken2">00000 </span> <span id="price-1-2">
+                        USDT</span></p>
                   </div>
                 </div>
+
               </div>
-              <div class="col-md-12">
-                <div id="container" style="height: 800px;"></div>
-                <script>
-    //               anychart.onDocumentReady(function () {
-    //   // The data used in this sample can be obtained from the CDN
-    //   // https://cdn.anychart.com/csv-data/aapl-daily.csv
+              <div class="col-md-12 no-margin">
+                <div id="container" class="border-cards" style="height: 500px"></div>
 
-    //   var data = [
-    //   [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
-    //   [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
-    //   [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
-    //   [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
-    //   [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
-    //   [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
-    //   [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
-    //   [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
-    //   [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
-    //   [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
-    //   [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
-    //   [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
-    // ];
-
-    //       var dataTable = anychart.data.table();
-    //       dataTable.addData(data);
-
-    //       // map data for the candlestick series
-    //       var ohlcMapping = dataTable.mapAs({
-    //         open: 1,
-    //         high: 2,
-    //         low: 3,
-    //         close: 4
-    //       });
-
-    //       // map data for scroller and volume series
-    //       var valueMapping = dataTable.mapAs({
-    //         value: 5
-    //       });
-
-    //       // create stock chart
-    //       var chart = anychart.stock();
-
-    //       var plot = chart.plot(0);
-
-    //       // create and setup candlestick series on the first plot
-    //       var ohlcSeries = plot.candlestick(ohlcMapping);
-    //       ohlcSeries.name('AAPL');
-    //       ohlcSeries.legendItem().iconType('risingfalling');
-
-    //       // create volume series on the first plot
-    //       var volumeSeries = plot.column(valueMapping);
-    //       volumeSeries.name('Volume');
-
-    //       // set max height of volume series and attach it to the bottom of plot
-    //       volumeSeries.maxHeight('30%').bottom(0);
-
-    //       // create indicator plot
-    //       var indicatorPlot = chart.plot(1);
-
-    //       // set indicator plot height
-    //       indicatorPlot.height('25%');
-
-    //       // create KDJ indicator
-    //       indicatorPlot.kdj(ohlcMapping);
-
-    //       // get tooltip
-    //       var tooltip = chart.tooltip();
-
-    //       // setup formatters for the title and content of the tooltip using HTML
-    //       tooltip.useHtml(true);
-    //       tooltip.titleFormat(function () {
-    //         return (
-    //           '<h3>' +
-    //           anychart.format.dateTime(this.x, 'dd MMMM yyyy') +
-    //           '</h3>'
-    //         );
-    //       });
-    //       tooltip.unionFormat(function () {
-    //         return (
-    //           '<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"/>' +
-    //           '<table>' +
-    //           '<tr><td>Open</td><td>$' +
-    //           anychart.format.number(this.points[0].open, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td>High</td><td>$' +
-    //           anychart.format.number(this.points[0].high, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td>Low</td><td>$' +
-    //           anychart.format.number(this.points[0].low, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td>Close</td><td>$' +
-    //           anychart.format.number(this.points[0].close, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td>Volume</td><td>$' +
-    //           anychart.format.number(this.points[1].value, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td><span class="k-square">◼</span>%K(14, 5)</td><td>$' +
-    //           anychart.format.number(this.points[2].value, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td><span class="d-square">◼</span>%D(5)</td><td>$' +
-    //           anychart.format.number(this.points[3].value, 2) +
-    //           '</td></tr>' +
-    //           '<tr><td><span class="j-square">◼</span>%J</td><td>$' +
-    //           anychart.format.number(this.points[4].value, 2) +
-    //           '</td></tr>' +
-    //           '</table>'
-    //         );
-    //       });
-
-    //       // create scroller series with mapped data
-    //       chart.scroller().line(ohlcMapping);
-    //       // set container id for the chart
-    //       chart.container('container');
-    //       // initiate chart drawing
-    //       chart.draw();
-
-    //       // set values for selected range
-    //       chart.selectRange('qtd', 1, 'last-date');
-
-    //       // create range picker
-    //       var rangePicker = anychart.ui.rangePicker();
-    //       // init range picker
-    //       rangePicker.render(chart);
-
-    //       // create range selector
-    //       var rangeSelector = anychart.ui.rangeSelector();
-    //       // init range selector
-    //       rangeSelector.render(chart);
-
-    //       //background
-    //       chart.background().fill("transparent");
-    //     //}
-    //   ;
-    // });
-                </script>
 
               </div>
             </div>
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title ">Last transactions</h4>
-                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+            <div class="col-md-3 no-margin">
+
+              <div class="card card-h2 no-margin-tb">
+                <div class="head-orderbook">
+                  <h4 id="title-1" class="card-title">Trade historic</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body special-scrolbar" style="overflow:scroll">
                   <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <!-- <th>
+                            Trade size
+                          </th> -->
+                        <th>
+                          Price
+                        </th>
+                        <th>
+                          Date
+                        </th>
+                      </thead>
+                      <tbody id="historicTable">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-12 no-margin">
+              <div class="card  no-margin">
+                <div class="head-orderbook"  >
+                  <h4 class="card-title ">All transactions</h4>
+                </div>
+                <div class="card-body special-scrolbar hv" style="overflow:scroll">
+                  <div class="table-responsive" >
                     <table class="table">
                       <thead class=" text-primary">
                         <th>
@@ -437,7 +207,7 @@
           <nav class="float-left">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
+                <a>
                   Renzok free template
                 </a>
               </li>
@@ -455,19 +225,18 @@
       </footer>
     </div>
   </div>
+
   <!--   Core JS Files   -->
-
-
   <script src="./assets/js/core/jquery.min.js"></script>
   <script src="./assets/js/core/popper.min.js"></script>
   <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="https://unpkg.com/default-passive-events"></script>
   <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <script src="./assets/js/table.js"></script>
+  <script src="./assets/js/moment.js"></script>
+  <script src="./assets/js/template.js"></script>
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
   <script src="./assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
@@ -476,177 +245,7 @@
   <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="./assets/demo/demo.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $(".dropdown-menu li").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-    });
 
-    $(document).ready(function () {
-      $().ready(function () {
-        $sidebar = $('.sidebar');
-
-        $sidebar_img_container = $sidebar.find('.sidebar-background');
-
-        $full_page = $('.full-page');
-
-        $sidebar_responsive = $('body > .navbar-collapse');
-
-        window_width = $(window).width();
-
-        $('.fixed-plugin a').click(function (event) {
-          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if ($(this).hasClass('switch-trigger')) {
-            if (event.stopPropagation) {
-              event.stopPropagation();
-            } else if (window.event) {
-              window.event.cancelBubble = true;
-            }
-          }
-        });
-
-        $('.fixed-plugin .active-color span').click(function () {
-          $full_page_background = $('.full-page-background');
-
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
-          }
-
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .background-color .badge').click(function () {
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('background-color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-background-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .img-holder').click(function () {
-          $full_page_background = $('.full-page-background');
-
-          $(this).parent('li').siblings().removeClass('active');
-          $(this).parent('li').addClass('active');
-
-
-          var new_image = $(this).find("img").attr('src');
-
-          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            $sidebar_img_container.fadeOut('fast', function () {
-              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-              $sidebar_img_container.fadeIn('fast');
-            });
-          }
-
-          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $full_page_background.fadeOut('fast', function () {
-              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-              $full_page_background.fadeIn('fast');
-            });
-          }
-
-          if ($('.switch-sidebar-image input:checked').length == 0) {
-            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-          }
-        });
-
-        $('.switch-sidebar-image input').change(function () {
-          $full_page_background = $('.full-page-background');
-
-          $input = $(this);
-
-          if ($input.is(':checked')) {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar_img_container.fadeIn('fast');
-              $sidebar.attr('data-image', '#');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page_background.fadeIn('fast');
-              $full_page.attr('data-image', '#');
-            }
-
-            background_image = true;
-          } else {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar.removeAttr('data-image');
-              $sidebar_img_container.fadeOut('fast');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page.removeAttr('data-image', '#');
-              $full_page_background.fadeOut('fast');
-            }
-
-            background_image = false;
-          }
-        });
-
-        $('.switch-sidebar-mini input').change(function () {
-          $body = $('body');
-
-          $input = $(this);
-
-          if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
-            md.misc.sidebar_mini_active = false;
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-
-          } else {
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
-
-            setTimeout(function () {
-              $('body').addClass('sidebar-mini');
-
-              md.misc.sidebar_mini_active = true;
-            }, 300);
-          }
-
-          // we simulate the window Resize so the charts will get updated in realtime.
-          var simulateWindowResize = setInterval(function () {
-            window.dispatchEvent(new Event('resize'));
-          }, 180);
-
-          // we stop the simulation of Window Resize after the animations are completed
-          setTimeout(function () {
-            clearInterval(simulateWindowResize);
-          }, 1000);
-
-        });
-      });
-    });
-  </script>
 </body>
 
 </html>

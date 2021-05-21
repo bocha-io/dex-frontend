@@ -2225,7 +2225,7 @@ pre code {
 }
 
 .table .thead-light th {
-  color: #495057;
+  color: #57494b;
   background-color: #e9ecef;
   border-color: rgba(0, 0, 0, 0.06);
 }
@@ -20550,7 +20550,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .card .card-body {
-  color: #8b92a9;
+  color: #a1a1a1;
 }
 
 .dark-edition .card .card-body .card-category+.card-title {
@@ -20559,7 +20559,7 @@ Copyright (c) 2015 Daniel Eden
 
 .dark-edition .card .card-body .card-category,
 .dark-edition .card .card-body .card-title {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .card .card-body .card-description {
@@ -20644,7 +20644,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .card-stats .card-header .card-category:not([class*="text-"]) {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .card-stats .card-header+.card-footer {
@@ -20676,7 +20676,7 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .table>thead>tr>td,
 .dark-edition .table>tbody>tr>td,
 .dark-edition .table>tfoot>tr>td {
-  color: #8b92a9;
+  color: a1a1a1;
   border-color: rgba(180, 180, 180, 0.1);
 }
 
@@ -20725,7 +20725,7 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .popover,
 .dark-edition .tooltip-inner {
   background: #202940;
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .tooltip.bs-tooltip-top .arrow::before,
@@ -21867,7 +21867,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition .fixed-plugin .fa-cog {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .fixed-plugin .dropdown .dropdown-menu {
@@ -21892,7 +21892,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition .fixed-plugin li.header-title {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .fixed-plugin .badge {
@@ -21976,7 +21976,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 
 .dark-edition .tim-typo .tim-note,
 .dark-edition .places-buttons .card-title {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition .places-buttons .card-title .category {
@@ -21984,7 +21984,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition .list-group-item {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition a {
@@ -21992,7 +21992,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition.offline-doc .brand .description {
-  color: #8b92a9;
+  color: a1a1a1;
 }
 
 .dark-edition.offline-doc .navbar.navbar-transparent .navbar-brand {
