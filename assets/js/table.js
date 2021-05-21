@@ -52,17 +52,6 @@ $.get("http://190.123.23.7:7000/last_txns", function (data) {
         $tr.appendChild($tdtx_hash);
         $tdtx_hash.style.textAlign = "right"
 
-        // let $tdstatus = document.createElement("td");
-        // var status = tx.status;
-        // if(status == 1) {
-        //     $tdstatus.textContent = 'success';
-        // $tr.appendChild($tdstatus);
-        // };
-        // if(status == 0) {
-        //     $tdstatus.textContent = 'canceled';
-        // $tr.appendChild($tdstatus);
-        // } 
-
 
         // <tr
         $cuerpoTabla.appendChild($tr);
@@ -78,12 +67,12 @@ function setpairs(token1, token2) {
     $("#historicTable").empty()
     $.get("http://190.123.23.7:7000/historic/" + token1 + '-' + token2, function (data) {
 
-        const historic = data.values.reverse().slice(0, 10);
+        const historic = data.values.reverse();
 
         const $historicTable = document.querySelector("#historicTable");
         for (i = 0; i < historic.length; i++) {
             //<tr>
-        
+
             if (historic[i].status != 0) {
                 const $tr = document.createElement("tr");
 
@@ -96,9 +85,9 @@ function setpairs(token1, token2) {
                 $tdprice.textContent = price;
                 if (i < historic.length - 1) {
                     if (price > historic[i + 1].price) {
-                        $tdprice.style.color = "greenyellow"
+                        $tdprice.style.color = "#77dd77"
                     } else {
-                        $tdprice.style.color = "red"
+                        $tdprice.style.color = "#c23b22"
                     }
                 }
                 $tr.appendChild($tdprice);
@@ -108,15 +97,8 @@ function setpairs(token1, token2) {
                 $tr.appendChild($tddate);
                 // <tr
                 $historicTable.appendChild($tr);
-
-
-
-
             }
         };
-
-
-
     })
 
 
@@ -136,19 +118,18 @@ function setpairs(token1, token2) {
 
 
 
-        const buy = data.values.reverse().slice(0, 5);
+        const buy = data.values.reverse();
 
         const $buyTable = document.querySelector("#buyTable");
         buy.forEach(buy => {
             //<tr>
-            console.log(buy)
             if (buy.status != 0) {
                 const $tr = document.createElement("tr");
 
                 let $tdprice = document.createElement("td");
                 var price = parseFloat(buy.tokens_payed_for_the_exchange_normalized / buy.tokens_bought_from_the_exchange_normalized).toFixed(10);
                 $tdprice.textContent = price;
-                $tdprice.style.color = "greenyellow"
+                $tdprice.style.color = "#77dd77"
                 $tr.appendChild($tdprice);
 
                 let $tdtotal = document.createElement("td");
@@ -159,9 +140,6 @@ function setpairs(token1, token2) {
                 $tdtokenbo.textContent = parseFloat(buy.tokens_payed_for_the_exchange_normalized).toFixed(8);
                 $tr.appendChild($tdtokenbo);
 
-                let $tddate = document.createElement("td");
-                $tddate.textContent = new Date(buy.timestamp).toLocaleTimeString()
-                $tr.appendChild($tddate);
                 // <tr
                 $buyTable.appendChild($tr);
 
@@ -175,20 +153,19 @@ function setpairs(token1, token2) {
 
     $.get("http://190.123.23.7:7000/txns/" + token2 + '-' + token1, function (data) {
 
-        const sell = data.values.reverse().slice(0, 5);
+        const sell = data.values.reverse();
 
         const $sellTable = document.querySelector("#sellTable");
         sell.forEach(sell => {
 
             if (sell.status != 0) {
                 //<tr>
-                // if(token_being_bought_symbol)
                 const $tr = document.createElement("tr");
 
                 let $tdprice = document.createElement("td");
                 var price = parseFloat(sell.tokens_payed_for_the_exchange_normalized / sell.tokens_bought_from_the_exchange_normalized).toFixed(10);
                 $tdprice.textContent = price;
-                $tdprice.style.color = "red"
+                $tdprice.style.color = "#c23b22"
                 $tr.appendChild($tdprice);
 
                 let $tdtokenbo = document.createElement("td");
@@ -199,10 +176,6 @@ function setpairs(token1, token2) {
                 $tdtotal.textContent = parseFloat(sell.tokens_payed_for_the_exchange_normalized).toFixed(8);
                 $tr.appendChild($tdtotal);
 
-                let $tddate = document.createElement("td");
-                $tddate.textContent = new Date(sell.timestamp).toLocaleTimeString()
-                $tr.appendChild($tddate);
-
                 // <tr
                 $sellTable.appendChild($tr);
             }
@@ -211,153 +184,156 @@ function setpairs(token1, token2) {
     });
 
     $.get("http://190.123.23.7:7000/price/" + token1 + '/' + token2, function (data) {
-        console.log(data)
+    
         document.getElementById("priceToken1").innerHTML = data.price;
         document.getElementById("priceToken2").innerHTML = data.price2;
     });
 
-//chart
+    //chart
 
-anychart.onDocumentReady(function () {
-    // anychart.data.loadCsvFile('https://cdn.anychart.com/csv-data/aapl-daily.csv',
-    $.get("http://190.123.23.7:7000/historic/" + token1 + '-' + token2, function (data) {
+    anychart.onDocumentReady(function () {
+        
+        $.get("http://190.123.23.7:7000/historic/" + token1 + '-' + token2, function (data) {
 
-        const historic = data.values.reverse();
-        var data = [];
-        console.log(historic)
-        for(i = 0; i < historic.length; i++ ) {
-            var d = moment.utc(parseFloat(historic[i].date)*1000).local().format("YYYY-MM-DD HH:mm:ss")
-            data.push([d, historic[i].open, historic[i].high, historic[i].low, historic[i].price])
-        }
-    // var data = [
-    //         [Date.UTC(2007, 07, 23), 23.55, 23.88, 23.38, 23.62],
-    //         [Date.UTC(2007, 07, 24), 22.65, 23.7, 22.65, 23.36],
-    //         [Date.UTC(2007, 07, 25), 22.75, 23.7, 22.69, 23.44],
-    //         [Date.UTC(2007, 07, 26), 23.2, 23.39, 22.87, 22.92],
-    //         [Date.UTC(2007, 07, 27), 23.98, 24.49, 23.47, 23.49],
-    //         [Date.UTC(2007, 07, 30), 23.55, 23.88, 23.38, 23.62],
-    //         [Date.UTC(2007, 07, 31), 23.88, 23.93, 23.24, 23.25],
-    //         [Date.UTC(2007, 08, 01), 23.17, 23.4, 22.85, 23.25],
-    //         [Date.UTC(2007, 08, 02), 22.65, 23.7, 22.65, 23.36],
-    //         [Date.UTC(2007, 08, 03), 23.2, 23.39, 22.87, 22.92],
-    //         [Date.UTC(2007, 08, 06), 23.03, 23.15, 22.44, 22.97],
-    //         [Date.UTC(2007, 08, 07), 22.75, 23.7, 22.69, 23.44]
-    //     ];
-        //BORRAR ANICHART.DATA.LOAD... Y FUNCTION(DATA) Y SALE ANDANDO
-        // function (data) {
+            console.log('hola')    
 
-        var dataTable = anychart.data.table();
-        dataTable.addData(data);
+            const historic = data.values.reverse();
+            var data = [];
+            
+            for (i = 0; i < historic.length; i++) {
+                var d = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
+                data.push([d, historic[i].open, historic[i].high, historic[i].low, historic[i].price])
+            }
+            console.log(data)
 
-        // map data for the candlestick series
-        var ohlcMapping = dataTable.mapAs({
-            open: 1,
-            high: 2,
-            low: 3,
-            close: 4
-        });
+            var dataTable = anychart.data.set(data);
+            var dataTable = anychart.data.table();
+            dataTable.addData(data);
 
-        // map data for scroller and volume series
-        var valueMapping = dataTable.mapAs({
-            value: 5
-        });
+            // map data for the candlestick series
+            var ohlcMapping = dataTable.mapAs({
+                open: 1,
+                high: 2,
+                low: 3,
+                close: 4,
+                
+            });
 
-        // create stock chart
-        var chart = anychart.stock();
+            // map data for scroller and volume series
+            var valueMapping = dataTable.mapAs({
+                value: 5
+            });
 
-        var plot = chart.plot(0);
+            // create stock chart
+            var chart = anychart.stock();
 
-        // create and setup candlestick series on the first plot
-        var ohlcSeries = plot.candlestick(ohlcMapping);
-        ohlcSeries.name('data');
-        ohlcSeries.legendItem().iconType('risingfalling');
+            var plot = chart.plot(0);
 
-        // create volume series on the first plot
-        var volumeSeries = plot.column(valueMapping);
-        volumeSeries.name('Volume');
+            // create and setup candlestick series on the first plot
+            var ohlcSeries = plot.candlestick(ohlcMapping);
+            ohlcSeries.name('data');
+            ohlcSeries.legendItem().iconType('risingfalling');
 
-        // set max height of volume series and attach it to the bottom of plot
-        volumeSeries.maxHeight('30%').bottom(0);
+            // create volume series on the first plot
+            var volumeSeries = plot.column(valueMapping);
+            volumeSeries.name('Volume');
 
-        // create indicator plot
-        // var indicatorPlot = chart.plot(1);
+            // set max height of volume series and attach it to the bottom of plot
+            volumeSeries.maxHeight('30%').bottom(0);
 
-        // // set indicator plot height
-        // indicatorPlot.height('25%');
+            var plot = chart.plot(0);
+            // set grid settings
 
-        // // create KDJ indicator
-        // indicatorPlot.kdj(ohlcMapping);
+            // create EMA indicators with period 50
+            plot
+            .ema(dataTable.mapAs({ value: 4 }))
+            .series()
+            .stroke('1 orange');
 
-        // // get tooltip
-        // var tooltip = chart.tooltip();
+            // modify the color of candlesticks making them black and white
+            ohlcSeries.fallingFill("#c23b22");
+            ohlcSeries.fallingStroke("#c23b22");
+            ohlcSeries.risingFill("#77dd77");
+            ohlcSeries.risingStroke("#77dd77");
 
-        // // setup formatters for the title and content of the tooltip using HTML
-        // tooltip.useHtml(true);
-        // tooltip.titleFormat(function () {
-        //     return (
-        //         '<h3>' +
-        //         anychart.format.dateTime(this.x, 'dd MMMM yyyy') +
-        //         '</h3>'
-        //     );
+            // create indicator plot
+            // var indicatorPlot = chart.plot(1);
 
-        // });
-        // tooltip.unionFormat(function () {
-        //     return (
-        //         '<table>' +
-        //         '<tr><td>Open</td><td>$' +
-        //         anychart.format.number(this.points[0].open, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td>High</td><td>$' +
-        //         anychart.format.number(this.points[0].high, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td>Low</td><td>$' +
-        //         anychart.format.number(this.points[0].low, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td>Close</td><td>$' +
-        //         anychart.format.number(this.points[0].close, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td>Volume</td><td>$' +
-        //         anychart.format.number(this.points[1].value, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td><span class="k-square">◼</span>%K(14, 5)</td><td>$' +
-        //         anychart.format.number(this.points[2].value, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td><span class="d-square">◼</span>%D(5)</td><td>$' +
-        //         anychart.format.number(this.points[3].value, 2) +
-        //         '</td></tr>' +
-        //         '<tr><td><span class="j-square">◼</span>%J</td><td>$' +
-        //         anychart.format.number(this.points[4].value, 2) +
-        //         '</td></tr>' +
-        //         '</table>'
-        //     );
-        // });
+            // // set indicator plot height
+            // indicatorPlot.height('25%');
 
-        // // create scroller series with mapped data
-        // chart.scroller().line(ohlcMapping);
-        // // set container id for the chart
-        chart.container('container');
-        // initiate chart drawing
-        chart.draw();
+            // // create KDJ indicator
+            // indicatorPlot.kdj(ohlcMapping);
 
-        // // set values for selected range
-        // chart.selectRange('qtd', 1, 'last-date');
+            // // get tooltip
+            // var tooltip = chart.tooltip();
 
-        // // create range picker
-        // var rangePicker = anychart.ui.rangePicker();
-        // // init range picker
-        // rangePicker.render(chart);
+            // // setup formatters for the title and content of the tooltip using HTML
+            // tooltip.useHtml(true);
+            // tooltip.titleFormat(function () {
+            //     return (
+            //         '<h3>' +
+            //         anychart.format.dateTime(this.x, 'dd MMMM yyyy') +
+            //         '</h3>'
+            //     );
 
-        // // create range selector
-        // var rangeSelector = anychart.ui.rangeSelector();
-        // // init range selector
-        // rangeSelector.render(chart);
+            // });
+            // tooltip.unionFormat(function () {
+            //     return (
+            //         '<table>' +
+            //         '<tr><td>Open</td><td>$' +
+            //         anychart.format.number(this.points[0].open, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td>High</td><td>$' +
+            //         anychart.format.number(this.points[0].high, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td>Low</td><td>$' +
+            //         anychart.format.number(this.points[0].low, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td>Close</td><td>$' +
+            //         anychart.format.number(this.points[0].close, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td>Volume</td><td>$' +
+            //         anychart.format.number(this.points[1].value, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td><span class="k-square">◼</span>%K(14, 5)</td><td>$' +
+            //         anychart.format.number(this.points[2].value, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td><span class="d-square">◼</span>%D(5)</td><td>$' +
+            //         anychart.format.number(this.points[3].value, 2) +
+            //         '</td></tr>' +
+            //         '<tr><td><span class="j-square">◼</span>%J</td><td>$' +
+            //         anychart.format.number(this.points[4].value, 2) +
+            //         '</td></tr>' +
+            //         '</table>'
+            //     );
+            // });
 
-        //background
-        chart.background().fill("transparent");
-        //}
-    })
-});
+            // // create scroller series with mapped data
+            // chart.scroller().line(ohlcMapping);
+            // // set container id for the chart
+            chart.container('container');
+            // initiate chart drawing
+            chart.draw();
 
+            // // set values for selected range
+            // chart.selectRange('qtd', 1, 'last-date');
+
+            // // create range picker
+            // var rangePicker = anychart.ui.rangePicker();
+            // // init range picker
+            // rangePicker.render(chart);
+
+            // // create range selector
+            // var rangeSelector = anychart.ui.rangeSelector();
+            // // init range selector
+            // rangeSelector.render(chart);
+
+            //background
+            chart.background().fill("transparent");
+            //}
+        })
+    });
 
 }
 
