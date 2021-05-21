@@ -1,5 +1,5 @@
 body {
-    overflow:hidden;
+    overflow: hidden;
     background-color: rgb(10, 10, 10) !important;
 }
 
@@ -8,43 +8,60 @@ body {
     font-size: x-large;
     color: #f1f1f1;
     text-align: center;
-    }
-    
-    li a {
+}
+
+li a {
     color: black !important;
-    }
-    
-    html,
-    body,
-    #container {
+}
+
+html,
+body,
+#container {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    }
-    
-    table,
-    th,
-    td,
-    tr {
+}
+
+table,
+th,
+td,
+tr {
     font-size: 10px !important;
     padding: 0% !important;
-    }
+}
 
-    .dark-edition .text-primary {
-        color: white !important;
-        font-weight: 900 !important;
-        
-    }
-    /* buscar a1a1a1 para cambiar el color de las tablas internas*/
+th span {
+    font-weight: 700 !important;
+}
+
+.dark-edition .text-primary {
+    color: white !important;
+    font-weight: 900 !important;
+
+}
+
+/* buscar a1a1a1 para cambiar el color de las tablas internas*/
 
 p {
     color: white !important;
 }
 
+.hv {
+    height: 100vh;
+}
+
+.search {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(24, 27, 39);
+    border: none;
+}
+
 .tittle-pairs {
-    text-align: center; 
-    font-size: large; color: #f7f7f7;
+    text-align: center;
+    font-size: large;
+    color: #f7f7f7;
 }
 
 .boredrs-cars {
@@ -61,20 +78,24 @@ p {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-none {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
-.no-margin-tb{
-    margin-top: 0% !important; margin-bottom: 0% !important
+
+.no-margin-tb {
+    margin-top: 0% !important;
+    margin-bottom: 0% !important
 }
 
 .head-orderbook {
 
     padding: 10px;
     color: rgb(241, 241, 241);
-    background-color: rgb(13, 18, 41);
+    background-color: rgb(24, 27, 39);
     height: 35px !important;
-    
+
 }
 
 .card-title {
@@ -99,6 +120,7 @@ p {
 .card-h {
     height: 270px;
 }
+
 .card-h2 {
     height: 540px;
 }
@@ -113,46 +135,46 @@ p {
 }
 
 .price-card {
-border: 2px solid #8e24aa;
-border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
-margin-top: 10px;
-height: 55px;
-padding: 0.75rem 1.25rem;
+    border: 2px solid #8e24aa;
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    margin-top: 10px;
+    height: 55px;
+    padding: 0.75rem 1.25rem;
 }
 
 .anychart-tooltip {
-width: 300px;
-background: white;
-color: black;
-box-shadow: 5px 5px 18px #333;
+    width: 300px;
+    background: white;
+    color: black;
+    box-shadow: 5px 5px 18px #333;
 }
 
 .anychart-tooltip h3 {
-text-align: center;
+    text-align: center;
 }
 
 .anychart-tooltip img {
-max-height: 50px;
-display: block;
-margin: 0 auto 10px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto 10px;
 }
 
 .anychart-tooltip table {
-width: 100%;
+    width: 100%;
 }
 
 .anychart-tooltip table tr td:last-child {
-text-align: right;
+    text-align: right;
 }
 
 .anychart-tooltip .k-square {
-color: #67b6f4;
+    color: #67b6f4;
 }
 
 .anychart-tooltip .d-square {
-color: #428cd6;
+    color: #428cd6;
 }
 
 .anychart-tooltip .j-square {
-color: #ed6c20;
+    color: #ed6c20;
 }

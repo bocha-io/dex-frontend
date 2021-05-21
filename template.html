@@ -37,25 +37,23 @@
       <div class="sidebar-wrapper">
 
         <h3 class="tittle-pairs"><b id="title-pairs"></b></h3>
-        <input name="pair" list="pairs" style="width: 100%; height: 50px; background-color: #3C4858; border: none;"
+        <input name="pair" list="pairs" class="search"
           placeholder="Search Pair.." onchange="getData(this)">
         <datalist id="pairs">
         </datalist>
 
-
       </div>
-
 
     </div>
     <div class="main-panel">
-      <div class="content" style="margin-top: 0px !important; padding: 0px !important">
+      <div class="content mt-0 p-0">
         <div class="container-fluid">
           <!-- your content here -->
           <div class="row">
             <div class="col-md-3 no-margin">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="card card-h" style="margin-top: 0% !important; margin-bottom: 0% !important">
+                  <div class="card card-h mt-0 mb-0">
                     <div class="head-orderbook">
                       <h4 id="title-1" class="card-title"><b>SWAP USDT/WETH</b></h4>
                     </div>
@@ -65,7 +63,7 @@
 
                           <thead class=" text-primary">
                             <th>
-                              Price <span id="span-1" style="font-size: small;">(WETH/USDT)</span>
+                              Price <span id="span-1">(WETH/USDT)</span>
                             </th>
                             <th>
                               Amount <span id="amount-1">(USDT)</span>
@@ -84,8 +82,8 @@
                   </div>
                 </div>
 
-                <div class="col-md-12" style="margin-top: 0% !important;">
-                  <div class="card card-h" style="margin-top: 0% !important; margin-bottom: 0% !important;">
+                <div class="col-md-12 mt-0">
+                  <div class="card card-h mt-0 mb-0">
                     <div class="head-orderbook">
                       <h4 id="title-2" class="card-title ">SWAP WETH/USDT</h4>
 
@@ -95,7 +93,7 @@
                         <table class="table">
                           <thead class=" text-primary">
                             <th>
-                              Price <span id="span-2" style="font-size: small;">(USDT/USDT)</span>
+                              Price <span id="span-2">(USDT/USDT)</span>
                             </th>
                             <th>
                               Amount <span id="amount-2">(WETH)</span>
@@ -118,7 +116,7 @@
             <div class="col-md-6 no-margin">
               <div class="row">
 
-                <div class="col-md-6" style="margin-right: 0% !important; padding-right: 0% !important;">
+                <div class="col-md-6 mr-0 pr-0">
                   <div class="head-orderbook">
                     <p align="center" class="card-title">1 <span id="price-1"> WETH</span> = <span
                         id="priceToken1">00000 </span> <span id="price-2">
@@ -126,7 +124,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6" style="margin-right: 0% !important; padding-left: 0% !important;">
+                <div class="col-md-6 mr-0 pl-0">
                   <div class="head-orderbook">
                     <p align="center" class="card-title">1 <span id="price-2-2"> WETH</span> = <span
                         id="priceToken2">00000 </span> <span id="price-1-2">
@@ -171,11 +169,11 @@
 
             </div>
             <div class="col-md-12 no-margin">
-              <div class="card  no-margin"  style="margin-top: 0% !important;">
+              <div class="card  no-margin">
                 <div class="head-orderbook"  >
                   <h4 class="card-title ">All transactions</h4>
                 </div>
-                <div class="card-body special-scrolbar" style="overflow:scroll">
+                <div class="card-body special-scrolbar hv" style="overflow:scroll">
                   <div class="table-responsive" >
                     <table class="table">
                       <thead class=" text-primary">
@@ -209,7 +207,7 @@
           <nav class="float-left">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
+                <a>
                   Renzok free template
                 </a>
               </li>
