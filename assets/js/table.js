@@ -1,4 +1,4 @@
-var apiEndPoint = "http://190.123.23.7:7000/"
+var apiEndPoint = "https://test.hanchon.live/api/"
 
 $.get(apiEndPoint + "pairs", function (data) {
     var str = ''; // variable to store the options
@@ -274,8 +274,8 @@ function setpairs(token1, token2) {
             // initiate chart drawing
             chart.draw();
 
-            // // set values for selected range
-            // chart.selectRange('qtd', 1, 'last-date');
+            // set values for selected range
+            chart.selectRange('qtd', 1, 'last-date');
 
             // // create range picker
             // var rangePicker = anychart.ui.rangePicker();
