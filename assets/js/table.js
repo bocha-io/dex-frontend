@@ -119,7 +119,7 @@ function setpairs(token1, token2) {
         document.getElementById("price-2").innerHTML = token2
         document.getElementById("price-1-2").innerHTML = token1
         document.getElementById("price-2-2").innerHTML = token2
-        document.getElementById("title-pairs").innerHTML = token2 + "/" + token1
+        document.getElementById("title-pairs").innerHTML = token1 + "/" + token2
 
         const buy = data.values.reverse();
 
@@ -195,10 +195,22 @@ function setpairs(token1, token2) {
             const historic = data.values.reverse();
             var data = [];
 
+            let backup = []
+
             for (i = 0; i < historic.length; i++) {
-                var d = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
-                data.push([d, historic[i].open, historic[i].high, historic[i].low, historic[i].price])
+                if(historic[i].price == 0 || historic[i].open == 0) {
+                    if(backup != []) {
+                        backup.date = backup.date-900
+                    }
+                } else {
+                    var d = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
+                    backup = [d, historic[i].open, historic[i].high, historic[i].low, historic[i].price]
+                }
+                if(backup != []) {
+                    data.push(backup)
+                }
             }
+
 
             var dataTable = anychart.data.set(data);
             var dataTable = anychart.data.table();
