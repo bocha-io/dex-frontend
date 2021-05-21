@@ -143,6 +143,7 @@ function setpairs(token1, token2) {
                 $tdtokenbo.textContent = parseFloat(buy.tokens_payed_for_the_exchange_normalized).toFixed(8);
                 $tr.appendChild($tdtokenbo);
                 // <tr
+                $buyTable.appendChild($tr);
             }
         });
 
