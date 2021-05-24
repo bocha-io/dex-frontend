@@ -3,6 +3,31 @@ body {
     background-color: rgb(10, 10, 10) !important;
 }
 
+.special-scrolbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox  */
+.special-scrolbar { 
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+@media (max-width: 600px) {
+    
+    body {
+        overflow: visible   
+    }
+}
+
+
+input {
+    color: white;
+    padding: auto;
+    padding-left: 10px;
+}
 
 .price-card p {
     font-size: x-large;
@@ -72,17 +97,11 @@ p {
     background-color: rgba(8, 8, 8, 0.98) !important;
 }
 
-.special-scrolbar::-webkit-scrollbar {
-    display: none;
+.overflow {
+    overflow: scroll;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollbar-none {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-}
+
 
 .no-margin-tb {
     margin-top: 0% !important;
