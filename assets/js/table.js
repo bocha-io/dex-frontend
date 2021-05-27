@@ -121,6 +121,10 @@ function setpairs(token1, token2) {
         document.getElementById("price-1-2").innerHTML = token1
         document.getElementById("price-2-2").innerHTML = token2
         document.getElementById("title-pairs").innerHTML = token1 + "/" + token2
+        document.getElementById("src-tk").src = "https://app.uniswap.org/#/swap?theme=dark&outputCurrency=" + token1
+        
+
+        localStorage.setItem('tk-1', token1);
 
         const buy = data.values.reverse();
 
@@ -185,9 +189,11 @@ function setpairs(token1, token2) {
     });
 
     $.get( apiEndPoint + "price/" + token1 + '/' + token2, function (data) {
+        console.log(data.price.toFixed(10))
+        console.log(data.price2)
 
-        document.getElementById("priceToken1").innerHTML = data.price;
-        document.getElementById("priceToken2").innerHTML = data.price2;
+        document.getElementById("priceToken1").innerHTML = data.price.toFixed(10);
+        document.getElementById("priceToken2").innerHTML = data.price2.toFixed(10);
     });
 
     //chart

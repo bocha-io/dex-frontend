@@ -30,17 +30,23 @@
 </head>
 
 <body class="dark-edition">
-  <div class="wrapper">
+  <div class="wrapper" class="toggled">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
       <!-- data-color="purple | azure | green | orange | danger" -->
 
-      <div class="sidebar-wrapper">
+      <div align="center" class="sidebar-wrapper">
 
         <h3 class="tittle-pairs"><b id="title-pairs"></b></h3>
-        <input name="pair" list="pairs" class="search"
-          placeholder="Search Pair.." onchange="getData(this)">
+        <input name="pair" list="pairs" class="search" placeholder="Search Pair.." onchange="getData(this)">
         <datalist id="pairs">
         </datalist>
+
+        <button  class="btn btn-primary button-trade navbar-toggler toggled" type="button" data-toggle="modal" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#uniswap-trade">
+          <div>
+            <img src="/assets/img/uniswap-uni-logo.svg" width="25"> 
+            <p>Uniswap Trade</p>
+          </div>
+        </button>
 
       </div>
 
@@ -51,15 +57,16 @@
         <div class="container-fluid ">
           <div class="navbar-wrapper">
           </div>
-          <button style="background-color: rgb(85, 85, 85) !important;" class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
-            aria-expanded="false" aria-label="Toggle navigation">
+          <button style="background-color: rgb(85, 85, 85) !important;" class="navbar-toggler" type="button"
+            data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
-         
-          
+
+
         </div>
       </nav>
 
@@ -186,12 +193,13 @@
 
             </div>
             <div class="col-md-12 no-margin">
+
               <div class="card  no-margin">
-                <div class="head-orderbook"  >
+                <div class="head-orderbook">
                   <h4 class="card-title ">Last transactions for Uniswap</h4>
                 </div>
                 <div class="card-body special-scrolbar overflow hv">
-                  <div class="table-responsive" >
+                  <div class="table-responsive">
                     <table class="table">
                       <thead class=" text-primary">
                         <th>
@@ -214,6 +222,36 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="uniswap-trade" tabindex="-1" role="dialog" aria-labelledby="uniswap-tradeTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="background-color: rgba(8, 8, 8, 0.027);">
+            <div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <iframe id="src-tk" src="https://app.uniswap.org/#/swap?theme=dark&outputCurrency=0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
+                height="660px" width="100%" style="
+                    border: 0;
+                    margin: 0 auto;
+                    display: block;
+                    border-radius: 10px;
+                    max-width: 600px;
+                    min-width: 300px;
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(33, 36, 41);
+                  " id="myId">
+                </iframe>
+
             </div>
           </div>
         </div>
