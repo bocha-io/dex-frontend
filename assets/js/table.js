@@ -70,7 +70,9 @@ function setpairs(token1, token2) {
     $("#historicTable").empty()
     $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
-        const historic = data.values.reverse();
+        
+        var historic = data.values.reverse();
+        historic = historic.filter(h => parseFloat(h.price) != 0);
 
         const $historicTable = document.querySelector("#historicTable");
         for (i = 0; i < historic.length; i++) {
@@ -85,15 +87,16 @@ function setpairs(token1, token2) {
                     // $tr.appendChild($tdtotal);
 
                     let $tdprice = document.createElement("td");
-                    var price = parseFloat(historic[i].price).toFixed(10);
-                    $tdprice.textContent = price;
+                    
                     if (i < historic.length - 1) {
-                        if (price > historic[i + 1].price) {
+                        if (historic[i].price > historic[i + 1].price) {
                             $tdprice.style.color = "#77dd77"
                         } else {
                             $tdprice.style.color = "#c23b22"
                         }
                     }
+                    var price = parseFloat(historic[i].price).toFixed(10);
+                    $tdprice.textContent = price;
                     $tr.appendChild($tdprice);
 
                     let $tddate = document.createElement("td");
@@ -127,6 +130,8 @@ function setpairs(token1, token2) {
         localStorage.setItem('tk-1', token1);
 
         const buy = data.values.reverse();
+
+        console.log(buy)
 
         const $buyTable = document.querySelector("#buyTable");
         buy.forEach(buy => {

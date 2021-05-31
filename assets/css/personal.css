@@ -39,6 +39,10 @@ li a {
     color: black !important;
 }
 
+hr {
+    border: 0.001px solid rgba(187, 187, 187, 0.233);
+}
+
 html,
 body,
 #container {
@@ -91,7 +95,7 @@ p {
     /* border: 1px solid black !important; */
     vertical-align:middle;
     padding: 2% !important; 
-    margin-top: 30px;
+   
     width: 80%;
 }
 
@@ -111,6 +115,96 @@ p {
     margin-top: -5px;
     margin-left: 20px;
 }
+
+.swap {
+    background-color: rgba(24, 27, 39, 0.603);
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+
+}
+
+.trade-icon{
+    color: white;
+    
+}
+
+
+#box p{
+    font-size: 10px;
+    font-weight: 700 !important;
+    margin: 20px; 
+    text-align:left;
+    
+}
+
+#box label {
+    font-weight: 700 !important;
+    margin-top: 3px;
+    
+}
+
+#box { 
+    width:90%;  
+    margin:0px auto; }
+
+#box input{
+    margin-left: 0px;
+    float: right;
+    align-content: flex-end;
+    text-align: right;
+    background-color: transparent;
+    border: none;
+    font-size: small;
+    width: 100px;
+}
+
+#config { 
+    width:100%;  
+    margin:0px auto; 
+}
+
+#config p{
+    font-size: 10px;
+    font-weight: bold;
+    margin: 20px; 
+    text-align:left;
+    
+}
+
+#config label {
+    margin-top: 3px;
+    margin-left: 0% !important;
+    text-align: left;
+    ;
+}
+
+#config input{
+    margin-left: 0px;
+    margin-right: -5px;
+    float: right;
+    align-content: flex-end;
+    text-align: right;
+    background-color: rgba(24, 27, 39, 0.603);
+    border-radius: 10px;
+    border: none;
+    font-size: small;
+    width: 60px;
+    padding-right: 10px;
+}
+
+#config span {
+    margin-left: 0px;
+    margin-right: -5px;
+    float: right;
+    align-content: flex-end;
+    text-align: right;
+    font-size: x-small;
+    width: 60px;
+    padding-right: 10px;
+    vertical-align: bottom;
+}
+
 
 .search {
     width: 100%;
