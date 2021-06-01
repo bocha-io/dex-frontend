@@ -15174,11 +15174,11 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .sidebar .sidebar-wrapper {
   position: relative;
-  height: calc(100vh - 75px);
+  /* height: calc(100vh - 75px); */
   overflow: auto;
   width: 260px;
   z-index: 4;
-  padding-bottom: 30px;
+  /* padding-bottom: 30px; */
 }
 
 .sidebar .sidebar-wrapper .dropdown .dropdown-backdrop {

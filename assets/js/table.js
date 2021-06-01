@@ -20,6 +20,25 @@ function getData(obj) {
     }
 }
 
+// $( document ).ready(function() {
+//     $('#uniswap-trade').modal('toggle')
+
+//     setTimeout(vamosKun, 2000)
+
+//     function vamosKun() {
+//         console.log("hola")
+        
+//         console.log(document.querySelector ("div.sc-33m4yg-4.hPbfqi"))
+//         console.log(document.getElementById ("#swap-currency-input"))
+//         var iframe = document.getElementById("src-tk");
+//         console.log(iframe.contentWindow.document.getElementsById("swap-currency-input"))
+
+//         // document.querySelectorAll('iframe').forEach( item =>
+//         //     console.log(item.contentWindow.document.body.querySelectorAll('a'))
+//         // )
+//     }
+// });
+
 
 $.get(apiEndPoint + "last_txns", function (data) {
 
@@ -125,7 +144,6 @@ function setpairs(token1, token2) {
         document.getElementById("price-2-2").innerHTML = token2
         document.getElementById("title-pairs").innerHTML = token1 + "/" + token2
         document.getElementById("src-tk").src = "https://app.uniswap.org/#/swap?theme=dark&outputCurrency=" + token1
-        
 
         localStorage.setItem('tk-1', token1);
 
