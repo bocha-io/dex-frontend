@@ -49,52 +49,70 @@ $.get(apiEndPoint + "last_txns", function (data) {
     const $cuerpoTabla = document.querySelector("#cuerpoTabla");
     txs.forEach(tx => {
         //<tr>
-        const $tr = document.createElement("tr");
-
-        let $tdnames = document.createElement("td");
         
-        let img11 = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png'";
         
-        let img1 = "<img width='10' src=" + img11 + "/>";
-        let img2 = "<img width='10' src='https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_used_for_payment + "/logo.png'/>";
-
-        img11.onload = function() {
-            console.log('success');
-        };
-        img11.onerror = function() {
-            console.log('fail');
-        };
-        img11.src = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png';
+        let url_Req = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_being_bought + '/logo.png';
         
-       
-            
-        $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_being_bought_symbol + '/' + tx.token_used_for_payment_symbol);
-        $tr.appendChild($tdnames);
+        let img_token_being_bought ;
+        var myRequest = new Request(url_Req);
+        fetch(myRequest).then(function(response) {
+            if (response.status != 404){
+                img_token_being_bought = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png'"
+            }
+            else {
+                img_token_being_bought = "'/assets/img/favicon.png'"
+            }
+
+            let url_Req2 = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_used_for_payment + '/logo.png';
+            let img_token_used_for_payment ;
+            var myRequest2 = new Request(url_Req2);
+
+            fetch(myRequest2).then(function(response) {
+                if (response.status != 404){
+                    img_token_used_for_payment = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_used_for_payment+ "/logo.png'"
+                }
+                else {
+                    img_token_used_for_payment = "'/assets/img/favicon.png'"
+                }
+
+
+                const $tr = document.createElement("tr");
+
+                let $tdnames = document.createElement("td");
+                let img1 = "<img width='10' src=" + img_token_being_bought + "/>";
+                let img2 = "<img width='10' src=" + img_token_used_for_payment + "/>";
+
+
+                $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_being_bought_symbol + '/' + tx.token_used_for_payment_symbol);
+                $tr.appendChild($tdnames);
+
+
+                let $tdtokenb = document.createElement("td");
+                var tokend = tx.tokens_bought_from_the_exchange_normalized;
+                tokend = parseFloat(tokend).toFixed(4)
+                $tdtokenb.textContent = (tokend);
+                $tr.appendChild($tdtokenb);
+                $tdtokenb.style.textAlign = "right"
         
-       
-
-        let $tdtokenb = document.createElement("td");
-        var tokend = tx.tokens_bought_from_the_exchange_normalized;
-        tokend = parseFloat(tokend).toFixed(4)
-        $tdtokenb.textContent = (tokend);
-        $tr.appendChild($tdtokenb);
-        $tdtokenb.style.textAlign = "right"
-
-        let $tdtokenp = document.createElement("td");
-        var tokenpy = tx.tokens_payed_for_the_exchange_normalized;
-        tokenpy = parseFloat(tokenpy).toFixed(4)
-        $tdtokenp.textContent = (tokenpy);
-        $tr.appendChild($tdtokenp);
-        $tdtokenp.style.textAlign = "right"
-
-        let $tdtx_hash = document.createElement("td");
-        $tdtx_hash.textContent = tx.tx_hash;
-        $tr.appendChild($tdtx_hash);
-        $tdtx_hash.style.textAlign = "right"
-
-        // <tr
-        $cuerpoTabla.appendChild($tr);
-
+                let $tdtokenp = document.createElement("td");
+                var tokenpy = tx.tokens_payed_for_the_exchange_normalized;
+                tokenpy = parseFloat(tokenpy).toFixed(4)
+                $tdtokenp.textContent = (tokenpy);
+                $tr.appendChild($tdtokenp);
+                $tdtokenp.style.textAlign = "right"
+        
+                let $tdtx_hash = document.createElement("td");
+                $tdtx_hash.textContent = tx.tx_hash;
+                $tr.appendChild($tdtx_hash);
+                $tdtx_hash.style.textAlign = "right"
+        
+                // <tr
+                $cuerpoTabla.appendChild($tr);
+    
+          });
+        });
+        
+        
     });
 
 });
