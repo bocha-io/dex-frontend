@@ -42,6 +42,7 @@ function getData(obj) {
 
 $.get(apiEndPoint + "last_txns", function (data) {
 
+    console.log(data)
     const txs = data.values;
 
     // last tx table
@@ -51,8 +52,26 @@ $.get(apiEndPoint + "last_txns", function (data) {
         const $tr = document.createElement("tr");
 
         let $tdnames = document.createElement("td");
-        $tdnames.textContent = (tx.token_being_bought_symbol + '/' + tx.token_used_for_payment_symbol);
+        
+        let img11 = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png'";
+        
+        let img1 = "<img width='10' src=" + img11 + "/>";
+        let img2 = "<img width='10' src='https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_used_for_payment + "/logo.png'/>";
+
+        img11.onload = function() {
+            console.log('success');
+        };
+        img11.onerror = function() {
+            console.log('fail');
+        };
+        img11.src = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png';
+        
+       
+            
+        $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_being_bought_symbol + '/' + tx.token_used_for_payment_symbol);
         $tr.appendChild($tdnames);
+        
+       
 
         let $tdtokenb = document.createElement("td");
         var tokend = tx.tokens_bought_from_the_exchange_normalized;
@@ -132,6 +151,8 @@ function setpairs(token1, token2) {
 
     $.get(apiEndPoint + "txns/" + token1 + '-' + token2, function (data) {
 
+        
+
         document.getElementById("title-1").innerHTML = "SWAP " + token1 + "/" + token2
         document.getElementById("span-1").innerHTML = "(" + token2 + "/" + token1 + ")"
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")"
@@ -144,12 +165,16 @@ function setpairs(token1, token2) {
         document.getElementById("price-2-2").innerHTML = token2
         document.getElementById("title-pairs").innerHTML = token1 + "/" + token2
         document.getElementById("src-tk").src = "https://app.uniswap.org/#/swap?theme=dark&outputCurrency=" + token1
+        let tk1 = token1.toLowerCase()
+        console.log(tk1)
+        //hacer algo con las que no están poner algun logo distinto como (?)
+        document.getElementById("img-1").src = "https://cryptoicon-api.vercel.app/api/icon/" + tk1.toLowerCase()
+
+        document.getElementById("img-2").src = "https://cryptoicon-api.vercel.app/api/icon/" + token2.toLowerCase() 
 
         localStorage.setItem('tk-1', token1);
 
         const buy = data.values.reverse();
-
-        console.log(buy)
 
         const $buyTable = document.querySelector("#buyTable");
         buy.forEach(buy => {
@@ -212,8 +237,6 @@ function setpairs(token1, token2) {
     });
 
     $.get( apiEndPoint + "price/" + token1 + '/' + token2, function (data) {
-        console.log(data.price.toFixed(10))
-        console.log(data.price2)
 
         document.getElementById("priceToken1").innerHTML = data.price.toFixed(10);
         document.getElementById("priceToken2").innerHTML = data.price2.toFixed(10);

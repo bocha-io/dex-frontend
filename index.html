@@ -13,7 +13,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    href="https://fonts.googleapis.com/css?family=Martel+Sans:300,400,500,700|Martel+Sans+Slab:400,700|Material+Icons" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
@@ -37,7 +37,9 @@
 
       <div align="center" class="sidebar-wrapper overflow special-scrolbar">
 
-        <h3 class="tittle-pairs"><b id="title-pairs"></b></h3>
+        <h3 class="tittle-pairs" style="vertical-align: middle;"> <img class="mr-3 mb-1" id="img-1" width="25px"
+            src="#" alt=""> <b id="title-pairs"></b><img class="ml-3 mb-1" id="img-2"
+            width="25px" src="#" alt=""></h3>
         <input name="pair" list="pairs" class="search" placeholder="Search Pair.." onchange="getData(this)">
         <datalist id="pairs">
         </datalist>
@@ -46,12 +48,12 @@
         </button> -->
         <div class="mt-1 mb-0">
           <div class="mb-0">
-            <iframe id="src-tk" 
+            <iframe id="src-tk"
               src="https://app.uniswap.org/#/swap?theme=dark&outputCurrency=0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
               height="600px" width="133%" allowtransparency="true" class="iframe" id="myId">
             </iframe>
           </div>
-          
+
           <!-- <div id="config">
 
             <p> <label>SHIB</label> <span>14.0</span> </p>
@@ -183,35 +185,97 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-md-12 mt-0">
+                  <div class="card card-h3 mt-0 mb-0">
+                    <div class="head-orderbook">
+                      <h4 id="title-2" class="card-title ">ORDER BOOK</h4>
+
+                    </div>
+                    <div class="card-body special-scrolbar overflow">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-primary">
+                            <th>
+                              Price <span id="span-2">(VER QUE VA)</span>
+                            </th>
+                            <th>
+                              Amount <span id="amount-2">(VER QUE VA)</span>
+                            </th>
+                            <th style="text-align: end;">
+                              Total paid
+                            </th>
+                          </thead>
+
+                          <tbody id="sellTable">
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6 no-margin">
+            <div class="col-md-7 no-margin">
               <div class="row">
 
                 <div class="col-md-6 mr-0 pr-0">
                   <div class="head-orderbook">
-                    <p align="center" class="card-title">1 <span id="price-1"> WETH</span> = <span
+                    <h4 align="center" class="card-title">1 <span id="price-1"> WETH</span> = <span
                         id="priceToken1">00000 </span> <span id="price-2">
-                        USDT</span></p>
+                        USDT</span></h4>
                   </div>
                 </div>
 
                 <div class="col-md-6 mr-0 pl-0">
                   <div class="head-orderbook">
-                    <p align="center" class="card-title">1 <span id="price-2-2"> WETH</span> = <span
+                    <h4 align="center" class="card-title">1 <span id="price-2-2"> WETH</span> = <span
                         id="priceToken2">00000 </span> <span id="price-1-2">
-                        USDT</span></p>
+                        USDT</span></h4>
                   </div>
                 </div>
 
               </div>
               <div class="col-md-12 no-margin">
-                <div id="container" class="border-cards" style="height: 500px"></div>
+                <div id="container" class="border-cards" style="height: 505px"></div>
+
+
+              </div>
+              <div class="col-md-12 no-margin">
+                <div class="card  no-margin no-border-r no-border-l">
+                  <div class="head-orderbook">
+                    <h4 class="card-title ">Last transactions for Uniswap</h4>
+                  </div>
+                  <div class="card-body special-scrolbar overflow hv">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead class=" text-primary">
+                          <th>
+                            Pairs
+                          </th>
+                          <th style="text-align: end;">
+                            Token bought
+                          </th>
+                          <th style="text-align: end;">
+                            Token payd
+                          </th>
+                          <th style="text-align: end;">
+                            Hash
+                          </th>
+
+                        </thead>
+                        <tbody id="cuerpoTabla">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
 
 
               </div>
             </div>
-            <div class="col-md-3 no-margin">
+            <div class="col-md-2 no-margin">
 
               <div class="card card-h2 no-margin-tb">
                 <div class="head-orderbook">
@@ -240,37 +304,7 @@
               </div>
 
             </div>
-            <div class="col-md-12 no-margin">
 
-              <div class="card  no-margin">
-                <div class="head-orderbook">
-                  <h4 class="card-title ">Last transactions for Uniswap</h4>
-                </div>
-                <div class="card-body special-scrolbar overflow hv">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>
-                          Pairs
-                        </th>
-                        <th style="text-align: end;">
-                          Token bought
-                        </th>
-                        <th style="text-align: end;">
-                          Token payd
-                        </th>
-                        <th style="text-align: end;">
-                          Hash
-                        </th>
-
-                      </thead>
-                      <tbody id="cuerpoTabla">
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

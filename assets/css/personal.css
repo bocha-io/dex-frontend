@@ -1,7 +1,27 @@
 :root {
-    --main-bg-color: #191c20;
-     /* #1f2128;  */
+    /* --main-bg-color: #070f15;
+    --header: #131d27; */
+    --main-bg-color: #1f2328;
+    --header: #2c212d; 
+     /* #1f2328; */
     /* rgb(22, 21, 21); */
+}
+
+/* font */
+@font-face {
+    font-family: Martel;
+    src: url(/assets/font/MartelSans-Bold.ttf) format("opentype");
+    
+}
+
+@font-face {
+    font-family: Atlas;
+    src: url(/assets/font/AtlasGrotesk-Regular.ttf) format("opentype");
+    
+}
+
+p, h1, h2, h3, h4, h5, h6, td, th, tr, table, body {
+    font-family: Atlas !important;
 }
 
 #document html {
@@ -67,7 +87,7 @@ table,
 th,
 td,
 tr {
-    font-size: 10px !important;
+    font-size: 9px !important;
     padding: 0% !important;
 }
 
@@ -135,6 +155,11 @@ p {
     padding-bottom: 2px;
 
 }
+
+.tktable {
+    width: 14px;
+}
+
 
 .trade-icon{
     color: white;
@@ -221,10 +246,11 @@ p {
 .search {
     width: 100%;
     height: 50px;
-    background-color: #191c20;
+    background-color: var(--main-bg-color);
     -webkit-box-shadow: 3px 3px 5px 6px rgb(58, 7, 37);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
     -moz-box-shadow:    3px 3px 5px 6px rgb(58, 7, 37);  /* Firefox 3.5 - 3.6 */
     box-shadow:         3px 3px 5px 6px rgb(46, 33, 40);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+    /* rgb(46, 33, 40) */
     border: none;
     color: #428cd6;
 }
@@ -244,7 +270,7 @@ p {
 }
 
 .sidebar {
-    background-color: #212428 !important;
+    background-color: var(--header) !important;
 }
 
 .sidebar-background::after {
@@ -266,7 +292,8 @@ p {
 
     padding: 10px;
     color: rgb(241, 241, 241);
-    background-color: #1a2940; 
+    background-color: var(--header); 
+    /* #1a2940;  */
     /* rgb(24, 27, 39); */
     height: 35px !important;
 
@@ -286,6 +313,13 @@ p {
     font-weight: 700 !important;
 }
 
+.no-border-l {
+    border-left: none !important;
+}
+.no-border-r {
+    border-right: none !important;
+}
+
 .no-margin {
     margin: 0% !important;
     padding: 0px !important;
@@ -296,7 +330,11 @@ p {
 }
 
 .card-h2 {
-    height: 540px;
+    height: 1540px;
+}
+
+.card-h3 {
+    height: 500px;
 }
 
 #myInput {
