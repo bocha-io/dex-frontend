@@ -240,6 +240,7 @@ function setpairs(token1, token2) {
 
         $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
+            console.log(data)
             const historic = data.values.reverse();
             var data = [];
 
@@ -252,7 +253,7 @@ function setpairs(token1, token2) {
                     }
                 } else {
                     var d = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
-                    backup = [d, historic[i].open, historic[i].high, historic[i].low, historic[i].price]
+                    backup = [d, historic[i].open, historic[i].high, historic[i].low, historic[i].price, historic[i].volume]
                 }
                 if(backup != []) {
                     data.push(backup)
@@ -270,13 +271,14 @@ function setpairs(token1, token2) {
                 high: 2,
                 low: 3,
                 close: 4,
+                value: 5,
 
             });
 
             // map data for scroller and volume series
-            var valueMapping = dataTable.mapAs({
-                value: 5
-            });
+            // var valueMapping = dataTable.mapAs({
+            //     value: 5
+            // });
 
             // create stock chart
             if (chart != null)
@@ -290,17 +292,16 @@ function setpairs(token1, token2) {
             ohlcSeries.name('data');
             ohlcSeries.legendItem().iconType('risingfalling');
 
-
-            // create volume series on the first plot
-            var volumeSeries = plot.column(valueMapping);
+            
+            var plot2 = chart.plot(1);
+            plot2.maxHeight('30%')
+            // create volume series on the second plot
+            var volumeSeries = plot2.column(ohlcMapping);
             volumeSeries.name('Volume');
 
             // set max height of volume series and attach it to the bottom of plot
-            volumeSeries.maxHeight('30%').bottom(0);
-
-            var plot = chart.plot(0);
-            // set grid settings
-
+            volumeSeries.maxHeight('100%').bottom(0);
+    
             // create EMA indicators with period 50
             var plot = chart.plot(0);
             // create an EMA indicator with period 20
@@ -308,12 +309,16 @@ function setpairs(token1, token2) {
             // set the EMA color
             ema20.stroke('1 orange');
 
-
-            // modify the color of candlesticks making them black and white
+            // modify the color of candlesticks
             ohlcSeries.fallingFill("#c23b22");
             ohlcSeries.fallingStroke("#c23b22");
             ohlcSeries.risingFill("#77dd77");
             ohlcSeries.risingStroke("#77dd77");
+            volumeSeries.fallingFill("#c23b22");
+            volumeSeries.fallingStroke("#c23b22");
+            volumeSeries.risingFill("#77dd77");
+            volumeSeries.risingStroke("#77dd77");
+            
 
             // create indicator plot
             // var indicatorPlot = chart.plot(1);
@@ -327,8 +332,8 @@ function setpairs(token1, token2) {
             // // get tooltip
             // var tooltip = chart.tooltip();
 
-            // // create scroller series with mapped data
-            // chart.scroller().line(ohlcMapping);
+            // create scroller series with mapped data
+            chart.scroller().line(ohlcMapping);
             // // set container id for the chart
             chart.container('container');
             // initiate chart drawing
@@ -337,15 +342,15 @@ function setpairs(token1, token2) {
             // set values for selected range
             chart.selectRange('qtd', 1, 'last-date');
 
-            // // create range picker
-            // var rangePicker = anychart.ui.rangePicker();
-            // // init range picker
-            // rangePicker.render(chart);
+            // create range picker
+            var rangePicker = anychart.ui.rangePicker();
+            // init range picker
+            rangePicker.render(chart);
 
-            // // create range selector
-            // var rangeSelector = anychart.ui.rangeSelector();
-            // // init range selector
-            // rangeSelector.render(chart);
+            // create range selector
+            var rangeSelector = anychart.ui.rangeSelector();
+            // init range selector
+            rangeSelector.render(chart);
 
             //background
             chart.background().fill("transparent");
@@ -356,4 +361,4 @@ function setpairs(token1, token2) {
 
 }
 
-setpairs("SHIB", "WETH")
+setpairs("WETH", "USDT")
