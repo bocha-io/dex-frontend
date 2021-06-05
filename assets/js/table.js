@@ -1,13 +1,10 @@
 var apiEndPoint = "https://test.hanchon.live/api/"
 
 $.get(apiEndPoint + "pairs", function (data) {
-    var str = ''; // variable to store the options
-
-    // var pair = new Array("WETH/MILF","February","March","April","May","June","July","August",
-    // "September","October","November","December");
+    var str = '';
     var pair = data.values;
     for (var i = 0; i < pair.length; ++i) {
-        str += '<option value="' + pair[i].replace('-', '/') + '" />'; // Storing options in variable
+        str += '<option value="' + pair[i].replace('-', '/') + '" />'; 
     }
     var my_list = document.getElementById("pairs");
     my_list.innerHTML = str;
@@ -19,25 +16,6 @@ function getData(obj) {
         obj.value = ''
     }
 }
-
-// $( document ).ready(function() {
-//     $('#uniswap-trade').modal('toggle')
-
-//     setTimeout(vamosKun, 2000)
-
-//     function vamosKun() {
-//         console.log("hola")
-        
-//         console.log(document.querySelector ("div.sc-33m4yg-4.hPbfqi"))
-//         console.log(document.getElementById ("#swap-currency-input"))
-//         var iframe = document.getElementById("src-tk");
-//         console.log(iframe.contentWindow.document.getElementsById("swap-currency-input"))
-
-//         // document.querySelectorAll('iframe').forEach( item =>
-//         //     console.log(item.contentWindow.document.body.querySelectorAll('a'))
-//         // )
-//     }
-// });
 
 
 $.get(apiEndPoint + "last_txns", function (data) {
@@ -51,51 +29,51 @@ $.get(apiEndPoint + "last_txns", function (data) {
         //<tr>
         
         
-        let url_Req = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_being_bought + '/logo.png';
+        let url_Req = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_out + '/logo.png';
         
-        let img_token_being_bought ;
+        let img_token_out ;
         var myRequest = new Request(url_Req);
         fetch(myRequest).then(function(response) {
             if (response.status != 404){
-                img_token_being_bought = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_being_bought + "/logo.png'"
+                img_token_out = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_out + "/logo.png'"
             }
             else {
-                img_token_being_bought = "'/assets/img/favicon.png'"
+                img_token_out = "'/assets/img/ethereum.png'"
             }
 
-            let url_Req2 = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_used_for_payment + '/logo.png';
-            let img_token_used_for_payment ;
+            let url_Req2 = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_in + '/logo.png';
+            let img_token_in ;
             var myRequest2 = new Request(url_Req2);
 
             fetch(myRequest2).then(function(response) {
                 if (response.status != 404){
-                    img_token_used_for_payment = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_used_for_payment+ "/logo.png'"
+                    img_token_in = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_in+ "/logo.png'"
                 }
                 else {
-                    img_token_used_for_payment = "'/assets/img/favicon.png'"
+                    img_token_in = "'/assets/img/ethereum.png'"
                 }
 
 
                 const $tr = document.createElement("tr");
 
                 let $tdnames = document.createElement("td");
-                let img1 = "<img width='10' src=" + img_token_being_bought + "/>";
-                let img2 = "<img width='10' src=" + img_token_used_for_payment + "/>";
+                let img1 = "<img width='12' src=" + img_token_out + "/>";
+                let img2 = "<img width='12' src=" + img_token_in + "/>";
 
 
-                $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_being_bought_symbol + '/' + tx.token_used_for_payment_symbol);
+                $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_out_symbol + '/' + tx.token_in_symbol);
                 $tr.appendChild($tdnames);
 
 
                 let $tdtokenb = document.createElement("td");
-                var tokend = tx.tokens_bought_from_the_exchange_normalized;
+                var tokend = tx.token_out_normalized;
                 tokend = parseFloat(tokend).toFixed(4)
                 $tdtokenb.textContent = (tokend);
                 $tr.appendChild($tdtokenb);
                 $tdtokenb.style.textAlign = "right"
         
                 let $tdtokenp = document.createElement("td");
-                var tokenpy = tx.tokens_payed_for_the_exchange_normalized;
+                var tokenpy = tx.token_in_normalized;
                 tokenpy = parseFloat(tokenpy).toFixed(4)
                 $tdtokenp.textContent = (tokenpy);
                 $tr.appendChild($tdtokenp);
@@ -108,8 +86,8 @@ $.get(apiEndPoint + "last_txns", function (data) {
         
                 // <tr
                 $cuerpoTabla.appendChild($tr);
-    
-          });
+                    
+            });
         });
         
         
@@ -126,7 +104,6 @@ function setpairs(token1, token2) {
     $("#historicTable").empty()
     $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
-        
         var historic = data.values.reverse();
         historic = historic.filter(h => parseFloat(h.price) != 0);
 
@@ -139,7 +116,7 @@ function setpairs(token1, token2) {
                     const $tr = document.createElement("tr");
 
                     // let $tdtotal = document.createElement("td");
-                    // $tdtotal.textContent = parseFloat(historic[i].tokens_bought_from_the_exchange_normalized).toFixed(8);
+                    // $tdtotal.textContent = parseFloat(historic[i].token_out_normalized).toFixed(8);
                     // $tr.appendChild($tdtotal);
 
                     let $tdprice = document.createElement("td");
@@ -169,8 +146,6 @@ function setpairs(token1, token2) {
 
     $.get(apiEndPoint + "txns/" + token1 + '-' + token2, function (data) {
 
-        
-
         document.getElementById("title-1").innerHTML = "SWAP " + token1 + "/" + token2
         document.getElementById("span-1").innerHTML = "(" + token2 + "/" + token1 + ")"
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")"
@@ -185,9 +160,8 @@ function setpairs(token1, token2) {
         document.getElementById("src-tk").src = "https://app.uniswap.org/#/swap?theme=dark&outputCurrency=" + token1
         let tk1 = token1.toLowerCase()
         console.log(tk1)
-        //hacer algo con las que no están poner algun logo distinto como (?)
-        document.getElementById("img-1").src = "https://cryptoicon-api.vercel.app/api/icon/" + tk1.toLowerCase()
 
+        document.getElementById("img-1").src = "https://cryptoicon-api.vercel.app/api/icon/" + tk1.toLowerCase()
         document.getElementById("img-2").src = "https://cryptoicon-api.vercel.app/api/icon/" + token2.toLowerCase() 
 
         localStorage.setItem('tk-1', token1);
@@ -201,17 +175,17 @@ function setpairs(token1, token2) {
                 const $tr = document.createElement("tr");
 
                 let $tdprice = document.createElement("td");
-                var price = parseFloat(buy.tokens_payed_for_the_exchange_normalized / buy.tokens_bought_from_the_exchange_normalized).toFixed(10);
+                var price = parseFloat(buy.token_in_normalized / buy.token_out_normalized).toFixed(10);
                 $tdprice.textContent = price;
                 $tdprice.style.color = "#77dd77"
                 $tr.appendChild($tdprice);
 
                 let $tdtotal = document.createElement("td");
-                $tdtotal.textContent = parseFloat(buy.tokens_bought_from_the_exchange_normalized).toFixed(8);
+                $tdtotal.textContent = parseFloat(buy.token_out_normalized).toFixed(8);
                 $tr.appendChild($tdtotal);
 
                 let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = parseFloat(buy.tokens_payed_for_the_exchange_normalized).toFixed(8);
+                $tdtokenbo.textContent = parseFloat(buy.token_in_normalized).toFixed(8);
                 $tr.appendChild($tdtokenbo);
                 $tdtokenbo.style.textAlign = "right"
                 // <tr
@@ -233,17 +207,17 @@ function setpairs(token1, token2) {
                 const $tr = document.createElement("tr");
 
                 let $tdprice = document.createElement("td");
-                var price = parseFloat(sell.tokens_payed_for_the_exchange_normalized / sell.tokens_bought_from_the_exchange_normalized).toFixed(10);
+                var price = parseFloat(sell.token_in_normalized / sell.token_out_normalized).toFixed(10);
                 $tdprice.textContent = price;
                 $tdprice.style.color = "#c23b22"
                 $tr.appendChild($tdprice);
 
                 let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = parseFloat(sell.tokens_bought_from_the_exchange_normalized).toFixed(8);
+                $tdtokenbo.textContent = parseFloat(sell.token_out_normalized).toFixed(8);
                 $tr.appendChild($tdtokenbo);
 
                 let $tdtotal = document.createElement("td");
-                $tdtotal.textContent = parseFloat(sell.tokens_payed_for_the_exchange_normalized).toFixed(8);
+                $tdtotal.textContent = parseFloat(sell.token_in_normalized).toFixed(8);
                 $tr.appendChild($tdtotal);
                 $tdtotal.style.textAlign = "right"
 
