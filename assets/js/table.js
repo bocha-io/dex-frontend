@@ -250,7 +250,6 @@ function setpairs(token1, token2) {
         iframe.width = '133%';
         iframe.className = 'iframe';
         document.getElementById("src-tk").appendChild(iframe)
-
     });
 
     //chart
