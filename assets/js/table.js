@@ -1,13 +1,16 @@
 var apiEndPoint = "https://test.hanchon.live/api/"
 
+
+
 $.get(apiEndPoint + "pairs", function (data) {
     var str = '';
     var pair = data.values;
     for (var i = 0; i < pair.length; ++i) {
-        str += '<option value="' + pair[i].replace('-', '/') + '" />'; 
+        str += '<option value="' + pair[i].replace('-', '/') + '" />';
     }
     var my_list = document.getElementById("pairs");
     my_list.innerHTML = str;
+
 })
 
 function getData(obj) {
@@ -20,36 +23,32 @@ function getData(obj) {
 
 $.get(apiEndPoint + "last_txns", function (data) {
 
-    console.log(data)
     const txs = data.values;
 
     // last tx table
     const $cuerpoTabla = document.querySelector("#cuerpoTabla");
     txs.forEach(tx => {
         //<tr>
-        
-        
+
         let url_Req = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_out + '/logo.png';
-        
-        let img_token_out ;
+
+        let img_token_out;
         var myRequest = new Request(url_Req);
-        fetch(myRequest).then(function(response) {
-            if (response.status != 404){
+        fetch(myRequest).then(function (response) {
+            if (response.status != 404) {
                 img_token_out = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_out + "/logo.png'"
-            }
-            else {
+            } else {
                 img_token_out = "'/assets/img/ethereum.png'"
             }
 
             let url_Req2 = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/' + tx.token_in + '/logo.png';
-            let img_token_in ;
+            let img_token_in;
             var myRequest2 = new Request(url_Req2);
 
-            fetch(myRequest2).then(function(response) {
-                if (response.status != 404){
-                    img_token_in = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_in+ "/logo.png'"
-                }
-                else {
+            fetch(myRequest2).then(function (response) {
+                if (response.status != 404) {
+                    img_token_in = "'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" + tx.token_in + "/logo.png'"
+                } else {
                     img_token_in = "'/assets/img/ethereum.png'"
                 }
 
@@ -61,7 +60,7 @@ $.get(apiEndPoint + "last_txns", function (data) {
                 let img2 = "<img width='12' src=" + img_token_in + "/>";
 
 
-                $tdnames.innerHTML = ( img1 + img2 + ' - ' + tx.token_out_symbol + '/' + tx.token_in_symbol);
+                $tdnames.innerHTML = (img1 + img2 + ' - ' + tx.token_out_symbol + '/' + tx.token_in_symbol);
                 $tr.appendChild($tdnames);
 
 
@@ -71,26 +70,26 @@ $.get(apiEndPoint + "last_txns", function (data) {
                 $tdtokenb.textContent = (tokend);
                 $tr.appendChild($tdtokenb);
                 $tdtokenb.style.textAlign = "right"
-        
+
                 let $tdtokenp = document.createElement("td");
                 var tokenpy = tx.token_in_normalized;
                 tokenpy = parseFloat(tokenpy).toFixed(4)
                 $tdtokenp.textContent = (tokenpy);
                 $tr.appendChild($tdtokenp);
                 $tdtokenp.style.textAlign = "right"
-        
+
                 let $tdtx_hash = document.createElement("td");
                 $tdtx_hash.textContent = tx.tx_hash;
                 $tr.appendChild($tdtx_hash);
                 $tdtx_hash.style.textAlign = "right"
-        
+
                 // <tr
                 $cuerpoTabla.appendChild($tr);
-                    
+
             });
         });
-        
-        
+
+
     });
 
 });
@@ -112,7 +111,7 @@ function setpairs(token1, token2) {
             //<tr>
 
             if (historic[i].status != 0) {
-                if(historic[i].price != 0) { 
+                if (historic[i].price != 0) {
                     const $tr = document.createElement("tr");
 
                     // let $tdtotal = document.createElement("td");
@@ -120,7 +119,7 @@ function setpairs(token1, token2) {
                     // $tr.appendChild($tdtotal);
 
                     let $tdprice = document.createElement("td");
-                    
+
                     if (i < historic.length - 1) {
                         if (historic[i].price > historic[i + 1].price) {
                             $tdprice.style.color = "#77dd77"
@@ -157,12 +156,10 @@ function setpairs(token1, token2) {
         document.getElementById("price-1-2").innerHTML = token1
         document.getElementById("price-2-2").innerHTML = token2
         document.getElementById("title-pairs").innerHTML = token1 + "/" + token2
-        document.getElementById("src-tk").src = "https://app.uniswap.org/#/swap?theme=dark&outputCurrency=" + token1
         let tk1 = token1.toLowerCase()
-        console.log(tk1)
 
         document.getElementById("img-1").src = "https://cryptoicon-api.vercel.app/api/icon/" + tk1.toLowerCase()
-        document.getElementById("img-2").src = "https://cryptoicon-api.vercel.app/api/icon/" + token2.toLowerCase() 
+        document.getElementById("img-2").src = "https://cryptoicon-api.vercel.app/api/icon/" + token2.toLowerCase()
 
         localStorage.setItem('tk-1', token1);
 
@@ -228,10 +225,32 @@ function setpairs(token1, token2) {
 
     });
 
-    $.get( apiEndPoint + "price/" + token1 + '/' + token2, function (data) {
+    $.get(apiEndPoint + "price/" + token1 + '/' + token2, function (data) {
 
-        document.getElementById("priceToken1").innerHTML = data.price.toFixed(10);
-        document.getElementById("priceToken2").innerHTML = data.price2.toFixed(10);
+        document.getElementById("src-tk").firstChild.remove();
+
+        console.log(data)
+
+        document.getElementById("priceToken1").innerHTML = data.price_in.toFixed(10);
+        document.getElementById("priceToken2").innerHTML = data.price_out.toFixed(10);
+
+        var token_in = data.address_in;
+
+        if (data.address_in == '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2') {
+            token_in = 'eth'
+        }
+        var token_out = data.address_out;
+
+        if (data.address_out == '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2') {
+            token_out = 'eth'
+        }
+        var iframe = document.createElement("iframe")
+        iframe.src = "https://app.uniswap.org/#/swap?theme=dark&inputCurrency=" + token_in + "&outputCurrency=" + token_out;
+        iframe.height = '600px';
+        iframe.width = '133%';
+        iframe.className = 'iframe';
+        document.getElementById("src-tk").appendChild(iframe)
+
     });
 
     //chart
@@ -240,22 +259,21 @@ function setpairs(token1, token2) {
 
         $.get(apiEndPoint + "historic/" + token1 + '-' + token2, function (data) {
 
-            console.log(data)
             const historic = data.values.reverse();
             var data = [];
 
             let backup = []
 
             for (i = 0; i < historic.length; i++) {
-                if(historic[i].price == 0 || historic[i].open == 0) {
-                    if(backup != []) {
-                        backup.date = backup.date-900
+                if (historic[i].price == 0 || historic[i].open == 0) {
+                    if (backup != []) {
+                        backup.date = backup.date - 900
                     }
                 } else {
                     var d = moment.utc(parseFloat(historic[i].date) * 1000).local().format("YYYY-MM-DD HH:mm:ss")
                     backup = [d, historic[i].open, historic[i].high, historic[i].low, historic[i].price, historic[i].volume]
                 }
-                if(backup != []) {
+                if (backup != []) {
                     data.push(backup)
                 }
             }
@@ -271,14 +289,12 @@ function setpairs(token1, token2) {
                 high: 2,
                 low: 3,
                 close: 4,
-                value: 5,
-
             });
 
             // map data for scroller and volume series
-            // var valueMapping = dataTable.mapAs({
-            //     value: 5
-            // });
+            var valueMapping = dataTable.mapAs({
+                value: 5
+            });
 
             // create stock chart
             if (chart != null)
@@ -292,22 +308,28 @@ function setpairs(token1, token2) {
             ohlcSeries.name('data');
             ohlcSeries.legendItem().iconType('risingfalling');
 
-            
-            var plot2 = chart.plot(1);
-            plot2.maxHeight('30%')
+            var plot1 = chart.plot(1);
+            plot1.maxHeight('30%')
             // create volume series on the second plot
-            var volumeSeries = plot2.column(ohlcMapping);
+            var volumeSeries = plot1.column(valueMapping);
             volumeSeries.name('Volume');
 
             // set max height of volume series and attach it to the bottom of plot
             volumeSeries.maxHeight('100%').bottom(0);
-    
-            // create EMA indicators with period 50
-            var plot = chart.plot(0);
-            // create an EMA indicator with period 20
-            var ema20 = plot.ema(ohlcMapping, 20).series();
+
+            // create an EMA indicator
+            var ema5 = plot.ema(ohlcMapping, 5).series();
             // set the EMA color
-            ema20.stroke('1 orange');
+            ema5.stroke('1 blue');
+
+            var ema9 = plot.ema(ohlcMapping, 9).series();
+            // set the EMA color
+            ema9.stroke('1 violet');
+
+            var ema21 = plot.ema(ohlcMapping, 21).series();
+            // set the EMA color
+            ema21.stroke('1 orange');
+
 
             // modify the color of candlesticks
             ohlcSeries.fallingFill("#c23b22");
@@ -318,7 +340,7 @@ function setpairs(token1, token2) {
             volumeSeries.fallingStroke("#c23b22");
             volumeSeries.risingFill("#77dd77");
             volumeSeries.risingStroke("#77dd77");
-            
+
 
             // create indicator plot
             // var indicatorPlot = chart.plot(1);
@@ -333,7 +355,7 @@ function setpairs(token1, token2) {
             // var tooltip = chart.tooltip();
 
             // create scroller series with mapped data
-            chart.scroller().line(ohlcMapping);
+            chart.scroller().line(valueMapping);
             // // set container id for the chart
             chart.container('container');
             // initiate chart drawing
@@ -358,6 +380,7 @@ function setpairs(token1, token2) {
 
         })
     })
+
 
 }
 
