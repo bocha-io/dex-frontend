@@ -20,8 +20,24 @@
     
 }
 
+@font-face {
+    font-family: JetBrain;
+    src: url(/assets/font/JetBrainsMono-Regular.ttf) format("opentype");
+    
+}
+
+@font-face {
+    font-family: RobotoMono;
+    src: url(/assets/font/RobotoMono-Medium.ttf) format("opentype");
+    
+}
+
+RobotoMono-Medium
+
+
+
 p, h1, h2, h3, h4, h5, h6, td, th, tr, table, body {
-    font-family: Atlas !important;
+    font-family: RobotoMono !important;
 }
 
 #document html {
@@ -30,6 +46,8 @@ p, h1, h2, h3, h4, h5, h6, td, th, tr, table, body {
 
 body {
     overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     /* /background-color: #333 !important; */
     background-color: var(--main-bg-color) !important;
 }
@@ -330,11 +348,15 @@ p {
 }
 
 .card-h2 {
-    height: 1540px;
+    height: 1040px;
 }
 
 .card-h3 {
     height: 500px;
+}
+
+.card-h4 {
+    height: 400px;
 }
 
 #myInput {
