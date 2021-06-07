@@ -19,6 +19,21 @@ function getData(obj) {
     }
 }
 
+function decimals(number) {
+    if (Math. floor(number) == 0) {
+        number = number.toFixed(13)
+    }
+    else if (Math. floor(number) >= 100) {
+        number = number.toFixed(2)
+    }
+    else {
+        number = number.toFixed(5)
+    }
+
+    return number
+
+}
+
 $.get(apiEndPoint + "last_txns", async function (data) {
     console.log(data);
     const txs = data.values;
@@ -78,14 +93,14 @@ $.get(apiEndPoint + "last_txns", async function (data) {
 
         let $tdtokenb = document.createElement("td");
         var tokend = tx.token_out_normalized;
-        tokend = parseFloat(tokend).toFixed(4);
+        tokend = decimals(parseFloat(tokend));
         $tdtokenb.textContent = tokend;
         $tr.appendChild($tdtokenb);
         $tdtokenb.style.textAlign = "right";
 
         let $tdtokenp = document.createElement("td");
         var tokenpy = tx.token_in_normalized;
-        tokenpy = parseFloat(tokenpy).toFixed(4);
+        tokenpy = decimals(parseFloat(tokenpy));
         $tdtokenp.textContent = tokenpy;
         $tr.appendChild($tdtokenp);
         $tdtokenp.style.textAlign = "right";
@@ -118,10 +133,6 @@ function setpairs(token1, token2) {
                 if (historic[i].price != 0) {
                     const $tr = document.createElement("tr");
 
-                    // let $tdtotal = document.createElement("td");
-                    // $tdtotal.textContent = parseFloat(historic[i].token_out_normalized).toFixed(8);
-                    // $tr.appendChild($tdtotal);
-
                     let $tdprice = document.createElement("td");
 
                     if (i < historic.length - 1) {
@@ -131,10 +142,11 @@ function setpairs(token1, token2) {
                             $tdprice.style.color = "#c23b22";
                         }
                     }
-                    var price = parseFloat(historic[i].price).toFixed(10);
+                    var price = parseFloat(historic[i].price);
+                    price = decimals(price)
                     $tdprice.textContent = price;
                     $tr.appendChild($tdprice);
-
+                        
                     let $tddate = document.createElement("td");
                     $tddate.textContent = moment
                         .utc(parseFloat(historic[i].date) * 1000)
@@ -149,6 +161,7 @@ function setpairs(token1, token2) {
         }
     });
 
+    //SWAP TABLE 1
     $.get(apiEndPoint + "txns/" + token1 + "-" + token2, function (data) {
         document.getElementById("title-1").innerHTML =
             "SWAP " + token1 + "/" + token2;
@@ -167,11 +180,6 @@ function setpairs(token1, token2) {
         document.getElementById("title-pairs").innerHTML = token1 + "/" + token2;
         let tk1 = token1.toLowerCase();
 
-        document.getElementById("img-1").src =
-            "https://cryptoicon-api.vercel.app/api/icon/" + tk1.toLowerCase();
-        document.getElementById("img-2").src =
-            "https://cryptoicon-api.vercel.app/api/icon/" + token2.toLowerCase();
-
         localStorage.setItem("tk-1", token1);
 
         const buy = data.values.reverse();
@@ -185,17 +193,18 @@ function setpairs(token1, token2) {
                 let $tdprice = document.createElement("td");
                 var price = parseFloat(
                     buy.token_in_normalized / buy.token_out_normalized
-                ).toFixed(10);
+                );
+                price = decimals(price)
                 $tdprice.textContent = price;
                 $tdprice.style.color = "#77dd77";
                 $tr.appendChild($tdprice);
 
                 let $tdtotal = document.createElement("td");
-                $tdtotal.textContent = parseFloat(buy.token_out_normalized).toFixed(8);
+                $tdtotal.textContent = decimals(parseFloat(buy.token_out_normalized));
                 $tr.appendChild($tdtotal);
 
                 let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = parseFloat(buy.token_in_normalized).toFixed(8);
+                $tdtokenbo.textContent = decimals(parseFloat(buy.token_in_normalized));
                 $tr.appendChild($tdtokenbo);
                 $tdtokenbo.style.textAlign = "right";
                 // <tr
@@ -204,6 +213,7 @@ function setpairs(token1, token2) {
         });
     });
 
+    //SWAP TABLE 2
     $.get(apiEndPoint + "txns/" + token2 + "-" + token1, function (data) {
         const sell = data.values.reverse();
 
@@ -214,21 +224,19 @@ function setpairs(token1, token2) {
                 const $tr = document.createElement("tr");
 
                 let $tdprice = document.createElement("td");
-                var price = parseFloat(
+                var price = decimals(parseFloat(
                     sell.token_in_normalized / sell.token_out_normalized
-                ).toFixed(10);
+                ));
                 $tdprice.textContent = price;
                 $tdprice.style.color = "#c23b22";
                 $tr.appendChild($tdprice);
 
                 let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = parseFloat(sell.token_out_normalized).toFixed(
-                    8
-                );
+                $tdtokenbo.textContent = decimals(parseFloat(sell.token_out_normalized));
                 $tr.appendChild($tdtokenbo);
 
                 let $tdtotal = document.createElement("td");
-                $tdtotal.textContent = parseFloat(sell.token_in_normalized).toFixed(8);
+                $tdtotal.textContent = decimals(parseFloat(sell.token_in_normalized));
                 $tr.appendChild($tdtotal);
                 $tdtotal.style.textAlign = "right";
 
@@ -244,20 +252,32 @@ function setpairs(token1, token2) {
         console.log(data);
 
         document.getElementById("priceToken1").innerHTML =
-            data.price_in.toFixed(10);
+            decimals(data.price_in);
         document.getElementById("priceToken2").innerHTML =
-            data.price_out.toFixed(10);
+            decimals(data.price_out);
 
         var token_in = data.address_in;
+        var img_in = data.address_in;        
 
         if (data.address_in == "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2") {
             token_in = "eth";
+            img_in = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
         }
         var token_out = data.address_out;
+        var img_out = data.address_out;
 
         if (data.address_out == "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2") {
             token_out = "eth";
+            img_out = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
         }
+
+        https://tokens.1inch.exchange/0xdac17f958d2ee523a2206206994597c13d831ec7.png
+
+        document.getElementById("img-1").src =
+        "https://tokens.1inch.exchange/" + img_in.toLowerCase() + ".png";
+        document.getElementById("img-2").src =
+        "https://tokens.1inch.exchange/" + img_out.toLowerCase() + ".png";
+
         var iframe = document.createElement("iframe");
         iframe.src =
             "https://app.uniswap.org/#/swap?theme=dark&inputCurrency=" +
