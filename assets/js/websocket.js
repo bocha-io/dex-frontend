@@ -111,7 +111,7 @@ async function add_to_last_transactions(tx) {
 var wsEndPoint = "test.hanchon.live/api";
 console.log();
 
-const ws = new WebSocket(`ws://${wsEndPoint}/ws`);
+const ws = new WebSocket(`wss://${wsEndPoint}/ws`);
 ws.onmessage = async (e) => {
     t1 = document.getElementById("token1").value;
     t2 = document.getElementById("token2").value;
