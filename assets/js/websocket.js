@@ -108,7 +108,7 @@ async function add_to_last_transactions(tx) {
 
 
 // var apiEndPoint = "test.hanchon.live/api"
-var wsEndPoint = "localhost:7000";
+var wsEndPoint = "test.hanchon.live/api";
 console.log();
 
 const ws = new WebSocket(`ws://${wsEndPoint}/ws`);
