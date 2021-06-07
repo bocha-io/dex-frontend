@@ -15,6 +15,8 @@ $.get(apiEndPoint + "pairs", function (data) {
 
 function getData(obj) {
     if (obj.value != '') {
+        document.getElementById("token1").value = obj.value.split("/")[0]
+        document.getElementById("token2").value = obj.value.split("/")[1]
         setpairs(obj.value.split("/")[0], obj.value.split("/")[1])
         obj.value = ''
     }
