@@ -271,8 +271,6 @@ function setpairs(token1, token2) {
             img_out = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
         }
 
-        https://tokens.1inch.exchange/0xdac17f958d2ee523a2206206994597c13d831ec7.png
-
         document.getElementById("img-1").src =
         "https://tokens.1inch.exchange/" + img_in.toLowerCase() + ".png";
         document.getElementById("img-2").src =
@@ -309,13 +307,18 @@ function setpairs(token1, token2) {
                         .utc(parseFloat(historic[i].date) * 1000)
                         .local()
                         .format("YYYY-MM-DD HH:mm:ss");
+                    var open = decimals(parseFloat(historic[i].open))
+                    var high = decimals(parseFloat(historic[i].high))
+                    var low = decimals(parseFloat(historic[i].low))
+                    var price = decimals(parseFloat(historic[i].price))
+                    var volume = decimals(parseFloat(historic[i].volume))
                     backup = [
                         d,
-                        historic[i].open,
-                        historic[i].high,
-                        historic[i].low,
-                        historic[i].price,
-                        historic[i].volume,
+                        open,
+                        high,
+                        low,
+                        price,
+                        volume,
                     ];
                 }
                 if (backup != []) {
