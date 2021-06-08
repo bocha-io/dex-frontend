@@ -6,6 +6,75 @@ function add_to_sell(element) {
     return add_to_table("#sellTable", element, "#c23b22");
 }
 
+
+//PERDON GUILLE POR ESTE DESASTRE PERO HABIA QUE AGREGAR UNA LINEA Y CAMBIABAN UNOS VALORES Y NO SABIA COMO HACERLO SINO
+function add_to_mempool_bids(element) {
+    return add_to_mempool("#mempool_bids", element, "#77dd77");
+}
+
+function add_to_mempool_asks(element) {
+    return add_to_mempool("#mempool_asks", element, "#c23b22");
+}
+
+function add_to_mempool_bids(tabla_id, element, color) {
+    const table = document.querySelector(tabla_id);
+    if (element.status != 0) {
+        const $tr = table.insertRow(0);
+        let $tdprice = document.createElement("td");
+        var price = decimals(parseFloat(
+            mempool.token_in_normalized / mempool.token_out_normalized
+        ));
+        $tdprice.textContent = price;
+        $tdprice.style.color = color;
+        $tr.appendChild($tdprice);
+
+        let $tdtotal = document.createElement("td");
+        $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
+        $tr.appendChild($tdtotal);
+        
+
+        let $tdtokenbo = document.createElement("td");
+        $tdtokenbo.textContent = decimals(parseFloat(element.token_in_normalized));
+        $tr.appendChild($tdtokenbo);
+        $tdtokenbo.style.textAlign = "right";
+
+        var rowCount = table.rows.length;
+        if (rowCount > 25) {
+            table.deleteRow(rowCount - 1);
+        }
+    }
+}
+
+function add_to_mempool_asks(tabla_id, element, color) {
+    const table = document.querySelector(tabla_id);
+    if (element.status != 0) {
+        const $tr = table.insertRow(0);
+        let $tdprice = document.createElement("td");
+        var price = decimals(parseFloat(
+            mempool.token_out_normalized / mempool.token_in_normalized
+        ));
+        $tdprice.textContent = price;
+        $tdprice.style.color = color;
+        $tr.appendChild($tdprice);
+
+        let $tdtotal = document.createElement("td");
+        $tdtotal.textContent = decimals(parseFloat(element.token_in_normalized));
+        $tr.appendChild($tdtotal);
+
+        let $tdtokenbo = document.createElement("td");
+        $tdtokenbo.textContent = decimals(parseFloat(element.token_out_normalized));
+        $tr.appendChild($tdtokenbo);
+        $tdtokenbo.style.textAlign = "right";
+
+        var rowCount = table.rows.length;
+        if (rowCount > 25) {
+            table.deleteRow(rowCount - 1);
+        }
+    }
+}
+
+//ESTA ACA METO LA PATA NOMAS ABAJO NO ENTENDI COMO PONERLO DONDE ESTA EL WSEndPOint sin romper lo que está ahora
+
 function add_to_table(tabla_id, element, color) {
     const table = document.querySelector(tabla_id);
     if (element.status != 0) {
@@ -21,11 +90,7 @@ function add_to_table(tabla_id, element, color) {
         let $tdtotal = document.createElement("td");
         $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
         $tr.appendChild($tdtotal);
-
-        let $tdtokenbo = document.createElement("td");
-        $tdtokenbo.textContent = decimals(parseFloat(element.token_in_normalized));
-        $tr.appendChild($tdtokenbo);
-        $tdtokenbo.style.textAlign = "right";
+        $tdtotal.style.textAlign = "right";
 
         var rowCount = table.rows.length;
         if (rowCount > 25) {

@@ -117,12 +117,12 @@ function setpairs(token1, token2) {
     });
 
     //TX HISTORIC
-    
+
     function txhistoricreload() {
         $.get(apiEndPoint + "historic/" + token1 + "-" + token2, function (data) {
             var historic = data.values.reverse();
             historic = historic.filter((h) => parseFloat(h.price) != 0);
-            
+
 
             const $historicTable = document.querySelector("#historicTable");
             for (i = 0; i < historic.length; i++) {
@@ -165,14 +165,17 @@ function setpairs(token1, token2) {
     //SWAP TABLE 1
     $.get(apiEndPoint + "txns/" + token1 + "-" + token2, function (data) {
         document.getElementById("title-1").innerHTML =
-            "SWAP " + token1 + "/" + token2;
+            "Last block swap " + token1 + "/" + token2;
         document.getElementById("span-1").innerHTML =
             "(" + token2 + "/" + token1 + ")";
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")";
         document.getElementById("title-2").innerHTML =
-            "SWAP " + token2 + "/" + token1;
-        document.getElementById("span-2").innerHTML =
-            "(" + token1 + "/" + token2 + ")";
+            "Last block swap " + token2 + "/" + token1;
+        document.getElementById("span-3").innerHTML =
+            "(" + token2 + "/" + token1 + ")";
+        document.getElementById("amount-3").innerHTML =
+            "(" + token1 + ")";
+        document.getElementById("amount-1").innerHTML = "(" + token1 + ")";
         document.getElementById("amount-2").innerHTML = "(" + token2 + ")";
         document.getElementById("price-1").innerHTML = token1;
         document.getElementById("price-2").innerHTML = token2;
@@ -203,11 +206,12 @@ function setpairs(token1, token2) {
                 let $tdtotal = document.createElement("td");
                 $tdtotal.textContent = decimals(parseFloat(buy.token_out_normalized));
                 $tr.appendChild($tdtotal);
+                $tdtotal.style.textAlign = "right";
 
-                let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = decimals(parseFloat(buy.token_in_normalized));
-                $tr.appendChild($tdtokenbo);
-                $tdtokenbo.style.textAlign = "right";
+                // let $tdtokenbo = document.createElement("td");
+                // $tdtokenbo.textContent = decimals(parseFloat(buy.token_in_normalized));
+                // $tr.appendChild($tdtokenbo);
+                // $tdtokenbo.style.textAlign = "right";
                 // <tr
                 $buyTable.appendChild($tr);
             }
@@ -235,11 +239,12 @@ function setpairs(token1, token2) {
                 let $tdtokenbo = document.createElement("td");
                 $tdtokenbo.textContent = decimals(parseFloat(sell.token_out_normalized));
                 $tr.appendChild($tdtokenbo);
+                $tdtokenbo.style.textAlign = "right";
 
-                let $tdtotal = document.createElement("td");
-                $tdtotal.textContent = decimals(parseFloat(sell.token_in_normalized));
-                $tr.appendChild($tdtotal);
-                $tdtotal.style.textAlign = "right";
+                // let $tdtotal = document.createElement("td");
+                // $tdtotal.textContent = decimals(parseFloat(sell.token_in_normalized));
+                // $tr.appendChild($tdtotal);
+                // $tdtotal.style.textAlign = "right";
 
                 // <tr
                 $sellTable.appendChild($tr);
@@ -247,38 +252,87 @@ function setpairs(token1, token2) {
         });
     });
 
-    //ORDER BOOK
-    // $.get(apiEndPoint + "order_book/" + token2 + "-" + token1, function (data) {
-    //     const orderbook = data.values.reverse();
+    //ORDER BOOK BIDS
+    $.get(apiEndPoint + "mempool", function (data) {
+        const mempool = data.values.reverse();
 
-    //     const $orderbookTable = document.querySelector("#order_book");
-    //     orderbook.forEach((orderbook) => {
-    //         if (orderbook.status != 0) {
-    //             //<tr>
-    //             const $tr = document.createElement("tr");
 
-    //             let $tdprice = document.createElement("td");
-    //             var price = decimals(parseFloat(
-    //                 orderbook.token_in_normalized / orderbook.token_out_normalized
-    //             ));
-    //             $tdprice.textContent = price;
-    //             $tdprice.style.color = "#c23b22";
-    //             $tr.appendChild($tdprice);
+        const $mempoolTable = document.querySelector("#mempool_bids");
+        mempool.forEach((mempool) => {
+            
+            if (mempool.token_in_symbol == token1) {
+                
+                if (mempool.token_out_symbol == token2) {
+                    
+                    if (mempool.status != 0) {
+                        //<tr>
+                        const $tr = document.createElement("tr");
 
-    //             let $tdtokenbo = document.createElement("td");
-    //             $tdtokenbo.textContent = decimals(parseFloat(orderbook.token_out_normalized));
-    //             $tr.appendChild($tdtokenbo);
+                        let $tdprice = document.createElement("td");
+                        var price = decimals(parseFloat(
+                            mempool.token_out_normalized / mempool.token_in_normalized
+                        ));
+                        $tdprice.textContent = price;
+                        $tdprice.style.color = "#77dd77";
+                        $tr.appendChild($tdprice);
 
-    //             let $tdtotal = document.createElement("td");
-    //             $tdtotal.textContent = decimals(parseFloat(orderbook.token_in_normalized));
-    //             $tr.appendChild($tdtotal);
-    //             $tdtotal.style.textAlign = "right";
+                        let $tdtokenbo = document.createElement("td");
+                        $tdtokenbo.textContent = decimals(parseFloat(mempool.token_in_normalized));
+                        $tr.appendChild($tdtokenbo);
 
-    //             // <tr
-    //             $orderbookTable.appendChild($tr);
-    //         }
-    //     });
-    // });
+                        let $tdtotal = document.createElement("td");
+                        $tdtotal.textContent = decimals(parseFloat(mempool.token_out_normalized));
+                        $tr.appendChild($tdtotal);
+                        $tdtotal.style.textAlign = "right";
+
+                        // <tr
+                        $mempoolTable.appendChild($tr);
+                    }
+                }
+            }
+        });
+    });
+
+    //ORDER BOOK ASKS
+    $.get(apiEndPoint + "mempool", function (data) {
+        const mempool = data.values.reverse();
+
+
+        const $mempoolTable = document.querySelector("#mempool_asks");
+        mempool.forEach((mempool) => {
+            
+            if (mempool.token_in_symbol == token2) {
+                
+                if (mempool.token_out_symbol == token1) {
+                
+                    if (mempool.status != 0) {
+                        //<tr>
+                        const $tr = document.createElement("tr");
+
+                        let $tdprice = document.createElement("td");
+                        var price = decimals(parseFloat(
+                            mempool.token_in_normalized / mempool.token_out_normalized
+                        ));
+                        $tdprice.textContent = price;
+                        $tdprice.style.color = "#c23b22";
+                        $tr.appendChild($tdprice);
+
+                        let $tdtokenbo = document.createElement("td");
+                        $tdtokenbo.textContent = decimals(parseFloat(mempool.token_out_normalized));
+                        $tr.appendChild($tdtokenbo);
+
+                        let $tdtotal = document.createElement("td");
+                        $tdtotal.textContent = decimals(parseFloat(mempool.token_in_normalized));
+                        $tr.appendChild($tdtotal);
+                        $tdtotal.style.textAlign = "right";
+
+                        // <tr
+                        $mempoolTable.appendChild($tr);
+                    }
+                }
+            }
+        });
+    });
 
     //PRICE
     $.get(apiEndPoint + "price/" + token1 + "/" + token2, function (data) {
@@ -442,7 +496,7 @@ function setpairs(token1, token2) {
 
             // set values for selected range
             chart.selectRange('day', 0.5, 'last-date');
-     
+
 
 
             // create range picker
