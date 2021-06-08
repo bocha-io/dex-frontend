@@ -15,8 +15,8 @@ function add_to_mempool_bids(element) {
     //    return
 
     insertOrdered(bidsArray, [price, token_in, token_out, element.tx_hash])
-    let med = getMedian(bidsArray)
-    bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
+    // let med = getMedian(bidsArray)
+    // bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
     bidsArray = bidsArray.slice(0, 40)
     let best = bidsArray.slice(0, 25)
     best = best.reverse()
@@ -44,8 +44,8 @@ function add_to_mempool_asks(element) {
 
     insertOrdered(asksArray, [price, token_in, token_out, element.tx_hash])
     //asksArray.sort(compare)
-    let med = getMedian(asksArray)
-    asksArray = filterAroundValue(asksArray, med, 0.95)
+    // let med = getMedian(asksArray)
+    // asksArray = filterAroundValue(asksArray, med, 0.95)
     asksArray = asksArray.slice(0, 40)
     let best = asksArray.slice(0, 25)
     best = best.reverse()
