@@ -6,11 +6,11 @@ function add_to_mempool_bids(element) {
     ));
 
     var tokenbo = decimals(parseFloat(element.token_in_normalized));
-    var  total = decimals(parseFloat(element.token_out_normalized));
-    
+    var total = decimals(parseFloat(element.token_out_normalized));
+
     if (price == "NaN")
         return
-    
+
     //if (price < 0.95 * token_price || price > 1.05 * token_price)
     //    return
 
@@ -28,23 +28,23 @@ function add_to_mempool_bids(element) {
     createBidTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to bids")
     // return add_to_mempool("#mempool_bids", element, "#77dd77");
-    
+
 }
 
 function add_to_mempool_asks(element) {
-    
+
     let price = decimals(parseFloat(
         element.token_out_normalized / element.token_in_normalized
     ));
     let total = decimals(parseFloat(element.token_in_normalized));
     let tokenbo = decimals(parseFloat(element.token_out_normalized));
-    
+
     if (price == "NaN")
         return
 
     insertOrdered(asksArray, [price, tokenbo, total, element.tx_hash])
     //asksArray.sort(compare)
-    let med =  getMedian(asksArray)
+    let med = getMedian(asksArray)
     asksArray = filterAroundValue(asksArray, med, 0.95)
     asksArray = asksArray.slice(0, 40)
     let best = asksArray.slice(0, 25)
@@ -57,7 +57,7 @@ function add_to_mempool_asks(element) {
     createAsksTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to asks")
     //return add_to_mempool("#mempool_asks", element, "#c23b22");
-    
+
 }
 
 // Last swaps
@@ -219,10 +219,15 @@ ws.onmessage = async (e) => {
             add_to_mempool_bids(JSON.parse(data.value));
         }
     } else if (data.key == 'mempool_remove') {
-	var tx = document.getElementById(data.value);
-	    if (tx != undefined) {
-
-	tx.parentNode.removeChild(tx);
-	    }
+        var tx = document.getElementById(data.value);
+        if (tx != undefined) {
+            asksArray = asksArray.filter(function(item) {
+                return item[3] !== tx;
+            });
+            bidsArray = bidsArray.filter(function(item) {
+                return item[3] !== tx;
+            })
+            tx.parentNode.removeChild(tx);
+        }
     }
 };
