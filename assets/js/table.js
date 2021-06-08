@@ -280,8 +280,13 @@ function setpairs(token1, token2) {
     }
     
     getMedian = (array) => {
+        if (array.length == 0)
+            return 0
+        if (array.lenght < 2)
+            return array[0][0]
         let half = Math.floor(array.length / 2)
-        let median = (parseFloat(array[half][0]) + parseFloat(array[half + 1][0])) / 2
+        console.log("half ", half, " ", array[half])
+        let median = (parseFloat(array[half-1][0]) + parseFloat(array[half][0])) / 2
         return median
     }
 
@@ -316,8 +321,33 @@ function setpairs(token1, token2) {
         if (parseFloat(a[0]) > parseFloat(b[0])) {
             return 1;
         }
-        // a must be equal to b
         return 0;
+    }
+
+    createBidTable = (mempoolTable, best) => {
+        for (let i = 0; i < best.length; i++) {
+            const $tr = document.createElement("tr");
+            $tr.setAttribute("id", best[i][3])
+            let $tdprice = document.createElement("td");
+            var price = best[i][0]
+            $tdprice.textContent = price;
+            $tdprice.style.color = "#77dd77";
+            $tr.appendChild($tdprice);
+
+            let $tdtokenbo = document.createElement("td");
+            var token_in = best[i][1]
+            $tdtokenbo.textContent = token_in
+            $tr.appendChild($tdtokenbo);
+
+            let $tdtotal = document.createElement("td");
+            var token_out = best[i][2]
+            $tdtotal.textContent = token_out
+            $tr.appendChild($tdtotal);
+            $tdtotal.style.textAlign = "right";
+
+
+            mempoolTable.appendChild($tr);
+        }
     }
 
     //ORDER BOOK BIDS
@@ -341,7 +371,7 @@ function setpairs(token1, token2) {
                         var token_out = decimals(parseFloat(mempool.token_out_normalized));
                         
                         if ( price != "NaN" )
-                            bidsArray.push([price, token_in, token_out])
+                            bidsArray.push([price, token_in, token_out, mempool.tx_hash])
                     }
                 }
             }
@@ -353,29 +383,32 @@ function setpairs(token1, token2) {
         bidsArray = bidsArray.slice(0, 40)
         let best = bidsArray.slice(0, 25)
         best = best.reverse()
+        createBidTable($mempoolTable, best)
+    });
 
+    createAsksTable = (mempooltable, best) => {
         for (let i = 0; i < best.length; i++) {
             const $tr = document.createElement("tr");
+            $tr.setAttribute("id", best[i][3])
 
             let $tdprice = document.createElement("td");
-            var price = best[i][0]
-            $tdprice.textContent = price;
-            $tdprice.style.color = "#77dd77";
+            $tdprice.textContent = best[i][0];
+            $tdprice.style.color = "#c23b22";
             $tr.appendChild($tdprice);
 
             let $tdtokenbo = document.createElement("td");
-            var token_in = best[i][1]
-            $tdtokenbo.textContent = token_in
+            $tdtokenbo.textContent = best[i][2];
             $tr.appendChild($tdtokenbo);
 
             let $tdtotal = document.createElement("td");
-            var token_out = best[i][2]
-            $tdtotal.textContent = token_out
+            $tdtotal.textContent = best[i][1];
             $tr.appendChild($tdtotal);
             $tdtotal.style.textAlign = "right";
-            $mempoolTable.appendChild($tr);
+
+            // <tr
+            mempooltable.appendChild($tr);
         }
-    });
+    }
 
     //ORDER BOOK ASKS
     $.get(apiEndPoint + "mempool", function (data) {
@@ -396,7 +429,7 @@ function setpairs(token1, token2) {
                         let token_out = decimals(parseFloat(mempool.token_out_normalized));
                         let token_in = decimals(parseFloat(mempool.token_in_normalized));
                         if ( price != "NaN" )
-                            asksArray.push([price, token_in, token_out])
+                            asksArray.push([price, token_in, token_out, mempool.tx_hash])
                     }
                 }
             }
@@ -408,28 +441,7 @@ function setpairs(token1, token2) {
         asksArray = asksArray.slice(0, 40)
         let best = asksArray.slice(0, 25)
         best = best.reverse()
-        
-        for (let i = 0; i < best.length; i++) {
-            const $tr = document.createElement("tr");
-
-            let $tdprice = document.createElement("td");
-            $tdprice.textContent = best[i][0];
-            $tdprice.style.color = "#c23b22";
-            $tr.appendChild($tdprice);
-
-            let $tdtokenbo = document.createElement("td");
-            let token_out = decimals(parseFloat(mempool.token_out_normalized));
-            $tdtokenbo.textContent = best[i][2];
-            $tr.appendChild($tdtokenbo);
-
-            let $tdtotal = document.createElement("td");
-            $tdtotal.textContent = best[i][1];
-            $tr.appendChild($tdtotal);
-            $tdtotal.style.textAlign = "right";
-
-            // <tr
-            $mempoolTable.appendChild($tr);
-        }
+        createAsksTable($mempoolTable, best)
     });
 
     //PRICE

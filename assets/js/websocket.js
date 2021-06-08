@@ -25,28 +25,7 @@ function add_to_mempool_bids(element) {
     while (table.firstChild) {
         table.removeChild(table.lastChild);
     }
-
-    for (let i = 0; i < best.length; i++) {
-        const $tr = document.createElement("tr");
-
-        let $tdprice = document.createElement("td");
-        var price = best[i][0]
-        $tdprice.textContent = price;
-        $tdprice.style.color = "#77dd77";
-        $tr.appendChild($tdprice);
-
-        let $tdtokenbo = document.createElement("td");
-        var token_in = best[i][1]
-        $tdtokenbo.textContent = token_in
-        $tr.appendChild($tdtokenbo);
-
-        let $tdtotal = document.createElement("td");
-        var token_out = best[i][2]
-        $tdtotal.textContent = token_out
-        $tr.appendChild($tdtotal);
-        $tdtotal.style.textAlign = "right";
-        table.appendChild($tr);
-    }
+    createBidTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to bids")
     // return add_to_mempool("#mempool_bids", element, "#77dd77");
     
@@ -75,73 +54,11 @@ function add_to_mempool_asks(element) {
     while (table.firstChild) {
         table.removeChild(table.lastChild);
     }
-    for (let i = 0; i < best.length; i++) {
-        const $tr = document.createElement("tr");
-
-        let $tdprice = document.createElement("td");
-        $tdprice.textContent = best[i][0];
-        $tdprice.style.color = "#c23b22";
-        $tr.appendChild($tdprice);
-
-        let $tdtokenbo = document.createElement("td");
-        $tdtokenbo.textContent = best[i][2];
-        $tr.appendChild($tdtokenbo);
-
-        let $tdtotal = document.createElement("td");
-        $tdtotal.textContent = best[i][1];
-        $tr.appendChild($tdtotal);
-        $tdtotal.style.textAlign = "right";
-
-        // <tr
-        table.appendChild($tr);
-    }
+    createAsksTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to asks")
     //return add_to_mempool("#mempool_asks", element, "#c23b22");
     
 }
-
-function add_to_mempool(tabla_id, element, color) {
-    const table = document.querySelector(tabla_id);
-    if (element.status != 0) {
-        const $tr = table.insertRow(0);
-        let $tdprice = document.createElement("td");
-        let $tdtotal = document.createElement("td");
-        let $tdtokenbo = document.createElement("td");
-
-        var price;
-        if (tabla_id == "#mempool_bids") {
-            price = decimals(parseFloat(
-                element.token_in_normalized / element.token_out_normalized
-            ));
-            $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
-            $tdtokenbo.textContent = decimals(parseFloat(element.token_in_normalized));
-        } else {
-            price = decimals(parseFloat(
-                element.token_out_normalized / element.token_in_normalized
-            ));
-            $tdtotal.textContent = decimals(parseFloat(element.token_in_normalized));
-            $tdtokenbo.textContent = decimals(parseFloat(element.token_out_normalized));
-        }
-        // Price
-        $tdprice.textContent = price;
-        $tdprice.style.color = color;
-        $tr.appendChild($tdprice);
-
-        // Total
-        $tr.appendChild($tdtotal);
-
-        // Tokenbo
-        $tr.appendChild($tdtokenbo);
-        $tdtokenbo.style.textAlign = "right";
-
-        while (table.rows.length > 25) {
-            table.deleteRow(table.rows.length - 1);
-        }
-    }
-}
-
-
-
 
 // Last swaps
 function add_to_buy(element) {
