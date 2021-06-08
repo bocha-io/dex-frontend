@@ -86,11 +86,11 @@ function add_to_mempool_asks(element) {
         $tr.appendChild($tdprice);
 
         let $tdtokenbo = document.createElement("td");
-        $tdtokenbo.textContent = best[i][1];
+        $tdtokenbo.textContent = best[i][2];
         $tr.appendChild($tdtokenbo);
 
         let $tdtotal = document.createElement("td");
-        $tdtotal.textContent = best[i][2];
+        $tdtotal.textContent = best[i][1];
         $tr.appendChild($tdtotal);
         $tdtotal.style.textAlign = "right";
 
