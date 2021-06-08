@@ -1,5 +1,6 @@
 var apiEndPoint = "https://test.hanchon.live/api/";
 
+// GET PAIRS
 $.get(apiEndPoint + "pairs", function (data) {
     var str = "";
     var pair = data.values;
@@ -19,21 +20,7 @@ function getData(obj) {
     }
 }
 
-function decimals(number) {
-    if (Math. floor(number) == 0) {
-        number = number.toFixed(13)
-    }
-    else if (Math. floor(number) >= 100) {
-        number = number.toFixed(2)
-    }
-    else {
-        number = number.toFixed(5)
-    }
-
-    return number
-
-}
-
+//LAST TXS
 $.get(apiEndPoint + "last_txns", async function (data) {
     console.log(data);
     const txs = data.values;
@@ -117,49 +104,63 @@ $.get(apiEndPoint + "last_txns", async function (data) {
 
 var chart = null;
 
+//ONLY FOR A PAIR SELECTED
+
 function setpairs(token1, token2) {
     $("#buyTable").empty();
     $("#sellTable").empty();
     $("#historicTable").empty();
-    $.get(apiEndPoint + "historic/" + token1 + "-" + token2, function (data) {
-        var historic = data.values.reverse();
-        historic = historic.filter((h) => parseFloat(h.price) != 0);
 
-        const $historicTable = document.querySelector("#historicTable");
-        for (i = 0; i < historic.length; i++) {
-            //<tr>
+    $(document).ready(function () {
+        txhistoricreload()
+        setInterval(txhistoricreload, 600000);
+    });
 
-            if (historic[i].status != 0) {
-                if (historic[i].price != 0) {
-                    const $tr = document.createElement("tr");
+    //TX HISTORIC
+    
+    function txhistoricreload() {
+        $.get(apiEndPoint + "historic/" + token1 + "-" + token2, function (data) {
+            var historic = data.values.reverse();
+            historic = historic.filter((h) => parseFloat(h.price) != 0);
+            
 
-                    let $tdprice = document.createElement("td");
+            const $historicTable = document.querySelector("#historicTable");
+            for (i = 0; i < historic.length; i++) {
+                //<tr>
 
-                    if (i < historic.length - 1) {
-                        if (historic[i].price > historic[i + 1].price) {
-                            $tdprice.style.color = "#77dd77";
-                        } else {
-                            $tdprice.style.color = "#c23b22";
+                if (historic[i].status != 0) {
+                    if (historic[i].price != 0) {
+                        const $tr = document.createElement("tr");
+
+                        let $tdprice = document.createElement("td");
+
+                        if (i < historic.length - 1) {
+                            if (historic[i].price > historic[i + 1].price) {
+                                $tdprice.style.color = "#77dd77";
+                            } else {
+                                $tdprice.style.color = "#c23b22";
+                            }
                         }
+                        var price = parseFloat(historic[i].price);
+                        price = decimals(price)
+                        $tdprice.textContent = price;
+                        $tr.appendChild($tdprice);
+
+                        let $tddate = document.createElement("td");
+                        $tddate.textContent = moment
+                            .utc(parseFloat(historic[i].date) * 1000)
+                            .local()
+                            .format("YYYY-MM-DD HH:mm:ss");
+                        $tr.appendChild($tddate);
+                        $tddate.style.textAlign = "right";
+                        // <tr
+                        $historicTable.appendChild($tr);
                     }
-                    var price = parseFloat(historic[i].price);
-                    price = decimals(price)
-                    $tdprice.textContent = price;
-                    $tr.appendChild($tdprice);
-                        
-                    let $tddate = document.createElement("td");
-                    $tddate.textContent = moment
-                        .utc(parseFloat(historic[i].date) * 1000)
-                        .local()
-                        .format("YYYY-MM-DD HH:mm:ss");
-                    $tr.appendChild($tddate);
-                    $tddate.style.textAlign = "right";
-                    // <tr
-                    $historicTable.appendChild($tr);
                 }
             }
-        }
-    });
+        });
+    };
+    //setTimeout(txhistoricreload, 10000);
 
     //SWAP TABLE 1
     $.get(apiEndPoint + "txns/" + token1 + "-" + token2, function (data) {
@@ -246,6 +247,40 @@ function setpairs(token1, token2) {
         });
     });
 
+    //ORDER BOOK
+    // $.get(apiEndPoint + "order_book/" + token2 + "-" + token1, function (data) {
+    //     const orderbook = data.values.reverse();
+
+    //     const $orderbookTable = document.querySelector("#order_book");
+    //     orderbook.forEach((orderbook) => {
+    //         if (orderbook.status != 0) {
+    //             //<tr>
+    //             const $tr = document.createElement("tr");
+
+    //             let $tdprice = document.createElement("td");
+    //             var price = decimals(parseFloat(
+    //                 orderbook.token_in_normalized / orderbook.token_out_normalized
+    //             ));
+    //             $tdprice.textContent = price;
+    //             $tdprice.style.color = "#c23b22";
+    //             $tr.appendChild($tdprice);
+
+    //             let $tdtokenbo = document.createElement("td");
+    //             $tdtokenbo.textContent = decimals(parseFloat(orderbook.token_out_normalized));
+    //             $tr.appendChild($tdtokenbo);
+
+    //             let $tdtotal = document.createElement("td");
+    //             $tdtotal.textContent = decimals(parseFloat(orderbook.token_in_normalized));
+    //             $tr.appendChild($tdtotal);
+    //             $tdtotal.style.textAlign = "right";
+
+    //             // <tr
+    //             $orderbookTable.appendChild($tr);
+    //         }
+    //     });
+    // });
+
+    //PRICE
     $.get(apiEndPoint + "price/" + token1 + "/" + token2, function (data) {
         document.getElementById("src-tk").firstChild.remove();
 
@@ -257,7 +292,7 @@ function setpairs(token1, token2) {
             decimals(data.price_out);
 
         var token_in = data.address_in;
-        var img_in = data.address_in;        
+        var img_in = data.address_in;
 
         if (data.address_in == "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2") {
             token_in = "eth";
@@ -272,9 +307,9 @@ function setpairs(token1, token2) {
         }
 
         document.getElementById("img-1").src =
-        "https://tokens.1inch.exchange/" + img_in.toLowerCase() + ".png";
+            "https://tokens.1inch.exchange/" + img_in.toLowerCase() + ".png";
         document.getElementById("img-2").src =
-        "https://tokens.1inch.exchange/" + img_out.toLowerCase() + ".png";
+            "https://tokens.1inch.exchange/" + img_out.toLowerCase() + ".png";
 
         var iframe = document.createElement("iframe");
         iframe.src =
@@ -386,7 +421,7 @@ function setpairs(token1, token2) {
             volumeSeries.risingFill("#77dd77");
             volumeSeries.risingStroke("#77dd77");
 
-            // create indicator plot
+            // // create indicator plot
             // var indicatorPlot = chart.plot(1);
 
             // // set indicator plot height
@@ -406,7 +441,9 @@ function setpairs(token1, token2) {
             chart.draw();
 
             // set values for selected range
-            chart.selectRange("qtd", 1, "last-date");
+            chart.selectRange('day', 0.5, 'last-date');
+     
+
 
             // create range picker
             var rangePicker = anychart.ui.rangePicker();
@@ -422,6 +459,18 @@ function setpairs(token1, token2) {
             chart.background().fill("transparent");
         });
     });
+}
+
+function decimals(number) {
+    if (Math.floor(number) == 0) {
+        number = number.toFixed(13)
+    } else if (Math.floor(number) >= 100) {
+        number = number.toFixed(2)
+    } else {
+        number = number.toFixed(5)
+    }
+
+    return number
 }
 
 setpairs("WETH", "USDT");

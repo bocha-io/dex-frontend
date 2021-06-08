@@ -11,19 +11,19 @@ function add_to_table(tabla_id, element, color) {
     if (element.status != 0) {
         const $tr = table.insertRow(0);
         let $tdprice = document.createElement("td");
-        var price = parseFloat(
+        var price = decimals(parseFloat(
             element.token_in_normalized / element.token_out_normalized
-        ).toFixed(10);
+        ));
         $tdprice.textContent = price;
         $tdprice.style.color = color;
         $tr.appendChild($tdprice);
 
         let $tdtotal = document.createElement("td");
-        $tdtotal.textContent = parseFloat(element.token_out_normalized).toFixed(8);
+        $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
         $tr.appendChild($tdtotal);
 
         let $tdtokenbo = document.createElement("td");
-        $tdtokenbo.textContent = parseFloat(element.token_in_normalized).toFixed(8);
+        $tdtokenbo.textContent = decimals(parseFloat(element.token_in_normalized));
         $tr.appendChild($tdtokenbo);
         $tdtokenbo.style.textAlign = "right";
 
@@ -37,6 +37,7 @@ function add_to_table(tabla_id, element, color) {
 async function add_to_last_transactions(tx) {
     const $cuerpoTabla = document.querySelector("#cuerpoTabla");
     let img_token_out = localStorage.getItem(tx.token_out);
+    
     if (img_token_out == null) {
         let url_Req =
             "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/" +
@@ -75,35 +76,37 @@ async function add_to_last_transactions(tx) {
         }
         localStorage.setItem(tx.token_in, img_token_in);
     }
+    if (tx.status != 0) {
+        const $tr = $cuerpoTabla.insertRow(0);
 
-    const $tr = $cuerpoTabla.insertRow(0);
+        let $tdnames = document.createElement("td");
+        let img1 = "<img width='12' src=" + img_token_out + "/>";
+        let img2 = "<img width='12' src=" + img_token_in + "/>";
 
-    let $tdnames = document.createElement("td");
-    let img1 = "<img width='12' src=" + img_token_out + "/>";
-    let img2 = "<img width='12' src=" + img_token_in + "/>";
+        $tdnames.innerHTML =
+            img1 + img2 + " - " + tx.token_out_symbol + "/" + tx.token_in_symbol;
+        $tr.appendChild($tdnames);
 
-    $tdnames.innerHTML =
-        img1 + img2 + " - " + tx.token_out_symbol + "/" + tx.token_in_symbol;
-    $tr.appendChild($tdnames);
+        let $tdtokenb = document.createElement("td");
+        var tokend = tx.token_out_normalized;
+        tokend = decimals(parseFloat(tokend));
+        $tdtokenb.textContent = tokend;
+        $tr.appendChild($tdtokenb);
+        $tdtokenb.style.textAlign = "right";
 
-    let $tdtokenb = document.createElement("td");
-    var tokend = tx.token_out_normalized;
-    tokend = parseFloat(tokend).toFixed(4);
-    $tdtokenb.textContent = tokend;
-    $tr.appendChild($tdtokenb);
-    $tdtokenb.style.textAlign = "right";
+        let $tdtokenp = document.createElement("td");
+        var tokenpy = tx.token_in_normalized;
+        tokenpy = decimals(parseFloat(tokenpy));
+        $tdtokenp.textContent = tokenpy;
+        $tr.appendChild($tdtokenp);
+        $tdtokenp.style.textAlign = "right";
 
-    let $tdtokenp = document.createElement("td");
-    var tokenpy = tx.token_in_normalized;
-    tokenpy = parseFloat(tokenpy).toFixed(4);
-    $tdtokenp.textContent = tokenpy;
-    $tr.appendChild($tdtokenp);
-    $tdtokenp.style.textAlign = "right";
+        let $tdtx_hash = document.createElement("td");
+        $tdtx_hash.textContent = tx.tx_hash;
+        $tr.appendChild($tdtx_hash);
+        $tdtx_hash.style.textAlign = "right";
 
-    let $tdtx_hash = document.createElement("td");
-    $tdtx_hash.textContent = tx.tx_hash;
-    $tr.appendChild($tdtx_hash);
-    $tdtx_hash.style.textAlign = "right";
+    }
 }
 
 
@@ -118,7 +121,7 @@ ws.onmessage = async (e) => {
 
     data = JSON.parse(e.data);
     if (data.pair_in == t1 && data.pair_out == t2) {
-        add_to_buy(JSON.parse(data.value));
+        add_to_sell(JSON.parse(data.value));
     } else if (data.pair_in == t2 && data.pair_out == t1) {
         add_to_buy(JSON.parse(data.value));
     }

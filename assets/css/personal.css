@@ -71,7 +71,6 @@ body {
     }
 }
 
-
 input {
     color: white;
     padding: auto;
@@ -126,9 +125,9 @@ p {
     color: white !important;
 }
 
-.hv {
+/* .hv {
     height: 100vh;
-}
+} */
 
 .close {
     margin-right: 30px;
@@ -145,7 +144,6 @@ p {
     /* border: 1px solid black !important; */
     vertical-align:middle;
     padding: 2% !important; 
-   
     width: 80%;
 }
 
@@ -178,12 +176,10 @@ p {
     width: 14px;
 }
 
-
 .trade-icon{
     color: white;
     
 }
-
 
 #box p{
     font-size: 10px;
