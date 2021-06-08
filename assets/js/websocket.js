@@ -1,10 +1,105 @@
 // Mempool
 function add_to_mempool_bids(element) {
-    return add_to_mempool("#mempool_bids", element, "#77dd77");
+
+    var price = decimals(parseFloat(
+        element.token_in_normalized / element.token_out_normalized
+    ));
+
+    var tokenbo = decimals(parseFloat(element.token_in_normalized));
+    var  total = decimals(parseFloat(element.token_out_normalized));
+    
+
+    if (price == "NaN")
+        return
+    
+    //if (price < 0.95 * token_price || price > 1.05 * token_price)
+    //    return
+
+    insertOrdered(bidsArray, [price, tokenbo, total])
+    let med = getMedian(bidsArray)
+    bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
+    bidsArray = bidsArray.slice(0, 40)
+    let best = bidsArray.slice(0, 25)
+    best = best.reverse()
+
+
+    const table = document.querySelector("#mempool_bids");
+    while (table.firstChild) {
+        table.removeChild(table.lastChild);
+    }
+
+    for (let i = 0; i < best.length; i++) {
+        const $tr = document.createElement("tr");
+
+        let $tdprice = document.createElement("td");
+        var price = best[i][0]
+        $tdprice.textContent = price;
+        $tdprice.style.color = "#77dd77";
+        $tr.appendChild($tdprice);
+
+        let $tdtokenbo = document.createElement("td");
+        var token_in = best[i][1]
+        $tdtokenbo.textContent = token_in
+        $tr.appendChild($tdtokenbo);
+
+        let $tdtotal = document.createElement("td");
+        var token_out = best[i][2]
+        $tdtotal.textContent = token_out
+        $tr.appendChild($tdtotal);
+        $tdtotal.style.textAlign = "right";
+        table.appendChild($tr);
+    }
+    //console.log("Inserted ", [price, tokenbo, total], "to bids")
+    // return add_to_mempool("#mempool_bids", element, "#77dd77");
+    
 }
 
 function add_to_mempool_asks(element) {
-    return add_to_mempool("#mempool_asks", element, "#c23b22");
+    
+    let price = decimals(parseFloat(
+        element.token_out_normalized / element.token_in_normalized
+    ));
+    let total = decimals(parseFloat(element.token_in_normalized));
+    let tokenbo = decimals(parseFloat(element.token_out_normalized));
+    
+    if (price == "NaN")
+        return
+
+    insertOrdered(asksArray, [price, tokenbo, total])
+    //asksArray.sort(compare)
+    let med =  getMedian(asksArray)
+    asksArray = filterAroundValue(asksArray, med, 0.95)
+    asksArray = asksArray.slice(0, 40)
+    let best = asksArray.slice(0, 25)
+    best = best.reverse()
+
+    const table = document.querySelector("#mempool_asks");
+    while (table.firstChild) {
+        table.removeChild(table.lastChild);
+    }
+    for (let i = 0; i < best.length; i++) {
+        const $tr = document.createElement("tr");
+
+        let $tdprice = document.createElement("td");
+        $tdprice.textContent = best[i][0];
+        $tdprice.style.color = "#c23b22";
+        $tr.appendChild($tdprice);
+
+        let $tdtokenbo = document.createElement("td");
+        $tdtokenbo.textContent = best[i][1];
+        $tr.appendChild($tdtokenbo);
+
+        let $tdtotal = document.createElement("td");
+        $tdtotal.textContent = best[i][2];
+        $tr.appendChild($tdtotal);
+        $tdtotal.style.textAlign = "right";
+
+        // <tr
+        table.appendChild($tr);
+    }
+    //console.log("Inserted ", [price, tokenbo, total], "to asks")
+    //return add_to_mempool("#mempool_asks", element, "#c23b22");
+    
 }
 
 function add_to_mempool(tabla_id, element, color) {
@@ -46,6 +141,8 @@ function add_to_mempool(tabla_id, element, color) {
         }
     }
 }
+
+
 
 
 // Last swaps
@@ -178,7 +275,7 @@ ws.onmessage = async (e) => {
 
         await add_to_last_transactions(JSON.parse(data.value));
     } else if (data.key == 'mempool') {
-	    console.log(data)
+	    // console.log(data)
         if (data.pair_in == t1 && data.pair_out == t2) {
             add_to_mempool_asks(JSON.parse(data.value));
         } else if (data.pair_in == t2 && data.pair_out == t1) {

@@ -1,5 +1,8 @@
 var apiEndPoint = "https://test.hanchon.live/api/";
 
+var bidsArray = []
+var asksArray = []
+
 // GET PAIRS
 $.get(apiEndPoint + "pairs", function (data) {
     var str = "";
@@ -22,7 +25,7 @@ function getData(obj) {
 
 //LAST TXS
 $.get(apiEndPoint + "last_txns", async function (data) {
-    console.log(data);
+    // console.log(data);
     const txs = data.values;
 
     // last tx table
@@ -252,93 +255,178 @@ function setpairs(token1, token2) {
         });
     });
 
+    insertOrdered = (array, value) => {
+        if (array.length == 0) {
+            array.push(value)
+            return
+        }
+        for (let i = 0; i < array.length; i++) {
+            if (parseFloat(array[i][0]) > parseFloat(value[0])) {
+                array.splice(i, 0, value)
+                return
+            }
+        }
+        array.splice(array.length, 0, value)
+    }
+    
+    getMedian = (array) => {
+        let half = Math.floor(array.length / 2)
+        let median = (parseFloat(array[half][0]) + parseFloat(array[half + 1][0])) / 2
+        return median
+    }
+
+    filterAroundValue = (array, cutValue, minimumPercentage, maximumPercentage = 0) => {
+        if (array.length < 5)
+            return array
+
+        let minimumValue = cutValue * minimumPercentage
+        let i = 0
+        while (parseFloat(array[i][0]) < minimumValue)
+            i++;
+
+        let cutDown = array.slice(i, array.length)
+        if (maximumPercentage == 0)
+            return cutDown
+        
+        
+        let maximumValue = cutValue * maximumPercentage
+        i = cutDown.length - 1
+        while(parseFloat(cutDown[i][0]) > maximumValue)
+            i--;
+        
+        cutDown = cutDown.slice(0, i);
+        return cutDown
+
+    }
+
+    function compare(a, b) {
+        if (parseFloat(a[0]) < parseFloat(b[0])) {
+            return -1;
+        }
+        if (parseFloat(a[0]) > parseFloat(b[0])) {
+            return 1;
+        }
+        // a must be equal to b
+        return 0;
+    }
+
     //ORDER BOOK BIDS
     $.get(apiEndPoint + "mempool", function (data) {
         const mempool = data.values.reverse();
 
-
         const $mempoolTable = document.querySelector("#mempool_bids");
         mempool.forEach((mempool) => {
-            
+
             if (mempool.token_in_symbol == token1) {
-                
+
                 if (mempool.token_out_symbol == token2) {
-                    
+
                     if (mempool.status != 0) {
                         //<tr>
-                        const $tr = document.createElement("tr");
-
-                        let $tdprice = document.createElement("td");
                         var price = decimals(parseFloat(
                             mempool.token_out_normalized / mempool.token_in_normalized
                         ));
-                        $tdprice.textContent = price;
-                        $tdprice.style.color = "#77dd77";
-                        $tr.appendChild($tdprice);
 
-                        let $tdtokenbo = document.createElement("td");
-                        $tdtokenbo.textContent = decimals(parseFloat(mempool.token_in_normalized));
-                        $tr.appendChild($tdtokenbo);
-
-                        let $tdtotal = document.createElement("td");
-                        $tdtotal.textContent = decimals(parseFloat(mempool.token_out_normalized));
-                        $tr.appendChild($tdtotal);
-                        $tdtotal.style.textAlign = "right";
-
-                        // <tr
-                        $mempoolTable.appendChild($tr);
+                        var token_in = decimals(parseFloat(mempool.token_in_normalized));
+                        var token_out = decimals(parseFloat(mempool.token_out_normalized));
+                        
+                        if ( price != "NaN" )
+                            bidsArray.push([price, token_in, token_out])
                     }
                 }
             }
         });
+
+        bidsArray.sort(compare)
+        let med = getMedian(bidsArray)
+        bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
+        bidsArray = bidsArray.slice(0, 40)
+        let best = bidsArray.slice(0, 25)
+        best = best.reverse()
+
+        for (let i = 0; i < best.length; i++) {
+            const $tr = document.createElement("tr");
+
+            let $tdprice = document.createElement("td");
+            var price = best[i][0]
+            $tdprice.textContent = price;
+            $tdprice.style.color = "#77dd77";
+            $tr.appendChild($tdprice);
+
+            let $tdtokenbo = document.createElement("td");
+            var token_in = best[i][1]
+            $tdtokenbo.textContent = token_in
+            $tr.appendChild($tdtokenbo);
+
+            let $tdtotal = document.createElement("td");
+            var token_out = best[i][2]
+            $tdtotal.textContent = token_out
+            $tr.appendChild($tdtotal);
+            $tdtotal.style.textAlign = "right";
+            $mempoolTable.appendChild($tr);
+        }
     });
 
     //ORDER BOOK ASKS
     $.get(apiEndPoint + "mempool", function (data) {
         const mempool = data.values.reverse();
 
-
         const $mempoolTable = document.querySelector("#mempool_asks");
         mempool.forEach((mempool) => {
-            
+
             if (mempool.token_in_symbol == token2) {
-                
+
                 if (mempool.token_out_symbol == token1) {
-                
+
                     if (mempool.status != 0) {
                         //<tr>
-                        const $tr = document.createElement("tr");
-
-                        let $tdprice = document.createElement("td");
                         var price = decimals(parseFloat(
                             mempool.token_in_normalized / mempool.token_out_normalized
                         ));
-                        $tdprice.textContent = price;
-                        $tdprice.style.color = "#c23b22";
-                        $tr.appendChild($tdprice);
-
-                        let $tdtokenbo = document.createElement("td");
-                        $tdtokenbo.textContent = decimals(parseFloat(mempool.token_out_normalized));
-                        $tr.appendChild($tdtokenbo);
-
-                        let $tdtotal = document.createElement("td");
-                        $tdtotal.textContent = decimals(parseFloat(mempool.token_in_normalized));
-                        $tr.appendChild($tdtotal);
-                        $tdtotal.style.textAlign = "right";
-
-                        // <tr
-                        $mempoolTable.appendChild($tr);
+                        let token_out = decimals(parseFloat(mempool.token_out_normalized));
+                        let token_in = decimals(parseFloat(mempool.token_in_normalized));
+                        if ( price != "NaN" )
+                            asksArray.push([price, token_in, token_out])
                     }
                 }
             }
         });
+
+        asksArray.sort(compare)
+        let med = getMedian(asksArray)
+        asksArray = filterAroundValue(asksArray, med, 0.95)
+        asksArray = asksArray.slice(0, 40)
+        let best = asksArray.slice(0, 25)
+        best = best.reverse()
+        
+        for (let i = 0; i < best.length; i++) {
+            const $tr = document.createElement("tr");
+
+            let $tdprice = document.createElement("td");
+            $tdprice.textContent = best[i][0];
+            $tdprice.style.color = "#c23b22";
+            $tr.appendChild($tdprice);
+
+            let $tdtokenbo = document.createElement("td");
+            let token_out = decimals(parseFloat(mempool.token_out_normalized));
+            $tdtokenbo.textContent = best[i][1];
+            $tr.appendChild($tdtokenbo);
+
+            let $tdtotal = document.createElement("td");
+            $tdtotal.textContent = best[i][2];
+            $tr.appendChild($tdtotal);
+            $tdtotal.style.textAlign = "right";
+
+            // <tr
+            $mempoolTable.appendChild($tr);
+        }
     });
 
     //PRICE
     $.get(apiEndPoint + "price/" + token1 + "/" + token2, function (data) {
         document.getElementById("src-tk").firstChild.remove();
 
-        console.log(data);
+        // console.log(data);
 
         document.getElementById("priceToken1").innerHTML =
             decimals(data.price_in);
