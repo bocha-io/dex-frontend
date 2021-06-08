@@ -169,7 +169,7 @@ ws.onmessage = async (e) => {
     t2 = document.getElementById("token2").value;
 
     data = JSON.parse(e.data);
-    if (data.type == 'block') {
+    if (data.key == 'block') {
         if (data.pair_in == t1 && data.pair_out == t2) {
             add_to_sell(JSON.parse(data.value));
         } else if (data.pair_in == t2 && data.pair_out == t1) {
@@ -177,7 +177,8 @@ ws.onmessage = async (e) => {
         }
 
         await add_to_last_transactions(JSON.parse(data.value));
-    } else if (data.type == 'mempool') {
+    } else if (data.key == 'mempool') {
+	    console.log(data)
         if (data.pair_in == t1 && data.pair_out == t2) {
             add_to_mempool_asks(JSON.parse(data.value));
         } else if (data.pair_in == t2 && data.pair_out == t1) {
