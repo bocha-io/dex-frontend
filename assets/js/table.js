@@ -187,9 +187,9 @@ function setpairs(token1, token2) {
         document.getElementById("span-4").innerHTML =
             "(" + token2 + "/" + token1 + ")";
         document.getElementById("amount-4").innerHTML =
-            "(" + token1 + ")"    
+            "(" + token1 + ")"
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")";
-        
+
         document.getElementById("price-1").innerHTML = token1;
         document.getElementById("price-2").innerHTML = token2;
         document.getElementById("price-1-2").innerHTML = token1;
@@ -278,7 +278,7 @@ function setpairs(token1, token2) {
         }
         array.splice(array.length, 0, value)
     }
-    
+
     getMedian = (array) => {
         if (array.length == 0)
             return 0
@@ -286,7 +286,7 @@ function setpairs(token1, token2) {
             return array[0][0]
         let half = Math.floor(array.length / 2)
         console.log("half ", half, " ", array[half])
-        let median = (parseFloat(array[half-1][0]) + parseFloat(array[half][0])) / 2
+        let median = (parseFloat(array[half - 1][0]) + parseFloat(array[half][0])) / 2
         return median
     }
 
@@ -302,13 +302,13 @@ function setpairs(token1, token2) {
         let cutDown = array.slice(i, array.length)
         if (maximumPercentage == 0)
             return cutDown
-        
-        
+
+
         let maximumValue = cutValue * maximumPercentage
         i = cutDown.length - 1
-        while(parseFloat(cutDown[i][0]) > maximumValue)
+        while (parseFloat(cutDown[i][0]) > maximumValue)
             i--;
-        
+
         cutDown = cutDown.slice(0, i);
         return cutDown
 
@@ -369,8 +369,8 @@ function setpairs(token1, token2) {
 
                         var token_in = decimals(parseFloat(mempool.token_in_normalized));
                         var token_out = decimals(parseFloat(mempool.token_out_normalized));
-                        
-                        if ( price != "NaN" )
+
+                        if (price != "NaN")
                             bidsArray.push([price, token_in, token_out, mempool.tx_hash])
                     }
                 }
@@ -428,7 +428,7 @@ function setpairs(token1, token2) {
                         ));
                         let token_out = decimals(parseFloat(mempool.token_out_normalized));
                         let token_in = decimals(parseFloat(mempool.token_in_normalized));
-                        if ( price != "NaN" )
+                        if (price != "NaN")
                             asksArray.push([price, token_in, token_out, mempool.tx_hash])
                     }
                 }
@@ -635,6 +635,44 @@ function decimals(number) {
     }
 
     return number
+}
+
+//table colum sort
+
+$('th').click(function () {
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc) {
+        rows = rows.reverse()
+    }
+    for (var i = 0; i < rows.length; i++) {
+        table.append(rows[i])
+    }
+    setIcon($(this), this.asc);
+})
+
+function comparer(index) {
+    return function (a, b) {
+        var valA = getCellValue(a, index),
+            valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+    }
+}
+
+function getCellValue(row, index) {
+    return $(row).children('td').eq(index).html()
+}
+
+function setIcon(element, asc) {
+    $("th").each(function (index) {
+        $(this).removeClass("sorting");
+        $(this).removeClass("asc");
+        $(this).removeClass("desc");
+    });
+    element.addClass("sorting");
+    if (asc) element.addClass("asc");
+    else element.addClass("desc");
 }
 
 setpairs("WETH", "USDT");
