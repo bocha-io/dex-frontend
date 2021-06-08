@@ -5,8 +5,8 @@ function add_to_mempool_bids(element) {
         element.token_in_normalized / element.token_out_normalized
     ));
 
-    var tokenbo = decimals(parseFloat(element.token_in_normalized));
-    var total = decimals(parseFloat(element.token_out_normalized));
+    var token_in = decimals(parseFloat(element.token_in_normalized));
+    var token_out = decimals(parseFloat(element.token_out_normalized));
 
     if (price == "NaN")
         return
@@ -14,7 +14,7 @@ function add_to_mempool_bids(element) {
     //if (price < 0.95 * token_price || price > 1.05 * token_price)
     //    return
 
-    insertOrdered(bidsArray, [price, tokenbo, total, element.tx_hash])
+    insertOrdered(bidsArray, [price, token_in, token_out, element.tx_hash])
     let med = getMedian(bidsArray)
     bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
     bidsArray = bidsArray.slice(0, 40)
@@ -36,13 +36,13 @@ function add_to_mempool_asks(element) {
     let price = decimals(parseFloat(
         element.token_out_normalized / element.token_in_normalized
     ));
-    let total = decimals(parseFloat(element.token_in_normalized));
-    let tokenbo = decimals(parseFloat(element.token_out_normalized));
+    let token_in = decimals(parseFloat(element.token_in_normalized));
+    let token_out = decimals(parseFloat(element.token_out_normalized));
 
     if (price == "NaN")
         return
 
-    insertOrdered(asksArray, [price, tokenbo, total, element.tx_hash])
+    insertOrdered(asksArray, [price, token_in, token_out, element.tx_hash])
     //asksArray.sort(compare)
     let med = getMedian(asksArray)
     asksArray = filterAroundValue(asksArray, med, 0.95)
