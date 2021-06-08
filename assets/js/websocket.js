@@ -14,7 +14,7 @@ function add_to_mempool_bids(element) {
     //if (price < 0.95 * token_price || price > 1.05 * token_price)
     //    return
 
-    insertOrdered(bidsArray, [price, tokenbo, total])
+    insertOrdered(bidsArray, [price, tokenbo, total, element.tx_hash])
     let med = getMedian(bidsArray)
     bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
     bidsArray = bidsArray.slice(0, 40)
@@ -42,7 +42,7 @@ function add_to_mempool_asks(element) {
     if (price == "NaN")
         return
 
-    insertOrdered(asksArray, [price, tokenbo, total])
+    insertOrdered(asksArray, [price, tokenbo, total, element.tx_hash])
     //asksArray.sort(compare)
     let med =  getMedian(asksArray)
     asksArray = filterAroundValue(asksArray, med, 0.95)
@@ -219,5 +219,10 @@ ws.onmessage = async (e) => {
             add_to_mempool_bids(JSON.parse(data.value));
         }
     } else if (data.key == 'mempool_remove') {
+	var tx = document.getElementById(data.value);
+	    if (tx != undefined) {
+
+	tx.parentNode.removeChild(tx);
+	    }
     }
 };
