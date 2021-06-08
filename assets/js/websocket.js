@@ -18,13 +18,13 @@ function add_to_mempool(tabla_id, element, color) {
         var price;
         if (tabla_id == "#mempool_bids") {
             price = decimals(parseFloat(
-                mempool.token_in_normalized / mempool.token_out_normalized
+                element.token_in_normalized / element.token_out_normalized
             ));
             $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
             $tdtokenbo.textContent = decimals(parseFloat(element.token_in_normalized));
         } else {
             price = decimals(parseFloat(
-                mempool.token_out_normalized / mempool.token_in_normalized
+                element.token_out_normalized / element.token_in_normalized
             ));
             $tdtotal.textContent = decimals(parseFloat(element.token_in_normalized));
             $tdtokenbo.textContent = decimals(parseFloat(element.token_out_normalized));
