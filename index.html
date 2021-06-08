@@ -84,13 +84,13 @@
                 <div class="col-md-12 mt-0">
                   <div class="card card-h2 mt-0 mb-0">
                     <div class="head-orderbook">
-                      <h4 class="card-title ">ORDER BOOK</h4>
+                      <h4 class="card-title ">MEMPOOL TRANSACTIONS</h4>
 
                     </div>
                     <div class="card-body special-scrolbar overflow">
                       <div class="table-responsive">
                         <table class="table">
-                          <thead class=" text-primary">
+                          <thead class=" text-primary"> ASKS
                             <th>
                               Price <span id="span-3">()</span>
                             </th>
@@ -104,11 +104,33 @@
 
                           <tbody id="mempool_asks">
                           </tbody>
-                          <tbody>
+                          <!-- <tbody>
                             <td style="background-color: #77dd77; color: black;">2479.70</td>
                             <td style="background-color: #77dd77; color: black;"></td>
                             <td style="background-color: #77dd77; color: black;"></td>
-                          </tbody>
+                          </tbody> -->
+                        </table>
+                      </div>
+                    </div>
+                    <div class="card-body special-scrolbar overflow">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-primary">BIDS
+                            <th>
+                              Price <span id="span-4">()</span>
+                            </th>
+                            <th>
+                              Amount <span id="amount-4">()</span>
+                            </th>
+                            <th style="text-align: end;">
+                              Total paid
+                            </th>
+                          </thead>
+                          <!-- <tbody>
+                            <td style="background-color: #77dd77; color: black;">2479.70</td>
+                            <td style="background-color: #77dd77; color: black;"></td>
+                            <td style="background-color: #77dd77; color: black;"></td>
+                          </tbody> -->
                           <tbody id="mempool_bids">
                           </tbody>
 
@@ -149,7 +171,7 @@
 
                 <div class="card card-h4 no-margin no-border-r no-border-l">
                   <div class="head-orderbook">
-                    <h4 class="card-title ">Last transactions for Uniswap</h4>
+                    <h4 class="card-title ">UNISWAP's LAST TRANSACTIONS</h4>
                   </div>
                   <div class="card-body special-scrolbar overflow hv">
                     <div class="table-responsive">
@@ -244,7 +266,7 @@
                 <div class="col-md-12 mt-0">
                   <div class="card card-h3 no-margin-tb">
                     <div class="head-orderbook">
-                      <h4 id="title-1" class="card-title">Trade historic</h4>
+                      <h4 id="title-1" class="card-title">PRICE CHANGE</h4>
                     </div>
                     <div class="card-body special-scrolbar overflow">
                       <div class="table-responsive">

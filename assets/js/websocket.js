@@ -8,7 +8,6 @@ function add_to_mempool_bids(element) {
     var tokenbo = decimals(parseFloat(element.token_in_normalized));
     var  total = decimals(parseFloat(element.token_out_normalized));
     
-
     if (price == "NaN")
         return
     
@@ -21,7 +20,6 @@ function add_to_mempool_bids(element) {
     bidsArray = bidsArray.slice(0, 40)
     let best = bidsArray.slice(0, 25)
     best = best.reverse()
-
 
     const table = document.querySelector("#mempool_bids");
     while (table.firstChild) {
@@ -147,14 +145,14 @@ function add_to_mempool(tabla_id, element, color) {
 
 // Last swaps
 function add_to_buy(element) {
-    return add_to_table("#buyTable", element, "#77dd77");
+    return add_to_table_swap1("#buyTable", element, "#77dd77");
 }
 
 function add_to_sell(element) {
-    return add_to_table("#sellTable", element, "#c23b22");
+    return add_to_table_swap2("#sellTable", element, "#c23b22");
 }
 
-function add_to_table(tabla_id, element, color) {
+function add_to_table_swap1(tabla_id, element, color) {
     const table = document.querySelector(tabla_id);
     if (element.status != 0) {
         const $tr = table.insertRow(0);
@@ -168,6 +166,29 @@ function add_to_table(tabla_id, element, color) {
 
         let $tdtotal = document.createElement("td");
         $tdtotal.textContent = decimals(parseFloat(element.token_out_normalized));
+        $tr.appendChild($tdtotal);
+        $tdtotal.style.textAlign = "right";
+
+        while (table.rows.length > 25) {
+            table.deleteRow(table.rows.length - 1);
+        }
+    }
+}
+
+function add_to_table_swap2(tabla_id, element, color) {
+    const table = document.querySelector(tabla_id);
+    if (element.status != 0) {
+        const $tr = table.insertRow(0);
+        let $tdprice = document.createElement("td");
+        var price = decimals(parseFloat(
+            element.token_out_normalized / element.token_in_normalized
+        ));
+        $tdprice.textContent = price;
+        $tdprice.style.color = color;
+        $tr.appendChild($tdprice);
+
+        let $tdtotal = document.createElement("td");
+        $tdtotal.textContent = decimals(parseFloat(element.token_in_normalized));
         $tr.appendChild($tdtotal);
         $tdtotal.style.textAlign = "right";
 
@@ -281,6 +302,5 @@ ws.onmessage = async (e) => {
             add_to_mempool_bids(JSON.parse(data.value));
         }
     } else if (data.key == 'mempool_remove') {
-	    console.log(data);
     }
 };

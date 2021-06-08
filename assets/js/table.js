@@ -168,18 +168,28 @@ function setpairs(token1, token2) {
     //SWAP TABLE 1
     $.get(apiEndPoint + "txns/" + token1 + "-" + token2, function (data) {
         document.getElementById("title-1").innerHTML =
-            "Last block swap " + token1 + "/" + token2;
+            "EXECUTED SWAPS " + token1 + "/" + token2;
+
         document.getElementById("span-1").innerHTML =
             "(" + token2 + "/" + token1 + ")";
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")";
+
         document.getElementById("title-2").innerHTML =
-            "Last block swap " + token2 + "/" + token1;
+            "EXECUTED SWAPS " + token1 + "/" + token2;
+        document.getElementById("span-2").innerHTML =
+            "(" + token2 + "/" + token1 + ")";
+        document.getElementById("amount-2").innerHTML = "(" + token1 + ")";
+
         document.getElementById("span-3").innerHTML =
             "(" + token2 + "/" + token1 + ")";
         document.getElementById("amount-3").innerHTML =
             "(" + token1 + ")";
+        document.getElementById("span-4").innerHTML =
+            "(" + token2 + "/" + token1 + ")";
+        document.getElementById("amount-4").innerHTML =
+            "(" + token1 + ")"    
         document.getElementById("amount-1").innerHTML = "(" + token1 + ")";
-        document.getElementById("amount-2").innerHTML = "(" + token2 + ")";
+        
         document.getElementById("price-1").innerHTML = token1;
         document.getElementById("price-2").innerHTML = token2;
         document.getElementById("price-1-2").innerHTML = token1;
@@ -233,14 +243,14 @@ function setpairs(token1, token2) {
 
                 let $tdprice = document.createElement("td");
                 var price = decimals(parseFloat(
-                    sell.token_in_normalized / sell.token_out_normalized
+                    sell.token_out_normalized / sell.token_in_normalized
                 ));
                 $tdprice.textContent = price;
                 $tdprice.style.color = "#c23b22";
                 $tr.appendChild($tdprice);
 
                 let $tdtokenbo = document.createElement("td");
-                $tdtokenbo.textContent = decimals(parseFloat(sell.token_out_normalized));
+                $tdtokenbo.textContent = decimals(parseFloat(sell.token_in_normalized));
                 $tr.appendChild($tdtokenbo);
                 $tdtokenbo.style.textAlign = "right";
 
