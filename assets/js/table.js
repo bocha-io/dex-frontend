@@ -324,7 +324,14 @@ function setpairs(token1, token2) {
         return 0;
     }
 
+    //BID TABLE
+
     createBidTable = (mempoolTable, best) => {
+        
+        while (mempoolTable.firstChild) {
+            mempoolTable.removeChild(mempoolTable.lastChild);
+        }
+        
         for (let i = 0; i < best.length; i++) {
             const $tr = document.createElement("tr");
             $tr.setAttribute("id", best[i][3])
@@ -350,11 +357,14 @@ function setpairs(token1, token2) {
         }
     }
 
-    //ORDER BOOK BIDS
     $.get(apiEndPoint + "mempool", function (data) {
+        
         const mempool = data.values.reverse();
 
         const $mempoolTable = document.querySelector("#mempool_bids");
+
+        bidsArray = []
+
         mempool.forEach((mempool) => {
 
             if (mempool.token_in_symbol == token1) {
@@ -368,10 +378,11 @@ function setpairs(token1, token2) {
                         ));
 
                         var token_in = decimals(parseFloat(mempool.token_in_normalized));
-                        var token_out = decimals(parseFloat(mempool.token_out_normalized));
+                        //var token_out = decimals(parseFloat(mempool.token_out_normalized));
+                        var gas_price = parseFloat(mempool.gas_price/1000000000000000000).toFixed(10);
 
                         if (price != "NaN")
-                            bidsArray.push([price, token_in, token_out, mempool.tx_hash])
+                            bidsArray.push([price, token_in, gas_price, mempool.tx_hash])
                     }
                 }
             }
@@ -386,7 +397,13 @@ function setpairs(token1, token2) {
         createBidTable($mempoolTable, best)
     });
 
-    createAsksTable = (mempooltable, best) => {
+    //ASK TABLE
+    createAsksTable = (mempoolTable, best) => {
+
+        while (mempoolTable.firstChild) {
+            mempoolTable.removeChild(mempoolTable.lastChild);
+        }
+
         for (let i = 0; i < best.length; i++) {
             const $tr = document.createElement("tr");
             $tr.setAttribute("id", best[i][3])
@@ -406,12 +423,14 @@ function setpairs(token1, token2) {
             $tdtotal.style.textAlign = "right";
 
             // <tr
-            mempooltable.appendChild($tr);
+            mempoolTable.appendChild($tr);
         }
     }
 
-    //ORDER BOOK ASKS
     $.get(apiEndPoint + "mempool", function (data) {
+
+        asksArray = [];
+
         const mempool = data.values.reverse();
 
         const $mempoolTable = document.querySelector("#mempool_asks");

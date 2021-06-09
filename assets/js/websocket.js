@@ -22,9 +22,7 @@ function add_to_mempool_bids(element) {
     best = best.reverse()
 
     const table = document.querySelector("#mempool_bids");
-    while (table.firstChild) {
-        table.removeChild(table.lastChild);
-    }
+
     createBidTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to bids")
     // return add_to_mempool("#mempool_bids", element, "#77dd77");
@@ -51,9 +49,7 @@ function add_to_mempool_asks(element) {
     best = best.reverse()
 
     const table = document.querySelector("#mempool_asks");
-    while (table.firstChild) {
-        table.removeChild(table.lastChild);
-    }
+
     createAsksTable(table, best)
     //console.log("Inserted ", [price, tokenbo, total], "to asks")
     //return add_to_mempool("#mempool_asks", element, "#c23b22");
