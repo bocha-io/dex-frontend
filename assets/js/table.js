@@ -3,6 +3,11 @@ var apiEndPoint = "https://test.hanchon.live/api/";
 var bidsArray = []
 var asksArray = []
 
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 // GET PAIRS
 $.get(apiEndPoint + "pairs", function (data) {
     var str = "";
@@ -327,11 +332,11 @@ function setpairs(token1, token2) {
     //BID TABLE
 
     createBidTable = (mempoolTable, best) => {
-        
+
         while (mempoolTable.firstChild) {
             mempoolTable.removeChild(mempoolTable.lastChild);
         }
-        
+
         for (let i = 0; i < best.length; i++) {
             const $tr = document.createElement("tr");
             $tr.setAttribute("id", best[i][3])
@@ -358,7 +363,7 @@ function setpairs(token1, token2) {
     }
 
     $.get(apiEndPoint + "mempool", function (data) {
-        
+
         const mempool = data.values.reverse();
 
         const $mempoolTable = document.querySelector("#mempool_bids");
@@ -379,7 +384,7 @@ function setpairs(token1, token2) {
 
                         var token_in = decimals(parseFloat(mempool.token_in_normalized));
                         //var token_out = decimals(parseFloat(mempool.token_out_normalized));
-                        var gas_price = parseFloat(mempool.gas_price/1000000000000000000).toFixed(10);
+                        var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
 
                         if (price != "NaN")
                             bidsArray.push([price, token_in, gas_price, mempool.tx_hash])
@@ -422,6 +427,25 @@ function setpairs(token1, token2) {
             $tr.appendChild($tdtotal);
             $tdtotal.style.textAlign = "right";
 
+            let $tdtype = document.createElement("td");
+
+            var btntype = document.createElement("button");
+            btntype.type = "button"
+            btntype.className = "type-btn";
+            btntype.textContent = 'hola';
+
+            var tooltip = document.createElement('span')
+            tooltip.className = 'tooltiptext'
+            tooltip.innerHTML = 'Tooltip text';
+            btntype.appendChild(tooltip);
+            
+            
+            $tdtype = btntype;
+            // btntype.innerHTML = '<span class="tooltiptext">Tooltip text</span>'
+            //$tdtype.innerHTML = '<button type="button" class="type-btn tooltip"> NFT <span class="tooltiptext">Tooltip text</span></button>'; 
+            $tr.appendChild($tdtype);
+            $tdtype.style.textAlign = "right";
+
             // <tr
             mempoolTable.appendChild($tr);
         }
@@ -446,7 +470,7 @@ function setpairs(token1, token2) {
                             mempool.token_in_normalized / mempool.token_out_normalized
                         ));
                         let token_out = decimals(parseFloat(mempool.token_out_normalized));
-                        var gas_price = parseFloat(mempool.gas_price/1000000000000000000).toFixed(10);
+                        var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
                         //let token_in = decimals(parseFloat(mempool.token_in_normalized));
                         if (price != "NaN")
                             asksArray.push([price, gas_price, token_out, mempool.tx_hash])
