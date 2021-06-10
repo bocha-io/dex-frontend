@@ -444,7 +444,7 @@ function setpairs(token1, token2) {
             // btntype.innerHTML = '<span class="tooltiptext">Tooltip text</span>'
             //$tdtype.innerHTML = '<button type="button" class="type-btn tooltip"> NFT <span class="tooltiptext">Tooltip text</span></button>'; 
             $tr.appendChild($tdtype);
-            $tdtype.style.textAlign = "right";
+            $tdtype.style.alignItems = "right";
 
             // <tr
             mempoolTable.appendChild($tr);

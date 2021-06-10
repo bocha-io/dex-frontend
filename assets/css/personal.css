@@ -492,10 +492,11 @@ table tr th {
 
 
 .type-btn {
+    position: relative;
     display: inline-block;
-    padding: 0.35em 1.2em;
+    padding: 1px;
     border: 0.1em solid #FFFFFF;
-    margin: 0 0.3em 0.3em 0;
+    margin: 0 3px 0 0;
     border-radius: 0.12em;
     box-sizing: border-box;
     text-decoration: none;
@@ -521,16 +522,19 @@ table tr th {
 
 .type-btn .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    width: 50px;
     background-color: black;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 2px 0;
 
     /* Position the tooltip */
-    position: absolute;
+    position:absolute;
     z-index: 1;
+
+    top: -3px;
+    right: 105%;
 }
 
 .type-btn:hover .tooltiptext {
