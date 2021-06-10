@@ -387,7 +387,7 @@ function setpairs(token1, token2) {
                         var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
 
                         if (price != "NaN")
-                            bidsArray.push([price, token_in, gas_price, mempool.tx_hash])
+                            bidsArray.push([price, token_in, gas_price, mempool.tx_hash, mempool.type])
                     }
                 }
             }
@@ -473,7 +473,7 @@ function setpairs(token1, token2) {
                         var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
                         //let token_in = decimals(parseFloat(mempool.token_in_normalized));
                         if (price != "NaN")
-                            asksArray.push([price, gas_price, token_out, mempool.tx_hash])
+                            asksArray.push([price, gas_price, token_out, mempool.tx_hash, mempool.type])
                     }
                 }
             }
