@@ -14,7 +14,7 @@ function add_to_mempool_bids(element) {
     //if (price < 0.95 * token_price || price > 1.05 * token_price)
     //    return
 
-    insertOrdered(bidsArray, [price, token_in, token_out, element.tx_hash])
+    insertOrdered(bidsArray, [price, token_in, token_out, element.tx_hash, mempool.type])
     // let med = getMedian(bidsArray)
     // bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
     bidsArray = bidsArray.slice(0, 40)
@@ -39,8 +39,8 @@ function add_to_mempool_asks(element) {
 
     if (price == "NaN")
         return
-
-    insertOrdered(asksArray, [price, token_in, token_out, element.tx_hash])
+    
+    insertOrdered(asksArray, [price, token_in, token_out, element.tx_hash, mempool.type])
     //asksArray.sort(compare)
     // let med = getMedian(asksArray)
     // asksArray = filterAroundValue(asksArray, med, 0.95)
