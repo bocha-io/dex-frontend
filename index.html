@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-  <title>DEX</title>
+  <title>Swap trader</title>
+  <link  rel="icon" href="assets/img/favicon.png" type="image/png"/>
   <!-- Required meta tags -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,6 +30,9 @@
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
   <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
   <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+
+
+
 
 </head>
 
@@ -88,7 +92,7 @@
                     </div>
                     <div class="card-body special-scrolbar overflow">
                       <div class="table-responsive"> 
-                        <table class="table">
+                        <table class="table overflow">
                           <thead class=" text-primary"> ASKS
                             <th>
                               Price <span id="span-3">()</span>
@@ -96,21 +100,15 @@
                             <th>
                               Amount <span id="amount-3">()</span>
                             </th>
-                            <th style="text-align: end;">
+                            <th style="text-align: center;">
                               Gas price
                             </th>
-                            <th>
+                            <th style="text-align: center;">
                               Type
                             </th>
                           </thead>
-
                           <tbody id="mempool_asks">
                           </tbody>
-                          <!-- <tbody>
-                            <td style="background-color: #77dd77; color: black;">2479.70</td>
-                            <td style="background-color: #77dd77; color: black;"></td>
-                            <td style="background-color: #77dd77; color: black;"></td>
-                          </tbody> -->
                         </table>
                       </div>
                     </div>
@@ -124,15 +122,13 @@
                             <th>
                               Amount <span id="amount-4">()</span>
                             </th>
-                            <th style="text-align: end;">
+                            <th style="text-align: center;">
                               Gas price
                             </th>
+                            <th style="text-align: center;">
+                              Type
+                            </th>
                           </thead>
-                          <!-- <tbody>
-                            <td style="background-color: #77dd77; color: black;">2479.70</td>
-                            <td style="background-color: #77dd77; color: black;"></td>
-                            <td style="background-color: #77dd77; color: black;"></td>
-                          </tbody> -->
                           <tbody id="mempool_bids">
                           </tbody>
 

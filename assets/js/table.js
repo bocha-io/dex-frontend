@@ -30,7 +30,7 @@ function getData(obj) {
 
 //LAST TXS
 $.get(apiEndPoint + "last_txns", async function (data) {
-    // console.log(data);
+    
     const txs = data.values;
 
     // last tx table
@@ -329,6 +329,67 @@ function setpairs(token1, token2) {
         return 0;
     }
 
+    //TOOLTIPS
+    function getTooltip(value, trade) {
+        if (value[4] == 'swap_exact_tokens_for_eth' || value[4] == 'swap_exact_tokens_for_eth_supporting_fee_on_transfer_tokens') {
+            if (trade == 'ask') {
+                let tooltip = 'Exact tokens for eth' + '<br>' + 'Token in amount: ' + value[1] + ' ' + token1 + '<br>' + 'Amount out Min: ' + value[5] + ' ' + token2;
+                return ['eTxE', tooltip]
+            }
+            if (trade == 'bid') {
+                let tooltip = 'Exact tokens for eth' + '<br>' + 'Token in amount: ' + value[5] + ' ' + token2 + '<br>' + 'Amount out Min: ' + value[1] + ' ' + token1;
+                return ['eTxE', tooltip]
+            }
+        }
+        if (value[4] == 'swap_exact_eth_for_tokens' || value[4] == 'swap_exact_eth_for_tokens_supporting_fee_on_transfer_tokens') {
+            
+            if (trade == 'ask') {
+                let tooltip = 'Exact eth for tokens' + '<br>' + 'Token in amount: ' + value[1] + ' ' + token1 + '<br>' + 'Amount out Min: ' + value[5] + ' ' + token2;
+                return ['eExT', tooltip]
+            }
+            if (trade == 'bid') {
+                let tooltip = 'Exact eth for tokens' + '<br>' + 'Token in amount: ' + value[5] + ' ' + token2 + '<br>' + 'Amount out Min: ' + value[1] + ' ' + token1;
+                return ['eExT', tooltip]
+            }
+            
+        }
+        if (value[4] == 'swap_exact_token_for_tokens' || value[4] == 'swap_exact_tokens_for_tokens_supporting_fee_on_transfer_tokens') {
+            
+            if (trade == 'ask') {
+                let tooltip = 'Exact token for tokens' + '<br>' + 'Token in amount: ' + value[1] + ' ' + token1 + '<br>' + 'Amount out Min: ' + value[5] + ' ' + token2;
+                return ['eTxT', tooltip]
+            }
+            if (trade == 'bid') {
+                let tooltip = 'Exact token for tokens' + '<br>' + 'Token in amount: ' + value[5] + ' ' + token2 + '<br>' + 'Amount out Min: ' + value[1] + ' ' + token1;
+                return ['eTxT', tooltip]
+            }
+        }
+        if (value[4] == 'swap_tokens_for_exact_eth') {
+            
+            if (trade == 'ask') {
+                let tooltip = 'Tokens for exact eth' + '<br>' + 'Amount In Max: ' + value[1] + ' ' + token1 + '<br>' + 'Amount out: ' + value[5] + ' ' + token2;
+                return ['TxeE', tooltip]
+            }
+            if (trade == 'bid') {
+                let tooltip = 'Tokens for exact eth' + '<br>' + 'Amount In Max: ' + value[5] + ' ' + token2 + '<br>' + 'Amount out: ' + value[1] + ' ' + token1;
+                return ['TxeE', tooltip]
+            }
+        }
+        if (value[4] == 'swap_tokens_for_exact_tokens') {
+            
+            if (trade == 'ask') {
+                let tooltip = 'Tokens for exact tokens' + '<br>' + 'Amount In Max: ' + value[1] + ' ' + token1 + '<br>' + 'Amount out: ' + value[5] + ' ' + token2;
+                return ['TxeT', tooltip]
+            }
+            if (trade == 'bid') {
+                let tooltip = 'Tokens for exact tokens' + '<br>' + 'Amount In Max: ' + value[5] + ' ' + token2 + '<br>' + 'Amount out: ' + value[1] + ' ' + token1;
+                return ['TxeT', tooltip]
+            }
+        }
+        
+        return ['', '']
+    }
+
     //BID TABLE
 
     createBidTable = (mempoolTable, best) => {
@@ -355,7 +416,30 @@ function setpairs(token1, token2) {
             var token_out = best[i][2]
             $tdtotal.textContent = token_out
             $tr.appendChild($tdtotal);
-            $tdtotal.style.textAlign = "right";
+            $tdtotal.style.textAlign = "center";
+
+            let $tdtype = document.createElement("td");
+
+            if (best[i][4] != undefined) {
+
+                let tooltipText = getTooltip(best[i], 'bid')
+                if (tooltipText[0] != '') {
+                    var btntype = document.createElement("button");
+                    btntype.type = "button"
+                    btntype.className = "type-btn";
+                    btntype.textContent = tooltipText[0];
+
+                    var tooltip = document.createElement('span')
+                    tooltip.className = 'tooltiptext'
+                    tooltip.innerHTML = tooltipText[1];
+                    btntype.appendChild(tooltip);
+
+                    $tdtype = btntype;
+
+                    $tr.appendChild($tdtype);
+                    $tdtype.style.textAlign = "right";
+                }
+            }
 
 
             mempoolTable.appendChild($tr);
@@ -383,11 +467,11 @@ function setpairs(token1, token2) {
                         ));
 
                         var token_in = decimals(parseFloat(mempool.token_in_normalized));
-                        //var token_out = decimals(parseFloat(mempool.token_out_normalized));
+                        var token_out = decimals(parseFloat(mempool.token_out_normalized));
                         var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
 
                         if (price != "NaN")
-                            bidsArray.push([price, token_in, gas_price, mempool.tx_hash, mempool.type])
+                            bidsArray.push([price, token_in, gas_price, mempool.tx_hash, mempool.type, token_out])
                     }
                 }
             }
@@ -400,9 +484,12 @@ function setpairs(token1, token2) {
         let best = bidsArray.slice(0, 25)
         best = best.reverse()
         createBidTable($mempoolTable, best)
+        console.log('bidsArray')
+        console.log(bidsArray)
     });
 
     //ASK TABLE
+
     createAsksTable = (mempoolTable, best) => {
 
         while (mempoolTable.firstChild) {
@@ -419,32 +506,38 @@ function setpairs(token1, token2) {
             $tr.appendChild($tdprice);
 
             let $tdtokenbo = document.createElement("td");
-            $tdtokenbo.textContent = best[i][2];
+            $tdtokenbo.textContent = best[i][1];
             $tr.appendChild($tdtokenbo);
 
             let $tdtotal = document.createElement("td");
-            $tdtotal.textContent = best[i][1];
+            $tdtotal.textContent = best[i][2];
             $tr.appendChild($tdtotal);
-            $tdtotal.style.textAlign = "right";
+            $tdtotal.style.textAlign = "center";
 
             let $tdtype = document.createElement("td");
 
-            var btntype = document.createElement("button");
-            btntype.type = "button"
-            btntype.className = "type-btn";
-            btntype.textContent = 'hola';
+            if (best[i][4] != undefined) {
 
-            var tooltip = document.createElement('span')
-            tooltip.className = 'tooltiptext'
-            tooltip.innerHTML = 'Tooltip text';
-            btntype.appendChild(tooltip);
-            
-            
-            $tdtype = btntype;
-            // btntype.innerHTML = '<span class="tooltiptext">Tooltip text</span>'
-            //$tdtype.innerHTML = '<button type="button" class="type-btn tooltip"> NFT <span class="tooltiptext">Tooltip text</span></button>'; 
-            $tr.appendChild($tdtype);
-            $tdtype.style.alignItems = "right";
+                let tooltipText = getTooltip(best[i], 'ask')
+                if (tooltipText[0] != '') {
+                    var btntype = document.createElement("button");
+                    btntype.type = "button"
+                    btntype.className = "type-btn";
+                    btntype.textContent = tooltipText[0];
+
+                    var tooltip = document.createElement('span')
+                    tooltip.className = 'tooltiptext'
+                    tooltip.innerHTML = tooltipText[1];
+                    btntype.appendChild(tooltip);
+
+                    $tdtype = btntype;
+
+                    $tr.appendChild($tdtype);
+                    $tdtype.style.textAlign = "right";
+                }
+            }
+
+
 
             // <tr
             mempoolTable.appendChild($tr);
@@ -452,7 +545,7 @@ function setpairs(token1, token2) {
     }
 
     $.get(apiEndPoint + "mempool", function (data) {
-
+        
         asksArray = [];
 
         const mempool = data.values.reverse();
@@ -471,9 +564,9 @@ function setpairs(token1, token2) {
                         ));
                         let token_out = decimals(parseFloat(mempool.token_out_normalized));
                         var gas_price = parseFloat(mempool.gas_price / 1000000000000000000).toFixed(10);
-                        //let token_in = decimals(parseFloat(mempool.token_in_normalized));
+                        let token_in = decimals(parseFloat(mempool.token_in_normalized));
                         if (price != "NaN")
-                            asksArray.push([price, gas_price, token_out, mempool.tx_hash, mempool.type])
+                            asksArray.push([price, token_out, gas_price, mempool.tx_hash, mempool.type, token_in])
                     }
                 }
             }
@@ -486,13 +579,14 @@ function setpairs(token1, token2) {
         let best = asksArray.slice(0, 25)
         best = best.reverse()
         createAsksTable($mempoolTable, best)
+
+        console.log('asksArray')
+        console.log(asksArray)
     });
 
     //PRICE
     $.get(apiEndPoint + "price/" + token1 + "/" + token2, function (data) {
         document.getElementById("src-tk").firstChild.remove();
-
-        // console.log(data);
 
         document.getElementById("priceToken1").innerHTML =
             decimals(data.price_in);

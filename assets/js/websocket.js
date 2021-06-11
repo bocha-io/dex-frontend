@@ -7,6 +7,7 @@ function add_to_mempool_bids(element) {
 
     var token_in = decimals(parseFloat(element.token_in_normalized));
     var token_out = decimals(parseFloat(element.token_out_normalized));
+    var gas_price = parseFloat(element.gas_price / 1000000000000000000).toFixed(10);
 
     if (price == "NaN")
         return
@@ -14,7 +15,7 @@ function add_to_mempool_bids(element) {
     //if (price < 0.95 * token_price || price > 1.05 * token_price)
     //    return
 
-    insertOrdered(bidsArray, [price, token_in, token_out, element.tx_hash, mempool.type])
+    insertOrdered(bidsArray, [price, token_in, gas_price, element.tx_hash, element.type, token_out])
     // let med = getMedian(bidsArray)
     // bidsArray = filterAroundValue(bidsArray, med, 0.95, 1.05)
     bidsArray = bidsArray.slice(0, 40)
@@ -36,11 +37,12 @@ function add_to_mempool_asks(element) {
     ));
     let token_in = decimals(parseFloat(element.token_in_normalized));
     let token_out = decimals(parseFloat(element.token_out_normalized));
+    var gas_price = parseFloat(element.gas_price / 1000000000000000000).toFixed(10);
 
     if (price == "NaN")
         return
     
-    insertOrdered(asksArray, [price, token_in, token_out, element.tx_hash, mempool.type])
+    insertOrdered(asksArray, [price, gas_price, token_out, element.tx_hash, element.type, token_in])
     //asksArray.sort(compare)
     // let med = getMedian(asksArray)
     // asksArray = filterAroundValue(asksArray, med, 0.95)

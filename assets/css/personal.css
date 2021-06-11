@@ -492,11 +492,12 @@ table tr th {
 
 
 .type-btn {
-    position: relative;
-    display: inline-block;
-    padding: 1px;
-    border: 0.1em solid #FFFFFF;
-    margin: 0 3px 0 0;
+    position: relative; 
+    padding: 0 5px 0 5px;
+    /* border: 0.1em solid #FFFFFF; */
+    border: none;
+    margin-left: 10px;
+    margin-right: 0px;
     border-radius: 0.12em;
     box-sizing: border-box;
     text-decoration: none;
@@ -513,27 +514,30 @@ table tr th {
     background-color: #FFFFFF;
 }
 
-@media all and (max-width:30em) {
+/* @media all and (max-width:30em) {
     .type-btn {
         display: block;
         margin: 0.4em auto;
     }
-}
+} */
 
 .type-btn .tooltiptext {
     visibility: hidden;
-    width: 50px;
+    width: 200px;
     background-color: black;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
-    padding: 2px 0;
+    padding: 5px 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 10px;
 
     /* Position the tooltip */
     position:absolute;
     z-index: 1;
 
-    top: -3px;
+    top: -1px;
     right: 105%;
 }
 
