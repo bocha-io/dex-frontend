@@ -484,8 +484,6 @@ function setpairs(token1, token2) {
         let best = bidsArray.slice(0, 25)
         best = best.reverse()
         createBidTable($mempoolTable, best)
-        console.log('bidsArray')
-        console.log(bidsArray)
     });
 
     //ASK TABLE
@@ -580,8 +578,6 @@ function setpairs(token1, token2) {
         best = best.reverse()
         createAsksTable($mempoolTable, best)
 
-        console.log('asksArray')
-        console.log(asksArray)
     });
 
     //PRICE
