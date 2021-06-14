@@ -42,7 +42,7 @@ function add_to_mempool_asks(element) {
     if (price == "NaN")
         return
     
-    insertOrdered(asksArray, [price, gas_price, token_out, element.tx_hash, element.type, token_in])
+    insertOrdered(asksArray, [price, token_out, gas_price, element.tx_hash, element.type, token_in])
     //asksArray.sort(compare)
     // let med = getMedian(asksArray)
     // asksArray = filterAroundValue(asksArray, med, 0.95)

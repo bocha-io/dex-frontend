@@ -578,6 +578,7 @@ function setpairs(token1, token2) {
         best = best.reverse()
         createAsksTable($mempoolTable, best)
 
+
     });
 
     //PRICE
